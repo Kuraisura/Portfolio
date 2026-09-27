@@ -457,6 +457,7 @@ const ModernPortfolio = () => {
     'kuraisler.dev@gmail.com': { text: 'What do you think your doing buckaroo?' },
     'kuraisler@gmail.com': { text: "That's my email too, can you stop already", big: true }
   };
+  const DEVICE_RATE_WINDOW_MS = 60 * 60 * 1000;
   const looksGibberish = (value, consonantRun = 4) => {
     const t = String(value || '').trim().toLowerCase();
     if (t.length < 6) return false;
@@ -1153,6 +1154,18 @@ const ModernPortfolio = () => {
       return;
     }
 
+    // Device-level cooldown: catches the same person on a new network/IP.
+    // The server remains the authority; this is an early, friendly stop.
+    try {
+      const lastSent = Number(localStorage.getItem('contact_last_sent') || 0);
+      if (lastSent > 0 && Date.now() - lastSent < DEVICE_RATE_WINDOW_MS) {
+        setFormError('You already sent a message from this device. Please wait a while before sending another.');
+        return;
+      }
+    } catch {
+      /* storage can be unavailable in private mode */
+    }
+
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -1210,6 +1223,11 @@ const ModernPortfolio = () => {
       setNameGibberish(false);
       setEmailGibberish(false);
       setNoteGibberish(false);
+      try {
+        localStorage.setItem('contact_last_sent', String(Date.now()));
+      } catch {
+        /* storage can be unavailable in private mode */
+      }
       setTimeout(() => setFormStatus('idle'), 4000);
     } catch (err) {
       console.error('Contact form error', err);

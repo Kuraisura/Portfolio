@@ -12,20 +12,28 @@
  *
  * NOTE ON ABUSE: this endpoint is intentionally public — a contact form has to
  * be. Protection here is a honeypot field, strict length caps, and a per-IP
- * in-memory rate limit. In-memory state does NOT persist across serverless
- * cold starts or span multiple instances, so it slows casual abuse but is not a
- * hard guarantee. If you start seeing real spam, add Cloudflare Turnstile or
- * hCaptcha and verify the token here.
+ * limit of RATE_LIMIT_MAX messages per window. The limit is enforced twice:
+ * in memory (fast, but per-instance and lost on cold starts) and against
+ * Supabase through the contact_recent_count RPC (durable). Only successfully
+ * sent emails consume quota. If you start seeing real spam, add Cloudflare
+ * Turnstile or hCaptcha and verify the token here.
  */
 
 const MAX_LENGTHS = { name: 30, email: 40, note: 100 };
-const RATE_LIMIT_MAX = 5; // requests
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // per 10 minutes
+const RATE_LIMIT_MAX = 1; // messages per IP per window
+const RATE_LIMIT_WINDOW_MS = (Number(process.env.CONTACT_RATE_WINDOW) || 3600) * 1000;
 
 // Module scope survives between invocations on a warm instance.
 const rateLimitStore = new Map();
 
 function isRateLimited(ip) {
+  const now = Date.now();
+  const hits = (rateLimitStore.get(ip) || []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  return hits.length >= RATE_LIMIT_MAX;
+}
+
+/** Called only after an email actually went out — a failed send never burns quota. */
+function recordRequest(ip) {
   const now = Date.now();
   const hits = (rateLimitStore.get(ip) || []).filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
   hits.push(now);
@@ -37,8 +45,36 @@ function isRateLimited(ip) {
       if (timestamps.every((t) => now - t >= RATE_LIMIT_WINDOW_MS)) rateLimitStore.delete(key);
     }
   }
+}
 
-  return hits.length > RATE_LIMIT_MAX;
+/** Durable per-IP check backed by Supabase; survives cold starts and instances. */
+async function isRateLimitedInDb(ip) {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON;
+  if (!url || !key) return false;
+  try {
+    const res = await fetch(`${url}/rest/v1/rpc/contact_recent_count`, {
+      method: 'POST',
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        client_ip: ip,
+        window_seconds: Math.max(1, Math.round(RATE_LIMIT_WINDOW_MS / 1000))
+      })
+    });
+    if (!res.ok) {
+      console.error('Rate limit RPC failed (in-memory limit still applies)', res.status);
+      return false;
+    }
+    const count = Number(await res.json());
+    return Number.isFinite(count) && count >= RATE_LIMIT_MAX;
+  } catch (err) {
+    console.error('Rate limit RPC error (in-memory limit still applies)', err);
+    return false;
+  }
 }
 
 /** Strip characters that could be used for header injection in the subject. */
@@ -97,13 +133,16 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Email service is not configured yet.' });
   }
 
-  const ip =
+  const ip = String(
     (req.headers['x-forwarded-for'] || '').split(',')[0].trim() ||
-    req.socket?.remoteAddress ||
-    'unknown';
+      req.socket?.remoteAddress ||
+      'unknown'
+  ).slice(0, 64);
 
-  if (isRateLimited(ip)) {
-    return res.status(429).json({ error: 'Too many messages. Please try again later.' });
+  if (isRateLimited(ip) || (await isRateLimitedInDb(ip))) {
+    return res.status(429).json({
+      error: 'You already sent a message from this address. Please wait a while before sending another.'
+    });
   }
 
   // Vercel parses JSON bodies automatically, but guard against a string body.
@@ -142,22 +181,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Save to Supabase
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_ANON;
-    if (supabaseUrl && supabaseKey) {
-      await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
-        method: 'POST',
-        headers: {
-          apikey: supabaseKey,
-          Authorization: `Bearer ${supabaseKey}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal'
-        },
-        body: JSON.stringify({ name, email, message: note })
-      }).catch(e => console.error('Supabase insert failed (non-blocking)', e));
-    }
-
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -180,6 +203,24 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: 'Could not send your message. Please email me directly.' });
     }
 
+    // Archive only after a successful send, so a Resend failure never burns
+    // the sender's quota. The ip column powers the durable rate limit.
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_ANON;
+    if (supabaseUrl && supabaseKey) {
+      await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
+        method: 'POST',
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify({ name, email, message: note, ip })
+      }).catch(e => console.error('Supabase insert failed (non-blocking)', e));
+    }
+
+    recordRequest(ip);
     return res.status(200).json({ ok: true });
   } catch (error) {
     console.error('Contact form send failed', error);
