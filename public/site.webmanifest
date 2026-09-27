@@ -1,0 +1,20 @@
+{
+  "name": "Mark Crysler Baddo — Kuraisler | Full-Stack Developer",
+  "short_name": "Kuraisler",
+  "description": "Filipino full-stack developer building web, Android, desktop, IoT, Windows Forms, and Unity projects.",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "background_color": "#f7f8fa",
+  "theme_color": "#f7f8fa",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

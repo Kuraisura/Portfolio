@@ -132,8 +132,34 @@ const DESKTOP_CAROUSEL_THUMBNAILS = Object.freeze({
 
 const getProjectArtwork = (project) => project.logo || PROJECT_THUMBNAILS[project.title] || project.screenshots?.[0] || project.image;
 
-// Stable slug used by shareable deep links: https://kuraisler.xyz/#projects/wiz
+// Stable slug used by shareable deep links: https://kuraisler.xyz/projects/wiz
 const projectSlug = (title) => String(title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+// Canonical URL for a project view (optionally the fullscreen gallery).
+const projectSharePath = (project, fullscreen = false) =>
+  `/projects/${projectSlug(project?.title)}${fullscreen ? '/fullscreen' : ''}`;
+
+// /projects/wiz · /projects/wiz/fullscreen · legacy #projects/wiz aliases.
+const PROJECT_PATH_ROUTE = /^\/projects(?:\/([^/?#]+))?(\/fullscreen)?\/?$/;
+const PROJECT_HASH_ROUTE = /^projects(?:\/([^/?#]+))?(\/fullscreen)?$/;
+
+const readProjectRoute = () => {
+  const pathMatch = PROJECT_PATH_ROUTE.exec(window.location.pathname);
+  if (pathMatch) {
+    return { slug: pathMatch[1] ? decodeURIComponent(pathMatch[1]).toLowerCase() : null, fullscreen: Boolean(pathMatch[2]) };
+  }
+  const hashMatch = PROJECT_HASH_ROUTE.exec(window.location.hash.slice(1));
+  if (hashMatch) {
+    return { slug: hashMatch[1] ? decodeURIComponent(hashMatch[1]).toLowerCase() : null, fullscreen: Boolean(hashMatch[2]) };
+  }
+  return null;
+};
+
+const absoluteSiteUrl = (path) => {
+  if (!path) return undefined;
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${window.location.origin}${path.startsWith('/') ? '' : '/'}${path}`;
+};
 const getDesktopCarouselArtwork = (project) => DESKTOP_CAROUSEL_THUMBNAILS[project.title] || getProjectArtwork(project);
 
 function ProjectArtwork({ project, src = getProjectArtwork(project), className = '', eager = false, compact = false }) {
@@ -428,6 +454,9 @@ const ModernPortfolio = () => {
   const noteRef = React.useRef(null);
   const honeypotRef = React.useRef(null);
   const [linkCopied, setLinkCopied] = useState(false);
+  const selectedProjectRef = React.useRef(null);
+  const routeSyncReadyRef = React.useRef(false);
+  selectedProjectRef.current = selectedProject;
 
   // Gallery bookkeeping. The slide counter and "is the user dragging" flag live
   // in refs instead of state, so swiping never triggers a re-render of the whole
@@ -468,7 +497,7 @@ const ModernPortfolio = () => {
 
   const copyProjectLink = async () => {
     if (!selectedProject) return;
-    const url = `${window.location.origin}/#projects/${projectSlug(selectedProject.title)}`;
+    const url = absoluteSiteUrl(projectSharePath(selectedProject, fullscreenMode));
     try {
       await navigator.clipboard.writeText(url);
       setLinkCopied(true);
@@ -775,57 +804,205 @@ const ModernPortfolio = () => {
   };
 
   useEffect(() => {
-    const handleHashNavigation = () => {
-      const raw = window.location.hash.slice(1);
-      if (!raw) return;
+    const handleLocationNavigation = () => {
+      // /projects/wiz, /projects/wiz/fullscreen and the legacy #projects/wiz alias
+      const route = readProjectRoute();
 
-      // #projects/wiz → scroll to Projects, then open that project's dialog.
-      const projectMatch = /^projects\/(.+)$/.exec(raw);
-      if (projectMatch) {
-        const slug = projectMatch[1].toLowerCase();
-        const project = projects.find((p) => projectSlug(p.title) === slug);
-        if (project) {
-          scrollToSection('projects', {
-            updateHash: false,
-            onComplete: () => {
-              setGalleryTab('screenshots');
-              setCoverflowIndex(0);
-              setSelectedProject(project);
-            }
-          });
-        } else {
+      if (route) {
+        const project = route.slug ? projects.find((p) => projectSlug(p.title) === route.slug) : null;
+        if (!project) {
+          // Section-level route (/projects) or unknown slug: no dialog.
+          setSelectedProject((current) => (current ? null : current));
           scrollToSection('projects', { updateHash: false });
+          return;
         }
+
+        const applyRoute = () => {
+          setGalleryTab('screenshots');
+          setCoverflowIndex(0);
+          setSheetExpanded(false);
+          setSelectedProject(project);
+          setFullscreenMode(Boolean(route.fullscreen));
+        };
+
+        // Back/Forward between two views of the project that is already open
+        // must not re-scroll — the dialog has the page locked.
+        if (selectedProjectRef.current && projectSlug(selectedProjectRef.current.title) === route.slug) {
+          setFullscreenMode(Boolean(route.fullscreen));
+          return;
+        }
+
+        scrollToSection('projects', { updateHash: false, onComplete: applyRoute });
         return;
       }
 
-      // A plain section hash closes an open project dialog (browser Back).
+      // Plain section hash (/#about, /#projects, …): dismiss an open dialog first.
       setSelectedProject((current) => (current ? null : current));
-      requestAnimationFrame(() => scrollToSection(raw, { updateHash: false }));
+      const sectionId = window.location.hash.slice(1);
+      if (sectionId) requestAnimationFrame(() => scrollToSection(sectionId, { updateHash: false }));
     };
 
-    window.addEventListener('popstate', handleHashNavigation);
-    window.addEventListener('hashchange', handleHashNavigation);
-    handleHashNavigation();
+    window.addEventListener('popstate', handleLocationNavigation);
+    window.addEventListener('hashchange', handleLocationNavigation);
+    handleLocationNavigation();
     return () => {
-      window.removeEventListener('popstate', handleHashNavigation);
-      window.removeEventListener('hashchange', handleHashNavigation);
+      window.removeEventListener('popstate', handleLocationNavigation);
+      window.removeEventListener('hashchange', handleLocationNavigation);
     };
     // scrollToSection intentionally uses the mounted Lenis instance.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Keep the address bar shareable: opening a project writes
-  // #projects/<slug>, closing it falls back to #projects.
+  // Keep the address bar shareable and canonical: opening a project writes
+  // /projects/<slug> (+ /fullscreen); closing it falls back to /#projects.
   useEffect(() => {
-    const hash = window.location.hash;
-    if (selectedProject) {
-      const next = `#projects/${projectSlug(selectedProject.title)}`;
-      if (hash !== next) window.history.replaceState(null, '', next);
-    } else if (/^#projects\//.test(hash)) {
-      window.history.replaceState(null, '', '#projects');
+    if (!routeSyncReadyRef.current) {
+      // First run happens while a deep link is still scrolling to the section —
+      // let the navigation effect own the URL until the dialog actually opens.
+      routeSyncReadyRef.current = true;
+      return;
     }
-  }, [selectedProject]);
+    if (selectedProject) {
+      const next = projectSharePath(selectedProject, fullscreenMode);
+      if (window.location.pathname !== next) window.history.replaceState(null, '', next);
+    } else if (PROJECT_PATH_ROUTE.test(window.location.pathname)) {
+      window.history.replaceState(null, '', '/#projects');
+    }
+  }, [selectedProject, fullscreenMode]);
+
+  // Fullscreen is a child view of the dialog — never leave it armed after the
+  // dialog is dismissed (Esc, backdrop click, browser Back).
+  useEffect(() => {
+    if (!selectedProject && fullscreenMode) {
+      setFullscreenMode(false);
+      setSheetExpanded(false);
+    }
+  }, [selectedProject, fullscreenMode]);
+
+  // Esc steps back one level: fullscreen first, then the project dialog.
+  useEffect(() => {
+    const closeOnEscape = (event) => {
+      if (event.key !== 'Escape') return;
+      if (fullscreenMode) {
+        setFullscreenMode(false);
+        setSheetExpanded(false);
+        return;
+      }
+      if (selectedProject) setSelectedProject(null);
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [fullscreenMode, selectedProject]);
+
+  // Per-view document metadata. Crawlers that execute JS (Google) index each
+  // /projects/<slug> URL with its own title, description, social card and
+  // canonical, so every project can rank on its own.
+  useEffect(() => {
+    const ORIGIN = 'https://kuraisler.xyz';
+    const HOME = `${ORIGIN}/`;
+    const DEFAULT_TITLE = 'Mark Crysler Baddo (Kuraisler) | Full-Stack Developer';
+    const DEFAULT_DESCRIPTION =
+      'Mark Crysler Baddo, known online as Kuraisler, is a Filipino full-stack developer building web, Android, desktop, IoT, Windows Forms, and Unity projects.';
+    const DEFAULT_IMAGE = `${ORIGIN}/Portfolio/og-cover.jpg`;
+    const DEFAULT_IMAGE_ALT = 'Mark Crysler Baddo — Kuraisler';
+
+    const setMeta = (key, value) => {
+      const el = document.head.querySelector(`meta[name="${key}"], meta[property="${key}"]`);
+      if (el) el.setAttribute('content', value);
+    };
+    const setCanonical = (href) => {
+      const el = document.head.querySelector('link[rel="canonical"]');
+      if (el) el.setAttribute('href', href);
+    };
+    // Only the default 1200×630 card has known dimensions — drop them when the
+    // image is swapped for a project screenshot of unknown size.
+    const setOgImageSize = (width, height) => {
+      const apply = (key, value) => {
+        let el = document.head.querySelector(`meta[property="${key}"]`);
+        if (!value) {
+          if (el) el.remove();
+          return;
+        }
+        if (!el) {
+          el = document.createElement('meta');
+          el.setAttribute('property', key);
+          document.head.appendChild(el);
+        }
+        el.setAttribute('content', String(value));
+      };
+      apply('og:image:width', width);
+      apply('og:image:height', height);
+    };
+
+    if (selectedProject) {
+      const description = String(selectedProject.desc || selectedProject.subtitle || DEFAULT_DESCRIPTION).replace(/\s+/g, ' ').trim().slice(0, 300);
+      const image = absoluteSiteUrl(selectedProject.screenshots?.[0]) || DEFAULT_IMAGE;
+      // Fullscreen is the same document as the project page, so it always
+      // canonicalises back to /projects/<slug> to avoid a duplicate URL.
+      const canonical = absoluteSiteUrl(projectSharePath(selectedProject, false));
+      const shareUrl = absoluteSiteUrl(projectSharePath(selectedProject, fullscreenMode));
+
+      document.title = `${selectedProject.title} | Mark Crysler Baddo (Kuraisler)`;
+      setMeta('description', description);
+      setCanonical(canonical);
+      setMeta('og:title', `${selectedProject.title} | Kuraisler`);
+      setMeta('og:description', description);
+      setMeta('og:url', shareUrl);
+      setMeta('og:image', image);
+      setMeta('og:image:alt', `${selectedProject.title} — Kuraisler`);
+      setOgImageSize(null, null);
+      setMeta('twitter:title', `${selectedProject.title} | Kuraisler`);
+      setMeta('twitter:description', description);
+      setMeta('twitter:image', image);
+    } else {
+      document.title = DEFAULT_TITLE;
+      setMeta('description', DEFAULT_DESCRIPTION);
+      setCanonical(HOME);
+      setMeta('og:title', 'Kuraisler - Mark Crysler Baddo');
+      setMeta('og:description', "Kurai's developer portfolio: web, mobile, Windows Forms, IoT, and Unity projects by Mark Crysler Baddo.");
+      setMeta('og:url', HOME);
+      setMeta('og:image', DEFAULT_IMAGE);
+      setMeta('og:image:alt', DEFAULT_IMAGE_ALT);
+      setOgImageSize(1200, 630);
+      setMeta('twitter:title', 'Kuraisler - Full-Stack Developer');
+      setMeta('twitter:description', 'Full-Stack Developer Portfolio - C#, .NET, React, Next.js, and more.');
+      setMeta('twitter:image', DEFAULT_IMAGE);
+    }
+  }, [selectedProject, fullscreenMode]);
+
+  // Structured data for the project list — generated from the source of truth
+  // so it can never drift out of sync with the portfolio itself.
+  useEffect(() => {
+    const item = {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: 'Projects by Mark Crysler Baddo (Kuraisler)',
+      itemListElement: projects.map((project, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'SoftwareApplication',
+          name: project.title,
+          description: String(project.desc || project.subtitle || '').trim(),
+          url: absoluteSiteUrl(projectSharePath(project)),
+          applicationCategory: project.type || 'WebApplication',
+          operatingSystem: project.stats?.platform || 'Cross-platform',
+          image: absoluteSiteUrl(project.screenshots?.[0]),
+          author: { '@id': 'https://kuraisler.xyz/#mark-crysler-baddo' },
+        },
+      })),
+    };
+    const SCRIPT_ID = 'portfolio-projects-jsonld';
+    let script = document.getElementById(SCRIPT_ID);
+    if (!script) {
+      script = document.createElement('script');
+      script.id = SCRIPT_ID;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(item);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Blocks rubber-banding / chain-scrolling behind the open dialog so a drag
   // that hits the top or bottom edge never yanks the page underneath.
