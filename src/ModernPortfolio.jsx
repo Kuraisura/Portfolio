@@ -470,7 +470,7 @@ const ModernPortfolio = () => {
 
   const writeSlideCounter = (ref, index, total) => {
     const el = ref.current;
-    if (el) el.textContent = `${Math.max(0, Number(index) || 0) + 1} of ${total}`;
+    if (el) el.textContent = `${Math.max(0, Number(index) || 0) + 1} / ${total}`;
   };
 
   const runSwiperUpdate = (kind) => {
@@ -2035,7 +2035,7 @@ const ModernPortfolio = () => {
           .fs-swiper-slide {
             width: 100vw !important;
             height: 100vh !important;
-            padding: 12vh 8vw 20vh;
+            padding: 12vh 8vw calc(20vh + 32px);
             opacity: 0;
             transform: none !important;
             transition: opacity 0.25s ease;
@@ -2072,19 +2072,12 @@ const ModernPortfolio = () => {
             height: 100%;
             max-height: 100%;
           }
-          /* Hide nav buttons and counter on mobile fullscreen — swipe only */
+          /* Hide nav buttons on mobile fullscreen — swipe only */
           .fs-swiper-prev,
           .fs-swiper-next { display: none !important; }
-          .coverflow-counter-fullscreen { display: none !important; }
         }
         .fs-swiper .swiper-button-next,
         .fs-swiper .swiper-button-prev { display: none; }
-        .coverflow-counter-fullscreen {
-          position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
-          color: rgba(255,255,255,0.5); font-size: 13px; font-weight: 600;
-          background: rgba(0,0,0,0.4); padding: 4px 14px; border-radius: 20px;
-          z-index: 20;
-        }
         /* Modal Swiper Coverflow */
         /* Docked gallery controls: dark frosted pill with a white ring, so it stays
            readable on the white card, the dark gallery header and the black
@@ -2253,6 +2246,32 @@ const ModernPortfolio = () => {
           border-radius: 20px;
           z-index: 20;
           letter-spacing: 0.03em;
+        }
+        /* Fullscreen counter sits on the #0a0a0a overlay, so it uses that exact
+           fill to blend. Declared after .coverflow-counter so it wins the cascade. */
+        .coverflow-counter-fullscreen {
+          position: absolute;
+          bottom: 16px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #0a0a0a;
+          color: rgba(255, 255, 255, 0.65);
+          font-size: 13px;
+          font-weight: 600;
+          padding: 4px 14px;
+          border-radius: 20px;
+          z-index: 20;
+          letter-spacing: 0.03em;
+        }
+        /* Mobile fullscreen: park the count in the lane under the inset image
+           (image bottom = 80vh − 32px), clamped so it never slides under the
+           bottom sheet on short viewports. */
+        @media (max-width: 639px) {
+          .coverflow-counter-fullscreen {
+            top: min(calc(80vh - 14px), calc(100% - 34px));
+            bottom: auto;
+            pointer-events: none;
+          }
         }
       `}</style>
 
