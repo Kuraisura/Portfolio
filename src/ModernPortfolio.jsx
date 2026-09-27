@@ -2114,7 +2114,7 @@ const ModernPortfolio = () => {
         .gal-control.is-pill { padding: 0 13px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; white-space: nowrap; }
         .gal-control.is-copied { background: rgba(5, 150, 105, 0.95); border-color: rgba(255, 255, 255, 0.4); }
         .gal-control.is-copied:hover { background: rgba(4, 120, 87, 1); border-color: rgba(255, 255, 255, 0.55); }
-        .modal-swiper { width: 100%; height: 320px; touch-action: pan-y; }
+        .modal-swiper { width: 100%; height: clamp(212px, 56vw, 232px); touch-action: pan-y; }
         .modal-swiper .swiper-wrapper { transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
         @media (min-width: 640px) { .modal-swiper { height: 400px; } }
         @media (min-width: 768px) { .modal-swiper { height: 460px; } }
@@ -2129,7 +2129,6 @@ const ModernPortfolio = () => {
           will-change: transform, opacity;
           backface-visibility: hidden;
         }
-        @media (max-width: 480px) { .modal-swiper-slide { width: 200px; } }
         @media (min-width: 640px) { .modal-swiper-slide { width: 300px; } }
         @media (min-width: 768px) { .modal-swiper-slide { width: 360px; } }
         .modal-swiper-slide.swiper-slide-active {
@@ -2174,19 +2173,31 @@ const ModernPortfolio = () => {
           height: 300px;
           max-height: none;
         }
-        /* Landscape images in modal: show with contain so they fit mobile screens */
-        @media (max-width: 640px) {
+        /* Mobile gallery: compact frame with a wider slide so the image sits
+           centered and fully visible (contain, never cropped) while the dialog
+           content below stays in view. */
+        @media (max-width: 639px) {
+          .modal-swiper-slide { width: 78%; }
+          .modal-swiper-slide img,
+          .modal-swiper-slide video {
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
+            object-fit: contain;
+          }
           .modal-swiper-slide.is-landscape img,
           .modal-swiper-slide.is-landscape video {
             object-fit: contain;
-            height: 50vh;
-            max-height: 50vh;
+            height: 100%;
+            max-height: 100%;
           }
           .fs-swiper-slide.is-landscape img {
             object-fit: contain;
             height: 100vh;
             max-height: 100vh;
           }
+          /* Counter padding on the wrapper shifts its center — track it. */
+          .coverflow-btn { top: calc(50% - 14px); }
         }
         .modal-swiper .swiper-button-next,
         .modal-swiper .swiper-button-prev { display: none; }
@@ -3204,7 +3215,7 @@ const ModernPortfolio = () => {
             >
             {/* Modal Header with Swiper Coverflow Gallery or Hero Image */}
             {selectedProject.screenshots && selectedProject.screenshots.length > 0 ? (
-              <div className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 overflow-hidden rounded-t-2xl md:rounded-t-[32px]">
+              <div className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 overflow-hidden rounded-t-2xl md:rounded-t-[32px] max-sm:pb-7">
                 {/* Gallery toggle tabs for projects with showcase */}
                 {selectedProject.showcase && selectedProject.showcase.length > 0 && (
                   <div className="absolute top-3 left-1/2 -translate-x-1/2 max-sm:left-3 max-sm:translate-x-0 z-30 flex gap-1 bg-black/50 backdrop-blur-sm rounded-full p-1">
