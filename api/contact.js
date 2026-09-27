@@ -18,7 +18,7 @@
  * hCaptcha and verify the token here.
  */
 
-const MAX_LENGTHS = { name: 30, email: 40, note: 2000 };
+const MAX_LENGTHS = { name: 30, email: 40, note: 100 };
 const RATE_LIMIT_MAX = 5; // requests
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // per 10 minutes
 
@@ -132,8 +132,13 @@ export default async function handler(req, res) {
   const email = sanitizeHeaderValue(body.email);
   const note = String(body.note).trim();
 
-  if (to && email.toLowerCase() === String(to).trim().toLowerCase()) {
-    return res.status(400).json({ error: 'What do you think your doing buckaroo?' });
+  const selfWarnings = {
+    'kuraisler@gmail.com': "That's my email too, can you stop already"
+  };
+  if (to) selfWarnings[String(to).trim().toLowerCase()] = 'What do you think your doing buckaroo?';
+  const selfWarning = selfWarnings[email.toLowerCase()];
+  if (selfWarning) {
+    return res.status(400).json({ error: selfWarning });
   }
 
   try {
