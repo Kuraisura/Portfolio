@@ -2035,6 +2035,7 @@ const ModernPortfolio = () => {
           .fs-swiper-slide {
             width: 100vw !important;
             height: 100vh !important;
+            padding: 12vh 8vw 20vh;
             opacity: 0;
             transform: none !important;
             transition: opacity 0.25s ease;
@@ -2054,10 +2055,10 @@ const ModernPortfolio = () => {
           .fs-swiper-slide img,
           .fs-swiper-slide video {
             width: 100%;
-            height: 100% !important;
-            max-height: none !important;
+            height: 100%;
+            max-height: none;
             object-fit: contain;
-            border-radius: 0;
+            border-radius: 12px;
           }
           .fs-swiper-slide .swiper-zoom-container {
             touch-action: none;
@@ -2067,8 +2068,9 @@ const ModernPortfolio = () => {
           .fs-swiper-slide.is-landscape img,
           .fs-swiper-slide.is-landscape video {
             object-fit: contain;
-            height: auto;
-            max-height: 100vh;
+            width: 100%;
+            height: 100%;
+            max-height: 100%;
           }
           /* Hide nav buttons and counter on mobile fullscreen — swipe only */
           .fs-swiper-prev,
