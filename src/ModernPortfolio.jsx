@@ -30,6 +30,7 @@ import {
   Moon,
   ChevronLeft,
   ChevronRight,
+  Link2,
   ArrowDownNarrowWide,
   ArrowDownWideNarrow,
   GalleryHorizontalEnd,
@@ -130,6 +131,9 @@ const DESKTOP_CAROUSEL_THUMBNAILS = Object.freeze({
 });
 
 const getProjectArtwork = (project) => project.logo || PROJECT_THUMBNAILS[project.title] || project.screenshots?.[0] || project.image;
+
+// Stable slug used by shareable deep links: https://kuraisler.xyz/#projects/wiz
+const projectSlug = (title) => String(title || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 const getDesktopCarouselArtwork = (project) => DESKTOP_CAROUSEL_THUMBNAILS[project.title] || getProjectArtwork(project);
 
 function ProjectArtwork({ project, src = getProjectArtwork(project), className = '', eager = false, compact = false }) {
@@ -423,6 +427,56 @@ const ModernPortfolio = () => {
   const emailRef = React.useRef(null);
   const noteRef = React.useRef(null);
   const honeypotRef = React.useRef(null);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  // Gallery bookkeeping. The slide counter and "is the user dragging" flag live
+  // in refs instead of state, so swiping never triggers a re-render of the whole
+  // portfolio mid-gesture (that re-render was the stutter on mobile).
+  const modalCounterRef = React.useRef(null);
+  const fullscreenCounterRef = React.useRef(null);
+  const modalDraggingRef = React.useRef(false);
+  const modalUpdatePendingRef = React.useRef(false);
+  const fsDraggingRef = React.useRef(false);
+  const fsUpdatePendingRef = React.useRef(false);
+
+  const writeSlideCounter = (ref, index, total) => {
+    const el = ref.current;
+    if (el) el.textContent = `${Math.max(0, Number(index) || 0) + 1} of ${total}`;
+  };
+
+  const runSwiperUpdate = (kind) => {
+    const isModal = kind === 'modal';
+    const swiper = isModal ? modalSwiperRef.current : fullscreenSwiperRef.current;
+    if (!swiper || swiper.destroyed) return;
+    if (isModal ? modalDraggingRef.current : fsDraggingRef.current) {
+      (isModal ? modalUpdatePendingRef : fsUpdatePendingRef).current = true;
+      return;
+    }
+    swiper.update();
+  };
+
+  const finishSwiperDrag = (kind) => {
+    const isModal = kind === 'modal';
+    const pendingRef = isModal ? modalUpdatePendingRef : fsUpdatePendingRef;
+    if (isModal) modalDraggingRef.current = false;
+    else fsDraggingRef.current = false;
+    if (pendingRef.current) {
+      pendingRef.current = false;
+      window.requestAnimationFrame(() => runSwiperUpdate(kind));
+    }
+  };
+
+  const copyProjectLink = async () => {
+    if (!selectedProject) return;
+    const url = `${window.location.origin}/#projects/${projectSlug(selectedProject.title)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setLinkCopied(true);
+      window.setTimeout(() => setLinkCopied(false), 2000);
+    } catch {
+      window.prompt('Copy this link', url);
+    }
+  };
 
   const handlePrevSlide = () => setCurrentSlide(currentSlide - 1);
   const handleNextSlide = () => setCurrentSlide(currentSlide + 1);
@@ -451,7 +505,6 @@ const ModernPortfolio = () => {
 
   const sheetRef = React.useRef(null);
   const sheetContentRef = React.useRef(null);
-  const slideChangeTimeoutRef = React.useRef(null);
 
   // Use native scrolling on touch devices and for reduced-motion visitors.
   // This removes a permanent animation loop from phones while keeping Lenis for
@@ -504,17 +557,14 @@ const ModernPortfolio = () => {
 
   // Fullscreen has its own Swiper. The shared modal effect below owns scroll
   // locking so closing fullscreen cannot unlock the project dialog beneath it.
+  // Opening already syncs the index inside the Swiper's onSwiper callback;
+  // re-syncing on every index change here used to call slideTo(..., 0) after
+  // each swipe, which cancelled the in-flight drag animation and snapped back.
   useEffect(() => {
-    if (fullscreenMode) {
-      // Sync swiper to current coverflow index
-      if (fullscreenSwiperRef.current) {
-        fullscreenSwiperRef.current.slideTo(coverflowIndex, 0);
-      }
-    } else {
-      fullscreenSwiperRef.current?.destroy(true, true);
-      fullscreenSwiperRef.current = null;
-    }
-  }, [fullscreenMode, coverflowIndex]);
+    if (fullscreenMode) return undefined;
+    fullscreenSwiperRef.current?.destroy(true, true);
+    fullscreenSwiperRef.current = null;
+  }, [fullscreenMode]);
 
   const toggleTheme = () => {
     const root = document.documentElement;
@@ -622,70 +672,136 @@ const ModernPortfolio = () => {
     return () => observer.disconnect();
   }, []);
 
-  const scrollToSection = (id, { updateHash = true } = {}) => {
+  const scrollToSection = (id, { updateHash = true, onComplete } = {}) => {
     const element = document.getElementById(id);
-    if (element) {
-      const navigationOffset = 32;
-      const targetPosition = element.getBoundingClientRect().top + window.scrollY - navigationOffset;
-      const isMobile = window.matchMedia('(max-width: 1023px)').matches;
-      const prefersReducedMotion = reducedMotionRef.current;
-
-      if (lenisRef.current && !prefersReducedMotion) {
-        // Cancel an in-flight navigation, then immediately start again so Lenis
-        // never sits in the stopped state (where it preventDefaults all input).
-        if (navScrollActiveRef.current) {
-          lenisRef.current.stop();
-          lenisRef.current.start();
-        }
-        navScrollActiveRef.current = true;
-        navigationTargetRef.current = id;
-        lenisRef.current.scrollTo(element, {
-          offset: -navigationOffset,
-          duration: isMobile ? 0.9 : 1.15,
-          easing: (value) => 1 - Math.pow(1 - value, 3),
-          onComplete: () => {
-            // A newer navigation may have started; don't clear its flags.
-            if (navigationTargetRef.current !== id) return;
-            endNavigation();
-            if (updateHash) window.history.pushState(null, '', `#${id}`);
-          }
-        });
-      } else {
-        endNavigation();
-        window.scrollTo({ top: targetPosition, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-        if (updateHash) window.history.pushState(null, '', `#${id}`);
-      }
-      setActiveSection(id);
+    if (!element) {
+      onComplete?.();
+      return;
     }
+    const navigationOffset = 32;
+    const targetPosition = element.getBoundingClientRect().top + window.scrollY - navigationOffset;
+    const isMobile = window.matchMedia('(max-width: 1023px)').matches;
+    const prefersReducedMotion = reducedMotionRef.current;
+
+    if (lenisRef.current && !prefersReducedMotion) {
+      // Cancel an in-flight navigation, then immediately start again so Lenis
+      // never sits in the stopped state (where it preventDefaults all input).
+      if (navScrollActiveRef.current) {
+        lenisRef.current.stop();
+        lenisRef.current.start();
+      }
+      navScrollActiveRef.current = true;
+      navigationTargetRef.current = id;
+      lenisRef.current.scrollTo(element, {
+        offset: -navigationOffset,
+        duration: isMobile ? 0.9 : 1.15,
+        easing: (value) => 1 - Math.pow(1 - value, 3),
+        onComplete: () => {
+          // A newer navigation may have started; don't clear its flags.
+          if (navigationTargetRef.current !== id) return;
+          endNavigation();
+          if (updateHash) window.history.pushState(null, '', `#${id}`);
+          onComplete?.();
+        }
+      });
+    } else {
+      endNavigation();
+      window.scrollTo({ top: targetPosition, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      if (updateHash) window.history.pushState(null, '', `#${id}`);
+      // Native smooth scrolling has no reliable callback here, and opening a
+      // dialog mid-scroll would lock the body and cancel it — wait for it.
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        window.removeEventListener('scrollend', finish);
+        onComplete?.();
+      };
+      window.addEventListener('scrollend', finish, { once: true });
+      window.setTimeout(finish, prefersReducedMotion ? 0 : 700);
+    }
+    setActiveSection(id);
   };
 
   useEffect(() => {
     const handleHashNavigation = () => {
-      const id = window.location.hash.slice(1);
-      if (id) requestAnimationFrame(() => scrollToSection(id, { updateHash: false }));
+      const raw = window.location.hash.slice(1);
+      if (!raw) return;
+
+      // #projects/wiz → scroll to Projects, then open that project's dialog.
+      const projectMatch = /^projects\/(.+)$/.exec(raw);
+      if (projectMatch) {
+        const slug = projectMatch[1].toLowerCase();
+        const project = projects.find((p) => projectSlug(p.title) === slug);
+        if (project) {
+          scrollToSection('projects', {
+            updateHash: false,
+            onComplete: () => {
+              setGalleryTab('screenshots');
+              setCoverflowIndex(0);
+              setSelectedProject(project);
+            }
+          });
+        } else {
+          scrollToSection('projects', { updateHash: false });
+        }
+        return;
+      }
+
+      // A plain section hash closes an open project dialog (browser Back).
+      setSelectedProject((current) => (current ? null : current));
+      requestAnimationFrame(() => scrollToSection(raw, { updateHash: false }));
     };
 
     window.addEventListener('popstate', handleHashNavigation);
+    window.addEventListener('hashchange', handleHashNavigation);
     handleHashNavigation();
-    return () => window.removeEventListener('popstate', handleHashNavigation);
+    return () => {
+      window.removeEventListener('popstate', handleHashNavigation);
+      window.removeEventListener('hashchange', handleHashNavigation);
+    };
     // scrollToSection intentionally uses the mounted Lenis instance.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Keep the address bar shareable: opening a project writes
+  // #projects/<slug>, closing it falls back to #projects.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (selectedProject) {
+      const next = `#projects/${projectSlug(selectedProject.title)}`;
+      if (hash !== next) window.history.replaceState(null, '', next);
+    } else if (/^#projects\//.test(hash)) {
+      window.history.replaceState(null, '', '#projects');
+    }
+  }, [selectedProject]);
+
+  // Blocks rubber-banding / chain-scrolling behind the open dialog so a drag
+  // that hits the top or bottom edge never yanks the page underneath.
   useEffect(() => {
     const modalOpen = Boolean(selectedProject || selectedAchievement || selectedCertificate);
+    setLinkCopied(false);
 
     if (modalOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.overscrollBehavior = 'none';
       lenisRef.current?.stop();
     } else {
       document.body.style.overflow = '';
+      document.body.style.overscrollBehavior = '';
       lenisRef.current?.start();
+      // A dialog can be unmounted mid-gesture (Esc / hash change); never leave
+      // a gallery stuck thinking it is still being dragged.
+      modalDraggingRef.current = false;
+      modalUpdatePendingRef.current = false;
+      fsDraggingRef.current = false;
+      fsUpdatePendingRef.current = false;
     }
 
     // Unmount safety net: never leave the page locked or Lenis stopped.
     return () => {
       document.body.style.overflow = '';
+      document.body.style.overscrollBehavior = '';
       lenisRef.current?.start();
     };
   }, [selectedProject, selectedAchievement, selectedCertificate]);
@@ -1618,6 +1734,8 @@ const ModernPortfolio = () => {
 
         /* Fullscreen Swiper Coverflow */
         .fs-swiper { width: 100%; height: 100%; padding-top: 40px; padding-bottom: 40px; }
+        /* Keep a drag that reaches the edge inside the gallery. */
+        .fs-swiper, .modal-swiper { overscroll-behavior: none; }
         .fs-swiper .swiper-slide { transition-property: opacity; }
         .fs-swiper-slide {
           width: 480px;
@@ -2825,7 +2943,20 @@ const ModernPortfolio = () => {
             onTouchMove={(event) => event.stopPropagation()}
             className="relative bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto overscroll-contain rounded-2xl md:rounded-[32px] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] animate-scale-in outline-none"
           >
-            <div className="sticky top-3 z-20 h-0 flex justify-end px-3 md:px-6 pointer-events-none">
+            <div className="sticky top-3 z-20 h-0 flex justify-end items-center gap-2 px-3 md:px-6 pointer-events-none">
+              <button
+                type="button"
+                onClick={copyProjectLink}
+                className={`pointer-events-auto w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg active:scale-90 ${
+                  linkCopied
+                    ? 'bg-emerald-500 text-white'
+                    : 'bg-white/95 text-black hover:bg-black hover:text-white'
+                }`}
+                aria-label="Copy link to this project"
+                title="Copy link to this project"
+              >
+                {linkCopied ? <CheckCircle2 size={19} /> : <Link2 size={19} />}
+              </button>
               <button
                 onClick={() => setSelectedProject(null)}
                 className="pointer-events-auto translate-y-0 w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all duration-200 shadow-lg active:scale-90"
@@ -2855,7 +2986,7 @@ const ModernPortfolio = () => {
                   </div>
                 )}
                 <Swiper
-                  key={galleryTab}
+                  key={`${selectedProject.id}-${galleryTab}`}
                   onSwiper={(swiper) => {
                     modalSwiperRef.current = swiper;
                     setCoverflowIndex(0);
@@ -2863,18 +2994,17 @@ const ModernPortfolio = () => {
                       if (!swiper.destroyed) {
                         swiper.update();
                         swiper.slideTo(0, 0);
+                        writeSlideCounter(modalCounterRef, 0, swiper.slides.length);
                       }
                     });
                   }}
+                  onTouchStart={() => {
+                    modalDraggingRef.current = true;
+                  }}
+                  onTouchEnd={() => finishSwiperDrag('modal')}
                   onSlideChange={(swiper) => {
                     swiper.zoom?.out();
-                    clearTimeout(slideChangeTimeoutRef.current);
-                    slideChangeTimeoutRef.current = setTimeout(() => {
-                      const idx = swiper.realIndex;
-                      if (typeof idx === 'number' && !isNaN(idx)) {
-                        setCoverflowIndex(idx);
-                      }
-                    }, 80);
+                    writeSlideCounter(modalCounterRef, swiper.realIndex, swiper.slides.length);
                   }}
                   effect={'slide'}
                   grabCursor={true}
@@ -2925,7 +3055,7 @@ const ModernPortfolio = () => {
                         }`}
                       >
                         {isVideoMedia(src) ? (
-                          <ViewOnlyVideo src={src} onReady={() => modalSwiperRef.current?.update()} />
+                          <ViewOnlyVideo src={src} onReady={() => runSwiperUpdate('modal')} />
                         ) : (
                           <img
                             src={src}
@@ -2933,7 +3063,7 @@ const ModernPortfolio = () => {
                             loading="eager"
                             decoding="async"
                             draggable={false}
-                            onLoad={() => modalSwiperRef.current?.update()}
+                            onLoad={() => runSwiperUpdate('modal')}
                           />
                         )}
                       </SwiperSlide>
@@ -2965,8 +3095,7 @@ const ModernPortfolio = () => {
                 >
                   <ChevronRight size={20} />
                 </button>
-                <div className="coverflow-counter">
-                  {coverflowIndex + 1} of {(galleryTab === 'showcase' && selectedProject.showcase ? selectedProject.showcase : selectedProject.screenshots)?.length || 0}
+                <div className="coverflow-counter" ref={modalCounterRef}>
                 </div>
               </div>
             ) : selectedProject.image ? (
@@ -3098,7 +3227,7 @@ const ModernPortfolio = () => {
 
       {/* Fullscreen Coverflow + Bottom Sheet Mode */}
       {fullscreenMode && selectedProject && selectedProject.screenshots && (
-        <div className="fixed inset-0 z-[120] flex flex-col bg-[#0a0a0a]">
+        <div className="fixed inset-0 z-[120] flex flex-col bg-[#0a0a0a] overscroll-contain">
           {/* Close button */}
           <button
             onClick={() => { setFullscreenMode(false); setSheetExpanded(false); }}
@@ -3111,7 +3240,7 @@ const ModernPortfolio = () => {
           {/* Fullscreen Swiper Coverflow */}
           <div className="flex-1 min-h-0 relative">
             <Swiper
-              key={galleryTab}
+              key={`${selectedProject.id}-${galleryTab}`}
               onSwiper={(swiper) => {
                 fullscreenSwiperRef.current = swiper;
                 const selectedIndex = coverflowIndex;
@@ -3119,18 +3248,17 @@ const ModernPortfolio = () => {
                   if (!swiper.destroyed) {
                     swiper.update();
                     swiper.slideTo(selectedIndex, 0);
+                    writeSlideCounter(fullscreenCounterRef, selectedIndex, swiper.slides.length);
                   }
                 });
               }}
+              onTouchStart={() => {
+                fsDraggingRef.current = true;
+              }}
+              onTouchEnd={() => finishSwiperDrag('fs')}
               onSlideChange={(swiper) => {
                 swiper.zoom?.out();
-                clearTimeout(slideChangeTimeoutRef.current);
-                slideChangeTimeoutRef.current = setTimeout(() => {
-                  const idx = swiper.realIndex;
-                  if (typeof idx === 'number' && !isNaN(idx)) {
-                    setCoverflowIndex(idx);
-                  }
-                }, 80);
+                writeSlideCounter(fullscreenCounterRef, swiper.realIndex, swiper.slides.length);
               }}
               effect={'coverflow'}
               grabCursor={true}
@@ -3172,7 +3300,7 @@ const ModernPortfolio = () => {
                       }`}
                     >
                       {isVideoMedia(src) ? (
-                        <ViewOnlyVideo src={src} onReady={() => fullscreenSwiperRef.current?.update()} />
+                        <ViewOnlyVideo src={src} onReady={() => runSwiperUpdate('fs')} />
                       ) : (
                         <div className="swiper-zoom-container">
                           <img
@@ -3181,7 +3309,7 @@ const ModernPortfolio = () => {
                             decoding="sync"
                             alt={`${selectedProject.title} ${galleryTab === 'showcase' ? 'event' : 'screenshot'} ${idx + 1}`}
                             draggable={false}
-                            onLoad={() => fullscreenSwiperRef.current?.update()}
+                            onLoad={() => runSwiperUpdate('fs')}
                           />
                         </div>
                       )}
@@ -3217,8 +3345,7 @@ const ModernPortfolio = () => {
               <ChevronRight size={24} />
             </button>
 
-            <div className="coverflow-counter coverflow-counter-fullscreen">
-              {coverflowIndex + 1} of {(galleryTab === 'showcase' && selectedProject.showcase ? selectedProject.showcase : selectedProject.screenshots)?.length || 0}
+            <div className="coverflow-counter coverflow-counter-fullscreen" ref={fullscreenCounterRef}>
             </div>
           </div>
 
