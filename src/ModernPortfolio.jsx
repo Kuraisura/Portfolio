@@ -1962,13 +1962,27 @@ const ModernPortfolio = () => {
 
         /* Fullscreen Swiper Coverflow */
         .fs-swiper { width: 100%; height: 100%; padding-top: 40px; padding-bottom: 40px; }
+        /* Paints the #0a0a0a backdrop back over anything that reaches the screen
+           edges so light screenshots never leave a white corner. The 40px top and
+           bottom bands match .fs-swiper's padding (the active slide never enters
+           them) and 7% is narrower than the active slide's half-width at every
+           desktop breakpoint, so the main image is never touched. */
+        .fs-edge-fade {
+          position: absolute;
+          inset: 0;
+          z-index: 15;
+          pointer-events: none;
+          background:
+            linear-gradient(to bottom, #0a0a0a 0, rgba(10, 10, 10, 0) 40px, rgba(10, 10, 10, 0) calc(100% - 40px), #0a0a0a 100%),
+            linear-gradient(to right, #0a0a0a 0, rgba(10, 10, 10, 0) 7%, rgba(10, 10, 10, 0) 93%, #0a0a0a 100%);
+        }
         /* Keep a drag that reaches the edge inside the gallery. */
         .fs-swiper, .modal-swiper { overscroll-behavior: none; }
         .fs-swiper .swiper-slide { transition-property: opacity; }
         .fs-swiper-slide {
           width: 480px;
           height: auto;
-          opacity: 0.7;
+          opacity: 0.2;
           transition: opacity 0.25s ease;
           display: flex;
           align-items: center;
@@ -1982,11 +1996,13 @@ const ModernPortfolio = () => {
           opacity: 1;
           z-index: 10;
         }
+        /* Neighbours stay hinted but recede into the #0a0a0a backdrop instead of
+           reading as a bright slab beside the active slide. */
         .fs-swiper-slide.swiper-slide-prev {
-          opacity: 0.75;
+          opacity: 0.2;
         }
         .fs-swiper-slide.swiper-slide-next {
-          opacity: 0.75;
+          opacity: 0.2;
         }
         .fs-swiper-slide.swiper-slide-hidden {
           opacity: 0.15;
@@ -2191,8 +2207,6 @@ const ModernPortfolio = () => {
             height: 100vh;
             max-height: 100vh;
           }
-          /* Counter padding on the wrapper shifts its center — track it. */
-          .coverflow-btn { top: calc(50% - 14px); }
         }
         .modal-swiper .swiper-button-next,
         .modal-swiper .swiper-button-prev { display: none; }
@@ -2220,6 +2234,12 @@ const ModernPortfolio = () => {
         }
         .coverflow-btn:active {
           transform: translateY(-50%) scale(0.92);
+        }
+        /* The modal gallery reserves a 28px counter lane on small screens —
+           nudge the arrows back to the image centre (fullscreen arrows are
+           hidden below 640px, so this only reaches the modal). */
+        @media (max-width: 639px) {
+          .coverflow-btn { top: calc(50% - 14px); }
         }
         .coverflow-btn.is-prev { left: 8px; }
         .coverflow-btn.is-next { right: 8px; }
@@ -3645,6 +3665,10 @@ const ModernPortfolio = () => {
                     </SwiperSlide>
                   ))}
             </Swiper>
+
+            {/* Re-paints the backdrop over the screen edges so neighbouring
+                slides never leave a white corner behind the controls. */}
+            <div className="fs-edge-fade" aria-hidden="true"></div>
 
             {/* Custom nav buttons */}
             <button
