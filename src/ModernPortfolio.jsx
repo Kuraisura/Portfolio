@@ -566,6 +566,57 @@ const ModernPortfolio = () => {
     fullscreenSwiperRef.current = null;
   }, [fullscreenMode]);
 
+  // Wheel / trackpad paging for both galleries: scrolling down advances
+  // (slides travel left), scrolling up goes back (slides travel right), so a
+  // client can flick through a project's screenshots without hunting for arrows.
+  useEffect(() => {
+    const bindings = [];
+    const modalSwiper = modalSwiperRef.current;
+    const fsSwiper = fullscreenSwiperRef.current;
+    if (modalSwiper && !modalSwiper.destroyed && modalSwiper.el) {
+      bindings.push([modalSwiper.el, () => modalSwiperRef.current]);
+    }
+    if (fsSwiper && !fsSwiper.destroyed && fsSwiper.el) {
+      bindings.push([fsSwiper.el, () => fullscreenSwiperRef.current]);
+    }
+    if (!bindings.length) return undefined;
+
+    let lockUntil = 0;
+    let pendingDelta = 0;
+    const detach = [];
+
+    bindings.forEach(([element, getSwiper]) => {
+      const onWheel = (event) => {
+        const swiper = getSwiper();
+        if (!swiper || swiper.destroyed) return;
+        if ((swiper.zoom?.scale || 1) > 1) return; // zoomed in: keep browser zoom behaviour
+        const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+        if (!delta) return;
+        // The gallery owns the gesture — the page / dialog must not scroll under it.
+        event.preventDefault();
+        const now = performance.now();
+        if (now < lockUntil) return;
+        pendingDelta += delta;
+        if (Math.abs(pendingDelta) < 24) return; // ignore micro-jitter
+        const direction = pendingDelta;
+        pendingDelta = 0;
+        lockUntil = now + 320;
+        if (direction > 0) {
+          if (swiper.isEnd) swiper.slideTo(0);
+          else swiper.slideNext();
+        } else if (swiper.isBeginning) {
+          swiper.slideTo(swiper.slides.length - 1);
+        } else {
+          swiper.slidePrev();
+        }
+      };
+      element.addEventListener('wheel', onWheel, { passive: false });
+      detach.push(() => element.removeEventListener('wheel', onWheel));
+    });
+
+    return () => detach.forEach((unbind) => unbind());
+  }, [selectedProject, galleryTab, fullscreenMode]);
+
   const toggleTheme = () => {
     const root = document.documentElement;
     const currentTheme = document.documentElement.dataset.theme || theme;
@@ -1856,6 +1907,36 @@ const ModernPortfolio = () => {
           z-index: 20;
         }
         /* Modal Swiper Coverflow */
+        /* Docked gallery controls: dark frosted pill with a white ring, so it stays
+           readable on the white card, the dark gallery header and the black
+           fullscreen backdrop alike. */
+        .gal-control {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 7px;
+          height: 40px;
+          border-radius: 9999px;
+          background: rgba(8, 8, 8, 0.85);
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+          color: #fff;
+          border: 1px solid rgba(255, 255, 255, 0.22);
+          box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.7);
+          cursor: pointer;
+          transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+        }
+        .gal-control:hover {
+          background: rgba(8, 8, 8, 0.95);
+          border-color: rgba(255, 255, 255, 0.45);
+          transform: translateY(-1px);
+        }
+        .gal-control:active { transform: scale(0.96); }
+        .gal-control:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+        .gal-control.is-icon { width: 40px; padding: 0; }
+        .gal-control.is-pill { padding: 0 13px; font-size: 12px; font-weight: 600; letter-spacing: 0.01em; white-space: nowrap; }
+        .gal-control.is-copied { background: rgba(5, 150, 105, 0.95); border-color: rgba(255, 255, 255, 0.4); }
+        .gal-control.is-copied:hover { background: rgba(4, 120, 87, 1); border-color: rgba(255, 255, 255, 0.55); }
         .modal-swiper { width: 100%; height: 320px; touch-action: pan-y; }
         .modal-swiper .swiper-wrapper { transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
         @media (min-width: 640px) { .modal-swiper { height: 400px; } }
@@ -2933,44 +3014,23 @@ const ModernPortfolio = () => {
             onClick={() => setSelectedProject(null)}
           ></div>
           
-          <div
-            ref={projectModalRef}
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="project-modal-title"
-            onWheel={(event) => event.stopPropagation()}
-            onTouchMove={(event) => event.stopPropagation()}
-            className="relative bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto overscroll-contain rounded-2xl md:rounded-[32px] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] animate-scale-in outline-none"
-          >
-            <div className="sticky top-3 z-20 h-0 flex justify-end items-center gap-2 px-3 md:px-6 pointer-events-none">
-              <button
-                type="button"
-                onClick={copyProjectLink}
-                className={`pointer-events-auto w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg active:scale-90 ${
-                  linkCopied
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-white/95 text-black hover:bg-black hover:text-white'
-                }`}
-                aria-label="Copy link to this project"
-                title="Copy link to this project"
-              >
-                {linkCopied ? <CheckCircle2 size={19} /> : <Link2 size={19} />}
-              </button>
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="pointer-events-auto translate-y-0 w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all duration-200 shadow-lg active:scale-90"
-                aria-label="Close project details"
-              >
-                <X size={20} />
-              </button>
-            </div>
+          <div className="relative w-full max-w-3xl">
+            <div
+              ref={projectModalRef}
+              tabIndex={-1}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-modal-title"
+              onWheel={(event) => event.stopPropagation()}
+              onTouchMove={(event) => event.stopPropagation()}
+              className="relative bg-white w-full max-h-[90vh] overflow-y-auto overscroll-contain rounded-2xl md:rounded-[32px] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] animate-scale-in outline-none"
+            >
             {/* Modal Header with Swiper Coverflow Gallery or Hero Image */}
             {selectedProject.screenshots && selectedProject.screenshots.length > 0 ? (
               <div className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 overflow-hidden rounded-t-2xl md:rounded-t-[32px]">
                 {/* Gallery toggle tabs for projects with showcase */}
                 {selectedProject.showcase && selectedProject.showcase.length > 0 && (
-                  <div className="absolute top-3 left-1/2 -translate-x-1/2 z-30 flex gap-1 bg-black/50 backdrop-blur-sm rounded-full p-1">
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 max-sm:left-3 max-sm:translate-x-0 z-30 flex gap-1 bg-black/50 backdrop-blur-sm rounded-full p-1">
                     <button
                       onClick={() => { setGalleryTab('screenshots'); setCoverflowIndex(0); }}
                       className={`px-3 py-1 rounded-full text-[10px] md:text-xs font-semibold transition-all ${galleryTab === 'screenshots' ? 'bg-white/20 text-white ring-1 ring-white/50' : 'text-white/70 hover:text-white'}`}
@@ -3222,20 +3282,80 @@ const ModernPortfolio = () => {
               </div>
             </div>
           </div>
+
+          {/* Docked toolbar — sits on the card frame, never scrolls with content */}
+          <div className="absolute top-3 right-3 z-40 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={copyProjectLink}
+              className={`gal-control is-pill${linkCopied ? ' is-copied' : ''}`}
+              aria-label="Copy link to this project"
+              title="Copy link to this project"
+            >
+              {linkCopied ? <CheckCircle2 size={16} /> : <Link2 size={16} />}
+              <span className="hidden sm:inline">{linkCopied ? 'Link copied' : 'Copy link'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedProject(null)}
+              className="gal-control is-icon"
+              aria-label="Close project details"
+              title="Close"
+            >
+              <X size={18} />
+            </button>
+          </div>
+          </div>
         </div>
       )}
 
       {/* Fullscreen Coverflow + Bottom Sheet Mode */}
       {fullscreenMode && selectedProject && selectedProject.screenshots && (
         <div className="fixed inset-0 z-[120] flex flex-col bg-[#0a0a0a] overscroll-contain">
-          {/* Close button */}
-          <button
-            onClick={() => { setFullscreenMode(false); setSheetExpanded(false); }}
-            className="absolute top-4 right-4 md:top-6 md:right-6 z-30 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all"
-            aria-label="Close fullscreen"
-          >
-            <X size={20} />
-          </button>
+          {/* Top-left navigation: back to the project dialog + project identity */}
+          <div className="absolute top-3 left-3 md:top-5 md:left-6 z-40 flex items-center gap-3 max-w-[55vw] sm:max-w-[60vw]">
+            <button
+              type="button"
+              onClick={() => { setFullscreenMode(false); setSheetExpanded(false); }}
+              className="gal-control is-pill"
+              aria-label="Back to project details"
+              title="Back to project details"
+            >
+              <ChevronLeft size={17} />
+              <span className="hidden sm:inline">Back to details</span>
+            </button>
+            {[selectedProject.type, selectedProject.subtitle].filter(Boolean).length > 0 && (
+              <div className="hidden sm:block min-w-0">
+                <div className="text-white text-sm font-semibold leading-tight truncate">{selectedProject.title}</div>
+                <div className="text-white/55 text-[10px] font-semibold uppercase tracking-[0.16em] leading-tight truncate">
+                  {[selectedProject.type, selectedProject.subtitle].filter(Boolean).join(' · ')}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Top-right toolbar: share + exit */}
+          <div className="absolute top-3 right-3 md:top-5 md:right-6 z-40 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={copyProjectLink}
+              className={`gal-control is-pill${linkCopied ? ' is-copied' : ''}`}
+              aria-label="Copy link to this project"
+              title="Copy link to this project"
+            >
+              {linkCopied ? <CheckCircle2 size={16} /> : <Link2 size={16} />}
+              <span className="hidden sm:inline">{linkCopied ? 'Link copied' : 'Copy link'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setFullscreenMode(false); setSheetExpanded(false); }}
+              className="gal-control is-icon"
+              aria-label="Exit fullscreen"
+              title="Exit fullscreen"
+            >
+              <X size={18} />
+            </button>
+          </div>
 
           {/* Fullscreen Swiper Coverflow */}
           <div className="flex-1 min-h-0 relative">
