@@ -1,0 +1,8 @@
+/* Portfolio specific styles - most styling is done via Tailwind in ModernPortfolio.jsx */
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+

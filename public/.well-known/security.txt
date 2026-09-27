@@ -1,0 +1,5 @@
+Contact: mailto:kuraisler.dev@gmail.com
+Canonical: https://kuraisler.xyz/.well-known/security.txt
+Preferred-Languages: en
+Expires: 2027-09-13T00:00:00.000Z
+Policy: https://kuraisler.xyz/#contact
