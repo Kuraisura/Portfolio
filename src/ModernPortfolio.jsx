@@ -1446,6 +1446,7 @@ const ModernPortfolio = () => {
       tech: ["Next.js 14", "TypeScript", "Tailwind CSS 4", "PostgreSQL", "SQLite", "Dapper", "Supabase", "Recharts", "Radix UI", "SWQ"],
       stats: { status: "Featured", year: "2026", commits: "116+", platform: "Web" },
       link: "https://github.com/Kuraisura/STIRAMSWEB",
+      website: "https://stiramsweb.vercel.app/",
       date: "May 7, 2026",
       size: "large",
       color: "bg-orange-500",
