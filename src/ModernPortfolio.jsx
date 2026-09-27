@@ -451,19 +451,24 @@ const ModernPortfolio = () => {
   const [formError, setFormError] = useState(''); // server / network failure banner
   const [selfEmailWarning, setSelfEmailWarning] = useState(null);
   const [nameGibberish, setNameGibberish] = useState(false);
+  const [emailGibberish, setEmailGibberish] = useState(false);
   const [noteGibberish, setNoteGibberish] = useState(false);
   const SELF_EMAIL_WARNINGS = {
     'kuraisler.dev@gmail.com': { text: 'What do you think your doing buckaroo?' },
     'kuraisler@gmail.com': { text: "That's my email too, can you stop already", big: true }
   };
-  const looksGibberish = (value) => {
+  const looksGibberish = (value, consonantRun = 4) => {
     const t = String(value || '').trim().toLowerCase();
     if (t.length < 6) return false;
     if (/([a-z])\1{5,}/.test(t)) return true;
+    const repeatedUnit = (s) => /^(.{1,5}?)\1{2,}$/.test(s);
+    if (repeatedUnit(t.replace(/\s+/g, ''))) return true;
     if (new Set(t.replace(/\s+/g, '')).size <= 2) return true;
+    const localPart = t.split('@')[0];
+    if (localPart !== t && repeatedUnit(localPart)) return true;
     if (/\s/.test(t)) return false;
-    if (/q(?![u]|$)/.test(t)) return true;
-    return /[bcdfghjklmnpqrstvwxz]{4,}/.test(t);
+    if (/q[bdfghjklmnpqrstvwxz]/.test(t)) return true;
+    return new RegExp(`[bcdfghjklmnpqrstvwxz]{${consonantRun},}`).test(t);
   };
   const nameRef = React.useRef(null);
   const emailRef = React.useRef(null);
@@ -1161,9 +1166,11 @@ const ModernPortfolio = () => {
     if (selfEmailWarning) return;
 
     const nameBad = looksGibberish(name);
+    const emailBad = looksGibberish(email, 5);
     const noteBad = looksGibberish(note);
-    if (nameBad || noteBad) {
+    if (nameBad || emailBad || noteBad) {
       setNameGibberish(nameBad);
+      setEmailGibberish(emailBad);
       setNoteGibberish(noteBad);
       return;
     }
@@ -1201,6 +1208,7 @@ const ModernPortfolio = () => {
       if (emailRef.current) emailRef.current.value = '';
       if (noteRef.current) noteRef.current.value = '';
       setNameGibberish(false);
+      setEmailGibberish(false);
       setNoteGibberish(false);
       setTimeout(() => setFormStatus('idle'), 4000);
     } catch (err) {
@@ -3208,6 +3216,7 @@ const ModernPortfolio = () => {
                           if (formErrors.email) setFormErrors(prev => ({ ...prev, email: null }));
                           if (formError) setFormError('');
                           setSelfEmailWarning(SELF_EMAIL_WARNINGS[event.currentTarget.value.trim().toLowerCase()] || null);
+                          setEmailGibberish(looksGibberish(event.currentTarget.value, 5));
                         }}
                        className={`select-text selection:bg-blue-200 selection:text-gray-900 w-full px-3 md:px-4 py-2.5 md:py-3 bg-white border rounded-lg md:rounded-xl text-sm md:text-base outline-none ${
                          formErrors.email
@@ -3215,9 +3224,12 @@ const ModernPortfolio = () => {
                            : 'border-gray-200 focus:border-black focus:ring-1 focus:ring-black'
                        }`}
                      />
-                    {formErrors.email && (
-                     <p className="text-red-500 text-[10px] md:text-xs flex items-center gap-1"><AlertCircle size={12} /> {formErrors.email}</p>
-                   )}
+                     {formErrors.email && (
+                      <p className="text-red-500 text-[10px] md:text-xs flex items-center gap-1"><AlertCircle size={12} /> {formErrors.email}</p>
+                    )}
+                    {emailGibberish && (
+                      <p className="text-red-500 text-[10px] md:text-xs flex items-center gap-1"><AlertCircle size={12} /> Is your cat okay?</p>
+                    )}
                   </div>
                 </div>
                 
@@ -3261,7 +3273,7 @@ const ModernPortfolio = () => {
 
                <button 
                  type="submit"
-                 disabled={formStatus === 'submitting' || formStatus === 'success' || selfEmailWarning || nameGibberish || noteGibberish}
+                 disabled={formStatus === 'submitting' || formStatus === 'success' || selfEmailWarning || nameGibberish || emailGibberish || noteGibberish}
                  className={`
                    w-full py-3 md:py-4 rounded-lg md:rounded-xl text-sm md:text-base font-bold flex items-center justify-center gap-2 transition-all duration-300
                    ${formStatus === 'success' 
