@@ -132,6 +132,10 @@ export default async function handler(req, res) {
   const email = sanitizeHeaderValue(body.email);
   const note = String(body.note).trim();
 
+  if (to && email.toLowerCase() === String(to).trim().toLowerCase()) {
+    return res.status(400).json({ error: 'What do you think your doing buckaroo?' });
+  }
+
   try {
     // Save to Supabase
     const supabaseUrl = process.env.SUPABASE_URL;

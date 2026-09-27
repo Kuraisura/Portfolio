@@ -449,6 +449,8 @@ const ModernPortfolio = () => {
   const [formErrors, setFormErrors] = useState({});
   const [formStatus, setFormStatus] = useState('idle'); // idle, submitting, success
   const [formError, setFormError] = useState(''); // server / network failure banner
+  const [selfEmailWarning, setSelfEmailWarning] = useState(false);
+  const OWN_EMAIL = 'kuraisler.dev@gmail.com';
   const nameRef = React.useRef(null);
   const emailRef = React.useRef(null);
   const noteRef = React.useRef(null);
@@ -1137,6 +1139,8 @@ const ModernPortfolio = () => {
       setFormErrors(errors);
       return;
     }
+
+    if (selfEmailWarning) return;
 
     setFormStatus('submitting');
     setFormError('');
@@ -3172,7 +3176,11 @@ const ModernPortfolio = () => {
                        ref={emailRef}
                        maxLength={40}
                        autoComplete="off"
-                       onInput={() => { if (formErrors.email) setFormErrors(prev => ({ ...prev, email: null })); if (formError) setFormError(''); }}
+                        onInput={(event) => {
+                          if (formErrors.email) setFormErrors(prev => ({ ...prev, email: null }));
+                          if (formError) setFormError('');
+                          setSelfEmailWarning(event.currentTarget.value.trim().toLowerCase() === OWN_EMAIL);
+                        }}
                        className={`select-text selection:bg-blue-200 selection:text-gray-900 w-full px-3 md:px-4 py-2.5 md:py-3 bg-white border rounded-lg md:rounded-xl text-sm md:text-base outline-none ${
                          formErrors.email
                            ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' 
@@ -3205,9 +3213,18 @@ const ModernPortfolio = () => {
                    )}
                </div>
 
+               {selfEmailWarning && (
+                 <p
+                   role="alert"
+                   className="text-red-500 text-xs md:text-sm font-bold text-center flex items-center justify-center gap-1.5"
+                 >
+                   <AlertCircle size={14} /> What do you think your doing buckaroo?
+                 </p>
+               )}
+
                <button 
                  type="submit"
-                 disabled={formStatus === 'submitting' || formStatus === 'success'}
+                 disabled={formStatus === 'submitting' || formStatus === 'success' || selfEmailWarning}
                  className={`
                    w-full py-3 md:py-4 rounded-lg md:rounded-xl text-sm md:text-base font-bold flex items-center justify-center gap-2 transition-all duration-300
                    ${formStatus === 'success' 
