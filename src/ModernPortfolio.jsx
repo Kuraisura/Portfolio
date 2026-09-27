@@ -5,7 +5,7 @@ import Lenis from 'lenis';
 import { createClient } from '@supabase/supabase-js';
 import { Filter } from 'bad-words';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Autoplay, Zoom } from 'swiper/modules';
+import { EffectCoverflow, Zoom } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/zoom';
@@ -2863,7 +2863,6 @@ const ModernPortfolio = () => {
                       if (!swiper.destroyed) {
                         swiper.update();
                         swiper.slideTo(0, 0);
-                        swiper.autoplay?.start();
                       }
                     });
                   }}
@@ -2876,12 +2875,6 @@ const ModernPortfolio = () => {
                         setCoverflowIndex(idx);
                       }
                     }, 80);
-                  }}
-                  onTouchStart={(swiper) => swiper.autoplay?.stop()}
-                  onTouchEnd={(swiper) => {
-                    window.setTimeout(() => {
-                      if (!swiper.destroyed) swiper.autoplay?.start();
-                    }, 450);
                   }}
                   effect={'slide'}
                   grabCursor={true}
@@ -2909,17 +2902,12 @@ const ModernPortfolio = () => {
                   watchSlidesProgress={true}
                   roundLengths={true}
                   preventInteractionOnTransition={false}
-                  modules={[Autoplay]}
+                  modules={[]}
                   className="modal-swiper"
                   loop={false}
                   rewind={true}
                   watchOverflow={false}
                   speed={450}
-                  autoplay={typeof window !== 'undefined' && window.innerWidth >= 640 ? {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: false,
-                  } : false}
                   onClick={(swiper) => {
                     if (swiper.allowClick && swiper.clickedSlide?.classList.contains('swiper-slide-active') && !isVideoMedia(swiper.clickedSlide?.querySelector('video')?.currentSrc)) {
                       setCoverflowIndex(swiper.realIndex);
@@ -3131,7 +3119,6 @@ const ModernPortfolio = () => {
                   if (!swiper.destroyed) {
                     swiper.update();
                     swiper.slideTo(selectedIndex, 0);
-                    swiper.autoplay?.start();
                   }
                 });
               }}
@@ -3163,7 +3150,7 @@ const ModernPortfolio = () => {
                 modifier: 1,
                 slideShadows: false,
               }}
-              modules={[EffectCoverflow, Autoplay, Zoom]}
+              modules={[EffectCoverflow, Zoom]}
               zoom={typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches ? {
                 maxRatio: 4,
                 minRatio: 1,
@@ -3174,11 +3161,6 @@ const ModernPortfolio = () => {
               rewind={true}
               watchOverflow={false}
               speed={400}
-              autoplay={typeof window !== 'undefined' && window.innerWidth >= 640 ? {
-                delay: 3000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: false,
-              } : false}
             >
                   {(galleryTab === 'showcase' && selectedProject.showcase ? selectedProject.showcase : selectedProject.screenshots).map((src, idx) => (
                     <SwiperSlide
