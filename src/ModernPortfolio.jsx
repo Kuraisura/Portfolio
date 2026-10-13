@@ -3967,9 +3967,35 @@ const ModernPortfolio = () => {
                   className="h-full w-full object-contain"
                   draggable={false}
                 />
+              ) : selectedCertificate.pdfFile ? (
+                <>
+                  <object
+                    data={`${selectedCertificateUrl}#toolbar=0&navpanes=0`}
+                    type="application/pdf"
+                    title={`${selectedCertificate.name} certificate`}
+                    className="h-full w-full"
+                    aria-label={`${selectedCertificate.name} certificate`}
+                  >
+                    <embed
+                      src={`${selectedCertificateUrl}#toolbar=0&navpanes=0`}
+                      type="application/pdf"
+                      className="h-full w-full"
+                    />
+                  </object>
+                  <div className="mt-2 flex justify-center">
+                    <a
+                      href={selectedCertificateUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-colors"
+                    >
+                      Open PDF in new tab
+                    </a>
+                  </div>
+                </>
               ) : (
                 <iframe
-                  src={`${selectedCertificateUrl}${selectedCertificate.pdfFile ? '#toolbar=0&navpanes=0' : ''}`}
+                  src={selectedCertificateUrl}
                   title={`${selectedCertificate.name} certificate`}
                   className="h-full w-full rounded-xl border-0 bg-white"
                 />
