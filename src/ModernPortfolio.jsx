@@ -1071,12 +1071,37 @@ const ModernPortfolio = () => {
 
   useEffect(() => {
     if (!selectedCertificate) return undefined;
-    const closeOnEscape = (event) => {
+    const onKeyDown = (event) => {
       if (event.key === 'Escape') setSelectedCertificate(null);
+      if (event.key === 'ArrowLeft') {
+        const idx = certificates.findIndex(c => c === selectedCertificate);
+        setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
+      }
+      if (event.key === 'ArrowRight') {
+        const idx = certificates.findIndex(c => c === selectedCertificate);
+        setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
+      }
     };
-    document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
   }, [selectedCertificate]);
+
+  useEffect(() => {
+    if (!selectedAchievement) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setSelectedAchievement(null);
+      if (event.key === 'ArrowLeft') {
+        const idx = achievements.findIndex(a => a === selectedAchievement);
+        setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
+      }
+      if (event.key === 'ArrowRight') {
+        const idx = achievements.findIndex(a => a === selectedAchievement);
+        setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [selectedAchievement]);
 
   // Record this visit once, then refresh the displayed total automatically.
   useEffect(() => {
@@ -3905,13 +3930,39 @@ const ModernPortfolio = () => {
             onTouchMove={(event) => event.stopPropagation()}
             className="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto overscroll-contain bg-white rounded-2xl md:rounded-[32px] shadow-2xl animate-scale-in outline-none"
           >
-            <button
-              onClick={() => setSelectedAchievement(null)}
-              className="sticky top-4 float-right mr-4 md:mr-6 z-10 w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
-              aria-label="Close achievement preview"
-            >
-              <X size={20} />
-            </button>
+            <div className="sticky top-4 z-10 flex items-center justify-between mr-4 md:mr-6 float-right">
+              <div className="flex gap-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = achievements.findIndex(a => a === selectedAchievement);
+                    setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
+                  }}
+                  className="w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
+                  aria-label="Previous achievement"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = achievements.findIndex(a => a === selectedAchievement);
+                    setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
+                  }}
+                  className="w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
+                  aria-label="Next achievement"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+              <button
+                onClick={() => setSelectedAchievement(null)}
+                className="w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
+                aria-label="Close achievement preview"
+              >
+                <X size={20} />
+              </button>
+            </div>
             <div className="p-3 sm:p-6 md:p-10 pt-16 md:pt-10">
               <div className="bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center">
                 <img
@@ -3948,9 +3999,35 @@ const ModernPortfolio = () => {
             className="relative flex h-[92dvh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b1220] shadow-2xl outline-none sm:rounded-[28px]"
           >
             <div className="flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
-              <div className="min-w-0">
-                <h2 id="certificate-modal-title" className="truncate text-sm font-bold text-white sm:text-base">{selectedCertificate.name}</h2>
-                <p className="truncate text-xs text-white/60">{selectedCertificate.issuer}</p>
+              <div className="min-w-0 flex items-center gap-3">
+                <div className="flex gap-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const idx = certificates.findIndex(c => c === selectedCertificate);
+                      setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
+                    }}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+                    aria-label="Previous certificate"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const idx = certificates.findIndex(c => c === selectedCertificate);
+                      setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
+                    }}
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+                    aria-label="Next certificate"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+                <div className="min-w-0">
+                  <h2 id="certificate-modal-title" className="truncate text-sm font-bold text-white sm:text-base">{selectedCertificate.name}</h2>
+                  <p className="truncate text-xs text-white/60">{selectedCertificate.issuer}</p>
+                </div>
               </div>
               <button
                 type="button"
