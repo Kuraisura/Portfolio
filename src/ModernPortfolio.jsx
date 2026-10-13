@@ -1907,7 +1907,7 @@ const ModernPortfolio = () => {
     ? selectedCertificate.imageFile
       ? `/Certificates/${encodeURIComponent(selectedCertificate.imageFile)}`
       : selectedCertificate.pdfFile
-        ? `/Certificates/${encodeURIComponent(selectedCertificate.pdfFile)}`
+        ? `${window.location.origin}/Certificates/${encodeURIComponent(selectedCertificate.pdfFile)}`
         : selectedCertificate.credentialUrl?.includes('drive.google.com/file/d/')
           ? selectedCertificate.credentialUrl.replace(/\/view(?:\?.*)?$/, '/preview')
           : selectedCertificate.credentialUrl
@@ -3969,19 +3969,11 @@ const ModernPortfolio = () => {
                 />
               ) : selectedCertificate.pdfFile ? (
                 <>
-                  <object
-                    data={`${selectedCertificateUrl}#toolbar=0&navpanes=0`}
-                    type="application/pdf"
+                  <iframe
+                    src={`https://docs.google.com/viewer?url=${encodeURIComponent(selectedCertificateUrl)}&embedded=true`}
                     title={`${selectedCertificate.name} certificate`}
-                    className="h-full w-full"
-                    aria-label={`${selectedCertificate.name} certificate`}
-                  >
-                    <embed
-                      src={`${selectedCertificateUrl}#toolbar=0&navpanes=0`}
-                      type="application/pdf"
-                      className="h-full w-full"
-                    />
-                  </object>
+                    className="h-full w-full rounded-xl border-0 bg-white"
+                  />
                   <div className="mt-2 flex justify-center">
                     <a
                       href={selectedCertificateUrl}
