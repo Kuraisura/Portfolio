@@ -1111,6 +1111,8 @@ const ModernPortfolio = () => {
     };
   }, []);
 
+  const OWNER_NAME = 'mark crysler baddo';
+
   const validateForm = () => {
     const name = nameRef.current?.value?.trim() || '';
     const email = emailRef.current?.value?.trim() || '';
@@ -1120,6 +1122,9 @@ const ModernPortfolio = () => {
     if (!name) errors.name = "Name is required";
     else if (name.length > 30) errors.name = "Name must be 30 characters or less";
     else if (/[^a-zA-Z\s]/.test(name)) errors.name = "Name can only contain letters and spaces";
+    else if (name.toLowerCase() === OWNER_NAME || name.toLowerCase().replace(/\s+/g, ' ') === OWNER_NAME) {
+      errors.name = "Please use your own name, not the owner's";
+    }
 
     if (!email) {
       errors.email = "Email is required";
@@ -1277,7 +1282,7 @@ const ModernPortfolio = () => {
       expirationDate: "None",
       credentialId: "BS1RNYXX33UX",
       credentialUrl: "https://www.coursera.org/account/accomplishments/professional-cert/BS1RNYXX33UX",
-      pdfFile: "Coursera BS1RNYXX33UX.pdf"
+      imageFile: "Coursera BS1RNYXX33UX.png"
     },
     {
       name: "Cyber Security 101 Certificate",
@@ -1286,7 +1291,7 @@ const ModernPortfolio = () => {
       expirationDate: "December 2028",
       credentialId: "THM-J9VDC478VD",
       credentialUrl: "https://tryhackme.com/certificate/THM-J9VDC478VD",
-      pdfFile: "THM-J9VDC478VD.pdf"
+      imageFile: "THM-J9VDC478VD.png"
     },
     {
       name: "Advent of Cyber 2025",
@@ -1295,7 +1300,7 @@ const ModernPortfolio = () => {
       expirationDate: "December 2028",
       credentialId: "THM-LILQEVPEOT",
       credentialUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-LILQEVPEOT.pdf",
-      pdfFile: "THM-LILQEVPEOT.pdf"
+      imageFile: "THM-LILQEVPEOT.png"
     },
     {
       name: "Pre Security Certificate",
@@ -1304,7 +1309,7 @@ const ModernPortfolio = () => {
       expirationDate: "December 2028",
       credentialId: "THM-WG2PKAMX71",
       credentialUrl: "https://tryhackme.com/certificate/THM-WG2PKAMX71",
-      pdfFile: "THM-WG2PKAMX71.pdf"
+      imageFile: "THM-WG2PKAMX71.png"
     },
     {
       name: "Systems Administration",
@@ -1312,8 +1317,7 @@ const ModernPortfolio = () => {
       issueDate: "June 24, 2023",
       expirationDate: "None",
       credentialId: "None",
-      credentialUrl: "https://drive.google.com/file/d/1jfXa_wZpDPzYskv8wagWrz9LXVu91knK/view?usp=sharing",
-      pdfFile: ""
+      credentialUrl: "https://drive.google.com/file/d/1jfXa_wZpDPzYskv8wagWrz9LXVu91knK/view?usp=sharing"
     },
     {
       name: "First Line Support Certificate",
@@ -1349,7 +1353,7 @@ const ModernPortfolio = () => {
       expirationDate: "2029",
       credentialId: "THM-3CKQ2SIEX3",
       credentialUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-3CKQ2SIEX3.pdf",
-      pdfFile: "THM-3CKQ2SIEX3.pdf"
+      imageFile: "THM-3CKQ2SIEX3.png"
     },
     {
       name: "Hacker Holidays Participation",
@@ -1358,7 +1362,7 @@ const ModernPortfolio = () => {
       expirationDate: "2029",
       credentialId: "THM-MCQ79KBFWB",
       credentialUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-MCQ79KBFWB.pdf",
-      pdfFile: "THM-MCQ79KBFWB.pdf"
+      imageFile: "THM-MCQ79KBFWB.png"
     }
   ];
 
@@ -1906,11 +1910,9 @@ const ModernPortfolio = () => {
   const selectedCertificateUrl = selectedCertificate
     ? selectedCertificate.imageFile
       ? `/Certificates/${encodeURIComponent(selectedCertificate.imageFile)}`
-      : selectedCertificate.pdfFile
-        ? `${window.location.origin}/Certificates/${encodeURIComponent(selectedCertificate.pdfFile)}`
-        : selectedCertificate.credentialUrl?.includes('drive.google.com/file/d/')
-          ? selectedCertificate.credentialUrl.replace(/\/view(?:\?.*)?$/, '/preview')
-          : selectedCertificate.credentialUrl
+      : selectedCertificate.credentialUrl?.includes('drive.google.com/file/d/')
+        ? selectedCertificate.credentialUrl.replace(/\/view(?:\?.*)?$/, '/preview')
+        : selectedCertificate.credentialUrl
     : '';
 
   const navItems = ['About', 'Projects', 'Skills', 'Education', 'Achievements', 'Seminars', 'Certificates', 'Contact'];
@@ -3967,24 +3969,6 @@ const ModernPortfolio = () => {
                   className="h-full w-full object-contain"
                   draggable={false}
                 />
-              ) : selectedCertificate.pdfFile ? (
-                <>
-                  <iframe
-                    src={`https://docs.google.com/viewer?url=${encodeURIComponent(selectedCertificateUrl)}&embedded=true`}
-                    title={`${selectedCertificate.name} certificate`}
-                    className="h-full w-full rounded-xl border-0 bg-white"
-                  />
-                  <div className="mt-2 flex justify-center">
-                    <a
-                      href={selectedCertificateUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-colors"
-                    >
-                      Open PDF in new tab
-                    </a>
-                  </div>
-                </>
               ) : (
                 <iframe
                   src={selectedCertificateUrl}
