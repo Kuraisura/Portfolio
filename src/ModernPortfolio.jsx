@@ -36,7 +36,8 @@ import {
   GalleryHorizontalEnd,
   Grid3X3,
   Eye,
-  Briefcase
+  Briefcase,
+  FileDown
 } from 'lucide-react';
 
 const supabase = createClient(
@@ -2687,6 +2688,16 @@ const ModernPortfolio = () => {
           })}
         </div>
       </nav>
+
+       <a
+         href="/resume/Mark_Crysler_Baddo_RESUME.pdf"
+         download="Mark_Crysler_Baddo_RESUME.pdf"
+         aria-label="Download resume PDF"
+         title="Download Resume (PDF)"
+         className="!fixed top-4 right-[4.5rem] lg:top-8 lg:right-[6rem] z-[60] w-11 h-11 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-lg flex items-center justify-center hover:-translate-y-1 hover:shadow-xl transition-all duration-300 spark-button"
+       >
+         <FileDown size={18} />
+       </a>
 
        <button
          type="button"

@@ -33,7 +33,11 @@
     background: var(--bg);
     padding: 16mm 15mm;
     box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
   }
+  .page:last-of-type { break-after: auto; }
+  .work-item, .project-item, .section-title { break-inside: avoid; }
 
   /* ── Header ── */
   .header {
@@ -196,7 +200,20 @@
   /* ── Print ── */
   @media print {
     body { background: none; }
-    .page { margin: 0; box-shadow: none; width: 100%; min-height: auto; padding: 12mm 13mm; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      width: 210mm;
+      min-height: 297mm;
+      height: 297mm;
+      padding: 14mm 15mm;
+      break-after: page;
+      page-break-after: always;
+    }
+    .page:last-of-type {
+      break-after: auto;
+      page-break-after: auto;
+    }
   }
   @page { size: A4; margin: 0; }
 </style>
@@ -272,6 +289,10 @@
       </ul>
     </div>
   </div>
+
+</div><!-- /page 1 -->
+
+<div class="page">
 
   <!-- PROJECTS -->
   <div class="section">
@@ -354,6 +375,16 @@
         <li>Deployed as a Docker containerized service with 9 API endpoints.</li>
       </ul>
     </div>
+
+  </div>
+
+</div><!-- /page 2 -->
+
+<div class="page">
+
+  <!-- PROJECTS (continued) -->
+  <div class="section">
+    <div class="section-title">Featured Projects <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted);">(continued)</span></div>
 
     <div class="project-item">
       <div class="project-header">
