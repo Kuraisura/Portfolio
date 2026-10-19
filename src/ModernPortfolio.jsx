@@ -1388,6 +1388,33 @@ const ModernPortfolio = () => {
       credentialId: "THM-MCQ79KBFWB",
       credentialUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-MCQ79KBFWB.pdf",
       imageFile: "THM-MCQ79KBFWB.png"
+    },
+    {
+      name: "Computer Hardware Basics",
+      issuer: "Cisco Networking Academy",
+      issueDate: "September 21, 2026",
+      expirationDate: "None",
+      credentialId: "25e654ca-689d-4176-9d3e-c4cdfe665e8",
+      credentialUrl: "",
+      imageFile: "ComputerHardwareBasics.png"
+    },
+    {
+      name: "Networking Basics",
+      issuer: "Cisco Networking Academy",
+      issueDate: "September 29, 2026",
+      expirationDate: "None",
+      credentialId: "e10b255b-9480-4439-bb7d-e57b0246c0bb",
+      credentialUrl: "",
+      imageFile: "NetworkingBasics.png"
+    },
+    {
+      name: "Operating Systems Basics",
+      issuer: "Cisco Networking Academy",
+      issueDate: "September 29, 2026",
+      expirationDate: "None",
+      credentialId: "6857240f-dcd2-4427-b18e-5ebec4ae750b",
+      credentialUrl: "",
+      imageFile: "OperatingSystemsBasics.png"
     }
   ];
 
