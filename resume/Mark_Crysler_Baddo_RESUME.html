@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mark Crysler Baddo — Resume</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --text: #1a1a2e;
+    --text-light: #4a4a68;
+    --text-muted: #7a7a96;
+    --accent: #2563eb;
+    --border: #e2e2ee;
+    --bg: #ffffff;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    background: #f0f0f5;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 216mm;
+    min-height: 279mm;
+    margin: 20px auto;
+    background: var(--bg);
+    padding: 16mm 15mm;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2.5px solid var(--text);
+    margin-bottom: 18px;
+  }
+
+  .profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    flex-shrink: 0;
+  }
+
+  .header-text { flex: 1; }
+
+  .header-text h1 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .header-text .role {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .header-contact {
+    font-size: 10.5px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .header-contact a { color: var(--text-light); text-decoration: none; }
+  .header-contact a:hover { color: var(--accent); }
+  .header-contact span { margin-right: 14px; }
+
+  /* ── Sections ── */
+  .section { margin-bottom: 16px; }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    padding-bottom: 3px;
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  /* ── Summary ── */
+  .summary { font-size: 11px; color: var(--text-light); line-height: 1.6; }
+
+  /* ── Skills ── */
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 24px; }
+  .skill-row { display: flex; gap: 8px; font-size: 10.5px; line-height: 1.5; }
+  .skill-label { font-weight: 600; color: var(--text); min-width: 105px; flex-shrink: 0; }
+  .skill-items { color: var(--text-light); }
+
+  /* ── Education ── */
+  .edu-item { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .edu-item:last-child { margin-bottom: 0; }
+  .edu-left { flex: 1; }
+  .edu-degree { font-size: 11.5px; font-weight: 700; color: var(--text); }
+  .edu-school { font-size: 10.5px; color: var(--text-light); }
+  .edu-year { font-size: 10px; font-weight: 600; color: var(--text-muted); white-space: nowrap; margin-left: 16px; padding-top: 1px; }
+
+  /* ── Work Experience ── */
+  .work-item { margin-bottom: 12px; }
+  .work-item:last-child { margin-bottom: 0; }
+  .work-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px; }
+  .work-title { font-size: 12px; font-weight: 700; color: var(--text); }
+  .work-title .position { font-weight: 500; color: var(--text-light); }
+  .work-date { font-size: 10px; color: var(--text-muted); white-space: nowrap; margin-left: 12px; }
+  .work-company { font-size: 10.5px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+  .work-bullets { list-style: none; }
+  .work-bullets li {
+    font-size: 10.5px;
+    color: var(--text-light);
+    line-height: 1.5;
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 2px;
+  }
+  .work-bullets li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ── Projects ── */
+  .project-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f2f2f7; }
+  .project-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .project-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px; }
+  .project-name { font-size: 11.5px; font-weight: 700; color: var(--text); }
+  .project-meta { font-size: 9.5px; color: var(--text-muted); }
+  .project-meta .position { color: var(--accent); font-weight: 600; }
+  .project-date { font-size: 10px; color: var(--text-muted); white-space: nowrap; margin-left: 12px; }
+  .project-stack { font-size: 9.5px; color: var(--accent); font-style: italic; margin-bottom: 3px; font-weight: 500; }
+  .project-bullets { list-style: none; }
+  .project-bullets li {
+    font-size: 10.5px;
+    color: var(--text-light);
+    line-height: 1.5;
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 1px;
+  }
+  .project-bullets li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ── Certificates ── */
+  .cert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 20px; }
+  .cert-item { font-size: 10.5px; line-height: 1.5; display: flex; justify-content: space-between; }
+  .cert-name { color: var(--text); font-weight: 500; }
+  .cert-year { color: var(--text-muted); font-size: 10px; white-space: nowrap; margin-left: 8px; }
+
+  /* ── Achievements ── */
+  .achieve-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 20px; }
+  .achieve-list li {
+    font-size: 10.5px;
+    color: var(--text-light);
+    line-height: 1.5;
+    padding-left: 10px;
+    position: relative;
+  }
+  .achieve-list li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 9px;
+  }
+
+  /* ── Links ── */
+  .links-row { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 10.5px; }
+  .links-row a { color: var(--accent); text-decoration: none; }
+  .links-row a:hover { text-decoration: underline; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: none; }
+    .page { margin: 0; box-shadow: none; width: 100%; min-height: auto; padding: 12mm 13mm; }
+  }
+  @page { size: A4; margin: 0; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="file:///F:/kuraisler-portfolio-main/public/Portfolio/profile.jpg" alt="Mark Crysler Baddo" class="profile-pic">
+    <div class="header-text">
+      <h1>Mark Crysler Baddo</h1>
+      <div class="role">Full-Stack Developer</div>
+      <div class="header-contact">
+        <span>Silang, Cavite, Philippines</span>
+        <span><a href="mailto:kuraisler.dev@gmail.com">kuraisler.dev@gmail.com</a></span>
+        <span>+63 945 293 4417</span>
+        <span><a href="https://kuraisler.xyz">kuraisler.xyz</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="section">
+    <div class="section-title">Summary</div>
+    <p class="summary">
+      Full-stack developer with 4+ years of hands-on project experience building web, mobile, desktop, IoT, and game applications. Shipped 16+ production-grade projects as a solo developer, including RFID attendance systems deployed at a real institution, AI-powered study and music platforms, disaster preparedness apps, and enterprise point-of-sale systems. Proficient in C#, .NET, React, Next.js, Kotlin, Flutter, and Python with strong focus on clean architecture, real-time systems, and cross-platform delivery.
+    </p>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section">
+    <div class="section-title">Technical Skills</div>
+    <div class="skills-grid">
+      <div class="skill-row"><span class="skill-label">Languages</span><span class="skill-items">JavaScript, TypeScript, C#, Python, Java, Kotlin, Dart, HTML5/CSS3</span></div>
+      <div class="skill-row"><span class="skill-label">Frontend</span><span class="skill-items">React, Next.js, Tailwind CSS, Vite, Framer Motion, Radix UI</span></div>
+      <div class="skill-row"><span class="skill-label">Mobile & Desktop</span><span class="skill-items">Android SDK, Jetpack Compose, Flutter, Capacitor, WPF, Windows Forms, .NET, Unity</span></div>
+      <div class="skill-row"><span class="skill-label">Backend & DB</span><span class="skill-items">FastAPI, Flask, Firebase, Supabase, PostgreSQL, SQLite, SQL Server, Redis</span></div>
+      <div class="skill-row"><span class="skill-label">DevOps & Tools</span><span class="skill-items">Docker, Git, GitHub Actions, Cloudflare R2, Vercel, FFmpeg, OpenCV</span></div>
+      <div class="skill-row"><span class="skill-label">AI / ML</span><span class="skill-items">Groq, Gemini, OpenRouter, Cerebras, Demucs, Tesseract OCR, face_recognition</span></div>
+    </div>
+  </div>
+
+  <!-- WORK EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">Work Experience</div>
+
+    <div class="work-item">
+      <div class="work-header">
+        <span class="work-title">MIS Technical Support &amp; Software Developer <span class="position">| Internship</span></span>
+        <span class="work-date">Jan 2026 — May 2026</span>
+      </div>
+      <div class="work-company">STI College Santa Rosa</div>
+      <ul class="work-bullets">
+        <li>Developed and deployed STIRAMS — a full RFID attendance management system (Next.js web dashboard + WPF desktop client) — serving 86 faculty and staff with real-time tap-in/out monitoring and offline sync.</li>
+        <li>Built automated Daily Time Record (DTR) generation, replacing manual calculations with instant, accurate reports for printing during payroll periods.</li>
+        <li>Maintained and optimized 165 computer units across 4 laboratories, performing system diagnostics, hardware inventories, and OS deployments to ensure operational readiness.</li>
+        <li>Provided AV setup and technical support for campus events, including a 12-hour sprint to deliver STITimer for a college competition.</li>
+      </ul>
+    </div>
+
+    <div class="work-item">
+      <div class="work-header">
+        <span class="work-title">Independent Full-Stack Developer <span class="position">| Freelance / Personal</span></span>
+        <span class="work-date">2022 — Present</span>
+      </div>
+      <div class="work-company">Self-Employed</div>
+      <ul class="work-bullets">
+        <li>Shipped 16+ production applications across Android, iOS, Web, Windows Forms, and Unity, covering domains from education and healthcare to e-commerce and disaster response.</li>
+        <li>Built AI-integrated products using multi-provider LLM chains (Groq, Gemini, OpenRouter) for quiz generation, tutoring, and music stem separation.</li>
+        <li>Deployed full-stack solutions with Supabase, Firebase, PostgreSQL, and Docker CI/CD on Vercel, Render, and Cloudflare.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-title">Featured Projects</div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">SeismicWatch</span> <span class="project-meta">— Personal Project | <span class="position">Solo Developer</span></span></span>
+        <span class="project-date">2026</span>
+      </div>
+      <div class="project-stack">Kotlin, Jetpack Compose, Room + SQLCipher, Firebase, Supabase, MapLibre, Nearby Connections</div>
+      <ul class="project-bullets">
+        <li>Designed and developed an Android disaster-preparedness app from scratch, integrating Firebase and Supabase to deliver real-time earthquake and typhoon alerts from USGS/PHIVOLCS data feeds.</li>
+        <li>Built family location sharing with Life360-style circles, emergency SOS (app/tile/widget/power-button), and offline P2P mesh relay via Nearby Connections for no-network scenarios.</li>
+        <li>Currently in active development and informal beta testing with a small group of users.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">Wiz</span> <span class="project-meta">— AI Study Platform | <span class="position">Solo Developer</span></span></span>
+        <span class="project-date">2026</span>
+      </div>
+      <div class="project-stack">React 19, Vite, Tailwind CSS, Supabase, Capacitor, Groq, Gemini, Cerebras, Tesseract.js, PayMongo</div>
+      <ul class="project-bullets">
+        <li>Built a cross-platform study app that auto-generates quizzes from PDF/DOCX/PPTX documents using a multi-provider AI chain with fallback (Groq → Gemini → Cerebras → OpenRouter).</li>
+        <li>Implemented Scan-to-Quiz camera mode with hybrid OCR (Tesseract.js), spaced-repetition flashcards, and a cloud-synced document library.</li>
+        <li>Integrated PayMongo subscriptions for Pro tier monetization with credit-based AI usage tracking.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">STIRAMS (Web + WPF)</span> <span class="project-meta">— Capstone | <span class="position">Technical Lead / Full-Stack Developer</span></span></span>
+        <span class="project-date">2025–2026</span>
+      </div>
+      <div class="project-stack">Next.js 14, TypeScript, Tailwind CSS 4, WPF, .NET 8, PostgreSQL, SQLite, Dapper, Supabase</div>
+      <ul class="project-bullets">
+        <li>Led development of a full RFID attendance system with a Next.js web dashboard and WPF desktop client, giving admins real-time oversight of 86 faculty and staff at STI College Santa Rosa.</li>
+        <li>Architected an offline-first sync engine with GUID conflict resolution linking .NET WPF terminals to PostgreSQL via Supabase — no data loss during network outages.</li>
+        <li>Automated DTR generation and leave management workflows, replacing manual calculations with instant reports for payroll processing.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">Musikk</span> <span class="project-meta">— AI Music App | <span class="position">Solo Developer</span></span></span>
+        <span class="project-date">2026</span>
+      </div>
+      <div class="project-stack">Kotlin, Jetpack Compose, Media3 ExoPlayer, FastAPI, Demucs, Firebase, Cloudflare R2, Retrofit</div>
+      <ul class="project-bullets">
+        <li>Developed an AI-powered Android app that splits songs into individual instrument stems using Demucs/HTDemucs with a DAW-like mixer (per-stem volume, mute, solo).</li>
+        <li>Implemented audio effects (EQ, reverb, delay, chorus, compression) and practice tools (A/B loop, metronome, chord reader, key transposer).</li>
+        <li>Built credit-based AI usage tracking with Firebase Auth and Cloudflare R2 for audio storage.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">RN Ready</span> <span class="project-meta">— Open-Source Study App | <span class="position">Solo Developer</span></span></span>
+        <span class="project-date">2026</span>
+      </div>
+      <div class="project-stack">Flutter 3, Dart, Riverpod, Groq, Gemini, OpenRouter, Flutter Markdown</div>
+      <ul class="project-bullets">
+        <li>Built a nursing board exam (PNLE/NCLEX) review app with AI tutoring via multi-provider fallback (Groq → Gemini → OpenRouter).</li>
+        <li>Created interactive anatomy quizzes with labeled diagrams, AI-assisted care plan generation, and dynamic MCQ banks with progress tracking.</li>
+        <li>Deployed across Android, iOS, Web, and Windows from a single Flutter codebase.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">YT Converter</span> <span class="project-meta">— Media Tool | <span class="position">Solo Developer</span></span></span>
+        <span class="project-date">2026</span>
+      </div>
+      <div class="project-stack">Next.js 16, React 19, TypeScript, FFmpeg, yt-dlp, Cloudflare R2, Upstash Redis, Docker</div>
+      <ul class="project-bullets">
+        <li>Built a queue-based YouTube to MP3/MP4 converter with playlist support, quality selection (128–320kbps / 360–1080p), and real-time progress polling.</li>
+        <li>Implemented async job processing with Upstash Redis and scheduled cleanup of Cloudflare R2 storage.</li>
+        <li>Deployed as a Docker containerized service with 9 API endpoints.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">St. Benedict Hospital Management System</span> <span class="project-meta">— School Project | <span class="position">Technical Lead / Full-Stack Developer</span></span></span>
+        <span class="project-date">2024–2025</span>
+      </div>
+      <div class="project-stack">C#, .NET Framework 4.7.2, Windows Forms, SQL Server, iTextSharp, QRCoder, Guna.UI2</div>
+      <ul class="project-bullets">
+        <li>Led a team of 8 developers to design and build a hospital management system covering patient registration, appointment scheduling, medical history tracking, and automated billing.</li>
+        <li>Built the core billing and prescription module in .NET Framework 4.7.2, implementing PDF receipt generation with iTextSharp and QR code verification.</li>
+        <li>Shipped across 8 iterative versions with role-based dashboards for doctors and front-desk staff.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">Pet Haven</span> <span class="project-meta">— School Project | <span class="position">Technical Lead / Full-Stack Developer</span></span></span>
+        <span class="project-date">2023–2024</span>
+      </div>
+      <div class="project-stack">C#, .NET Framework 4.7.2, Windows Forms, SQL Server, Guna.UI2, iTextSharp, QRCoder</div>
+      <ul class="project-bullets">
+        <li>Directed a team of 6 to build a pet shop and services management system defining the technical architecture for inventory, customer tracking, and billing.</li>
+        <li>Implemented automated receipt generation with QR codes and real-time sales dashboard using Guna UI2.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">Neural Lens</span> <span class="project-meta">— Facial Recognition System | <span class="position">Solo Developer</span></span></span>
+        <span class="project-date">2025</span>
+      </div>
+      <div class="project-stack">Python, Flask, OpenCV, face_recognition, SQLite, Docker, GitHub Actions, bcrypt</div>
+      <ul class="project-bullets">
+        <li>Built an enterprise facial recognition attendance system with encrypted 128-dim face encodings (no raw images stored) and AES-256-GCM encryption.</li>
+        <li>Implemented role-based access (admin/manager/viewer), auto clock-in/out, and ON-TIME/LATE/UNDERTIME status calculation.</li>
+        <li>Containerized with Docker and automated CI/CD via GitHub Actions.</li>
+      </ul>
+    </div>
+
+    <div class="project-item">
+      <div class="project-header">
+        <span><span class="project-name">Silid 12:01</span> <span class="project-meta">— Unity Game | <span class="position">Solo Developer</span></span></span>
+        <span class="project-date">2025</span>
+      </div>
+      <div class="project-stack">Unity 6, C#, URP, NavMesh, Barracuda, Unity Input System, Timeline</div>
+      <ul class="project-bullets">
+        <li>Created a first-person survival horror game in an abandoned school with a Weeping Angel-style enemy that freezes when watched by the player.</li>
+        <li>Wrote 130+ C# scripts covering AI pathfinding (NavMesh), visibility detection, flashlight/stamina mechanics, and a cutscene system.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- CERTIFICATES -->
+  <div class="section">
+    <div class="section-title">Certifications</div>
+    <div class="cert-grid">
+      <div class="cert-item"><span class="cert-name">Google IT Support Professional Certificate</span><span class="cert-year">Coursera · 2026</span></div>
+      <div class="cert-item"><span class="cert-name">Cyber Security 101</span><span class="cert-year">TryHackMe · 2025</span></div>
+      <div class="cert-item"><span class="cert-name">Pre Security Certificate</span><span class="cert-year">TryHackMe · 2025</span></div>
+      <div class="cert-item"><span class="cert-name">Computer Hardware Basics</span><span class="cert-year">Cisco · 2026</span></div>
+      <div class="cert-item"><span class="cert-name">Networking Basics</span><span class="cert-year">Cisco · 2026</span></div>
+      <div class="cert-item"><span class="cert-name">Operating Systems Basics</span><span class="cert-year">Cisco · 2026</span></div>
+      <div class="cert-item"><span class="cert-name">IT Support Foundations</span><span class="cert-year">ServiceDesk Sim · 2026</span></div>
+      <div class="cert-item"><span class="cert-name">Help Desk Technician</span><span class="cert-year">ServiceDesk Sim · 2026</span></div>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS -->
+  <div class="section">
+    <div class="section-title">Achievements</div>
+    <ul class="achieve-list">
+      <li>3rd Runner Up — Codefest 2024, STI College Santa Rosa</li>
+      <li>With Honors — Senior High School (2022)</li>
+      <li>1st Place, Math Investigatory Project (Division) — 2017</li>
+      <li>With Honors — Grade 10 (2020)</li>
+      <li>Regional Participant, Math Investigatory Project (Benguet) — 2017</li>
+      <li>With Honors — Grade 9 (2019)</li>
+      <li>With Honors — Grade 8 (2018)</li>
+      <li>With Honors — Grade 7 (2016)</li>
+    </ul>
+  </div>
+
+  <!-- LINKS -->
+  <div class="section">
+    <div class="section-title">Links</div>
+    <div class="links-row">
+      <a href="https://github.com/Kuraisura">GitHub</a>
+      <a href="https://www.linkedin.com/in/mark-crysler-baddo-b14999364/">LinkedIn</a>
+      <a href="https://kuraisler.xyz">Portfolio</a>
+      <a href="https://tryhackme.com/p/kuraisler.dev">TryHackMe</a>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

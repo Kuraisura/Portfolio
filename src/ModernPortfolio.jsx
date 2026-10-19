@@ -35,7 +35,8 @@ import {
   ArrowDownWideNarrow,
   GalleryHorizontalEnd,
   Grid3X3,
-  Eye
+  Eye,
+  Briefcase
 } from 'lucide-react';
 
 const supabase = createClient(
@@ -949,7 +950,7 @@ const ModernPortfolio = () => {
   // Detect the section crossing the middle of the viewport without a
   // layout-reading scroll handler on every frame.
   useEffect(() => {
-    const sectionIds = ['about', 'projects', 'skills', 'education', 'achievements', 'seminars', 'certificates', 'contact'];
+    const sectionIds = ['about', 'projects', 'skills', 'work-experience', 'education', 'achievements', 'seminars', 'certificates', 'contact'];
     const observer = new IntersectionObserver((entries) => {
       if (navScrollActiveRef.current) return;
       const activeEntry = entries.find((entry) => entry.isIntersecting);
@@ -1472,6 +1473,32 @@ const ModernPortfolio = () => {
       school: "San Francisco Elementary School",
       year: "2009 — 2012",
       desc: "San Francisco, Luna, Apayao, Philippines."
+    }
+  ];
+
+  const workExperience = [
+    {
+      role: 'MIS Technical Support & Software Developer',
+      type: 'Internship',
+      company: 'STI College Santa Rosa',
+      period: 'Jan 2026 — May 2026',
+      bullets: [
+        'Developed and deployed STIRAMS — a full RFID attendance management system (Next.js web dashboard + WPF desktop client) — serving 86 faculty and staff with real-time tap-in/out monitoring and offline sync.',
+        'Built automated Daily Time Record (DTR) generation, replacing manual calculations with instant, accurate reports for printing during payroll periods.',
+        'Maintained and optimized 165 computer units across 4 laboratories, performing system diagnostics, hardware inventories, and OS deployments to ensure operational readiness.',
+        'Provided AV setup and technical support for campus events, including a 12-hour sprint to deliver STITimer for a college competition.'
+      ]
+    },
+    {
+      role: 'Independent Full-Stack Developer',
+      type: 'Freelance / Personal',
+      company: 'Self-Employed',
+      period: '2022 — Present',
+      bullets: [
+        'Shipped 16+ production applications across Android, iOS, Web, Windows Forms, and Unity, covering domains from education and healthcare to e-commerce and disaster response.',
+        'Built AI-integrated products using multi-provider LLM chains (Groq, Gemini, OpenRouter) for quiz generation, tutoring, and music stem separation.',
+        'Deployed full-stack solutions with Supabase, Firebase, PostgreSQL, and Docker CI/CD on Vercel, Render, and Cloudflare.'
+      ]
     }
   ];
 
@@ -2162,7 +2189,8 @@ const ModernPortfolio = () => {
         : selectedCertificate.credentialUrl
     : '';
 
-  const navItems = ['About', 'Projects', 'Skills', 'Certificates', 'Achievements', 'Education', 'Seminars', 'Contact'];
+  const navItems = ['About', 'Projects', 'Skills', 'Work Experience', 'Certificates', 'Achievements', 'Education', 'Seminars', 'Contact'];
+  const navItemId = (item) => item.toLowerCase().replace(/\s+/g, '-');
 
   return (
     <div
@@ -2641,11 +2669,11 @@ const ModernPortfolio = () => {
        <nav className="hidden lg:block fixed top-8 left-1/2 -translate-x-1/2 z-50 w-auto min-w-[600px] max-w-[1120px]">
          <div className="flex w-full items-center justify-center gap-2 bg-white/95 dark:bg-gray-900/95 rounded-full px-3 py-2 shadow-lg border border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
           {navItems.map((item) => {
-            const isActive = activeSection === item.toLowerCase();
+            const isActive = activeSection === navItemId(item);
             return (
             <button 
               key={item} 
-              onClick={() => scrollToSection(item.toLowerCase())}
+              onClick={() => scrollToSection(navItemId(item))}
               className={`relative px-5 py-3 text-sm font-semibold rounded-full transition-all duration-300 shrink-0 ${
                 isActive
                   ? 'shadow-lg shadow-blue-500/30'
@@ -3171,7 +3199,49 @@ const ModernPortfolio = () => {
           </div>
         </section>
 
-        {/* 4. CERTIFICATES SECTION */}
+        {/* 4. WORK EXPERIENCE SECTION */}
+        <section id="work-experience" className="min-h-screen flex items-center py-14 sm:py-20 lg:py-32 scroll-mt-0">
+          <div className="w-full">
+            <div className="flex items-center justify-between mb-6 sm:mb-8 md:mb-12 gap-3">
+              <div className="min-w-0">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                  <Briefcase size={20} className="theme-icon md:w-8 md:h-8 flex-shrink-0" />
+                  Work Experience
+                </h2>
+                <p className="text-xs sm:text-sm md:text-base text-gray-500 mt-1 sm:mt-2">Internship, freelance, and professional development roles.</p>
+              </div>
+              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full flex-shrink-0">{workExperience.length}</span>
+            </div>
+
+            <div className="relative pl-4 sm:pl-6 md:pl-8">
+              <div className="absolute left-0 sm:left-1 md:left-2 top-2 bottom-2 w-px bg-gradient-to-b from-blue-500 via-gray-200 to-transparent" aria-hidden="true"></div>
+              <div className="space-y-4 sm:space-y-5 md:space-y-6">
+                {workExperience.map((job) => (
+                  <article key={job.role} className="group relative bg-white border border-gray-100 rounded-xl sm:rounded-2xl p-3 sm:p-5 md:p-6 hover:border-gray-300 hover:shadow-lg transition-all duration-300">
+                    <span className="absolute -left-4 sm:-left-6 md:-left-8 top-4 sm:top-6 h-2.5 w-2.5 rounded-full bg-blue-500 ring-4 ring-white shadow" aria-hidden="true"></span>
+                    <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1 mb-1">
+                      <div className="min-w-0">
+                        <h3 className="text-sm sm:text-base md:text-lg font-bold text-[#111] leading-snug">{job.role}</h3>
+                        <p className="text-xs sm:text-sm font-semibold text-blue-600">{job.company} <span className="font-normal text-gray-400">· {job.type}</span></p>
+                      </div>
+                      <span className="text-[10px] sm:text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-full whitespace-nowrap">{job.period}</span>
+                    </div>
+                    <ul className="mt-2 sm:mt-3 space-y-1.5 sm:space-y-2">
+                      {job.bullets.map((bullet, index) => (
+                        <li key={index} className="flex gap-2 text-[11px] sm:text-xs md:text-sm text-gray-600 leading-relaxed">
+                          <span className="mt-1.5 h-1 w-1 rounded-full bg-blue-500 flex-shrink-0" aria-hidden="true"></span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. CERTIFICATES SECTION */}
         <section id="certificates" className="min-h-screen flex items-center py-14 sm:py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
             <div className="flex items-center justify-between mb-6 sm:mb-8 md:mb-12 gap-3">
