@@ -407,6 +407,177 @@ function DraggableRow({ category, projects, catColor, reverse, onSelect, externa
   );
 }
 
+function SwipableCarousel({ items, onSelect, reverse, externalPaused, cardWidth = 300, cardHeight = 200, renderCard, gap = 20 }) {
+  const scrollRef = React.useRef(null);
+  const dragging = React.useRef(false);
+  const startX = React.useRef(0);
+  const scrollLeftStart = React.useRef(0);
+  const lastX = React.useRef(0);
+  const velocity = React.useRef(0);
+  const lastTime = React.useRef(0);
+  const didDrag = React.useRef(false);
+  const momentumRaf = React.useRef(null);
+  const autoRaf = React.useRef(null);
+  const hovered = React.useRef(false);
+  const pointerCaptureTarget = React.useRef(null);
+  const speedDirection = reverse ? 1 : -1;
+  const setWidth = React.useMemo(() => items.length * (cardWidth + gap), [items.length, cardWidth, gap]);
+
+  React.useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let alive = true;
+    let visible = false;
+    let lastFrame = 0;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (speedDirection < 0 && el.scrollLeft <= 0) el.scrollLeft = setWidth;
+
+    const tick = (now) => {
+      autoRaf.current = null;
+      if (!alive || !visible || document.visibilityState === 'hidden') return;
+      if (now - lastFrame >= 32 && !dragging.current && !momentumRaf.current && !externalPaused) {
+        const frameScale = lastFrame ? Math.min(2.5, (now - lastFrame) / 16.67) : 1;
+        const speed = speedDirection * (hovered.current ? 0.12 : 0.46) * frameScale;
+        el.scrollLeft += speed;
+        if (speedDirection < 0 && el.scrollLeft <= 0) el.scrollLeft += setWidth;
+        else if (speedDirection > 0 && el.scrollLeft >= setWidth) el.scrollLeft -= setWidth;
+        lastFrame = now;
+      }
+      autoRaf.current = requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (!reduceMotion && visible && document.visibilityState === 'visible' && !autoRaf.current) {
+        lastFrame = performance.now();
+        autoRaf.current = requestAnimationFrame(tick);
+      }
+    };
+    const stop = () => {
+      if (autoRaf.current) cancelAnimationFrame(autoRaf.current);
+      autoRaf.current = null;
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) start();
+      else stop();
+    }, { rootMargin: '160px 0px', threshold: 0 });
+    const onVisibilityChange = () => document.visibilityState === 'visible' ? start() : stop();
+    observer.observe(el);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => {
+      alive = false;
+      stop();
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+  }, [items.length, setWidth, speedDirection, externalPaused]);
+
+  React.useEffect(() => {
+    if ((externalPaused || dragging.current) && momentumRaf.current) {
+      cancelAnimationFrame(momentumRaf.current);
+      momentumRaf.current = null;
+    }
+  }, [externalPaused]);
+
+  const onDown = (e) => {
+    if (momentumRaf.current) {
+      cancelAnimationFrame(momentumRaf.current);
+      momentumRaf.current = null;
+    }
+    dragging.current = true;
+    didDrag.current = false;
+    startX.current = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+    scrollLeftStart.current = scrollRef.current.scrollLeft;
+    lastX.current = startX.current;
+    lastTime.current = performance.now();
+    velocity.current = 0;
+    scrollRef.current.style.cursor = 'grabbing';
+    const card = e.target.closest?.('[data-carousel-card]') || e.currentTarget;
+    pointerCaptureTarget.current = card;
+    card.setPointerCapture?.(e.pointerId);
+  };
+
+  const onMove = (e) => {
+    if (!dragging.current) return;
+    const x = e.clientX ?? 0;
+    const now = performance.now();
+    const dt = Math.max(1, now - lastTime.current);
+    if (dt > 0) velocity.current = Math.max(-28, Math.min(28, (x - lastX.current) / dt * 16));
+    lastX.current = x;
+    lastTime.current = now;
+    if (Math.abs(startX.current - x) > 5) didDrag.current = true;
+    scrollRef.current.scrollLeft = scrollLeftStart.current + (startX.current - x);
+    if (scrollRef.current.scrollLeft <= 0) {
+      scrollRef.current.scrollLeft += setWidth;
+      scrollLeftStart.current += setWidth;
+    } else if (scrollRef.current.scrollLeft >= setWidth) {
+      scrollRef.current.scrollLeft -= setWidth;
+      scrollLeftStart.current -= setWidth;
+    }
+  };
+
+  const onUp = (e) => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    scrollRef.current.style.cursor = 'grab';
+    let vel = velocity.current;
+    const wrap = () => {
+      if (!scrollRef.current) return;
+      const sl = scrollRef.current.scrollLeft;
+      if (sl <= 0) scrollRef.current.scrollLeft += setWidth;
+      else if (sl >= setWidth) scrollRef.current.scrollLeft -= setWidth;
+    };
+    const decay = () => {
+      if (Math.abs(vel) < 0.3 || !scrollRef.current || dragging.current) {
+        momentumRaf.current = null;
+        return;
+      }
+      scrollRef.current.scrollLeft -= vel;
+      wrap();
+      vel *= 0.965;
+      momentumRaf.current = requestAnimationFrame(decay);
+    };
+    if (Math.abs(vel) > 1) momentumRaf.current = requestAnimationFrame(decay);
+    const captureTarget = pointerCaptureTarget.current;
+    if (e?.pointerId != null && captureTarget?.hasPointerCapture?.(e.pointerId)) {
+      captureTarget.releasePointerCapture(e.pointerId);
+    }
+    pointerCaptureTarget.current = null;
+  };
+
+  const repeatedItems = React.useMemo(
+    () => Array.from({ length: 3 }, () => items).flat(),
+    [items]
+  );
+
+  return (
+    <div
+      ref={scrollRef}
+      className="flex overflow-x-auto scrollbar-hide"
+      style={{ cursor: 'grab', WebkitOverflowScrolling: 'touch', touchAction: 'pan-y', overscrollBehaviorInline: 'contain', gap: `${gap}px` }}
+      onPointerEnter={() => { hovered.current = true; }}
+      onPointerLeave={() => { hovered.current = false; }}
+      onPointerDown={onDown}
+      onPointerMove={onMove}
+      onPointerUp={onUp}
+      onPointerCancel={onUp}
+    >
+      {repeatedItems.map((item, i) => (
+        <button
+          type="button"
+          data-carousel-card
+          key={i}
+          onClick={() => { if (!didDrag.current) onSelect(item); }}
+          className="flex-shrink-0 cursor-pointer text-left"
+          style={{ width: cardWidth, height: cardHeight }}
+        >
+          {renderCard(item)}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 const ModernPortfolio = () => {
   const getInitialTheme = () => {
     let savedTheme = null;
@@ -1307,7 +1478,8 @@ const ModernPortfolio = () => {
       expirationDate: "None",
       credentialId: "BS1RNYXX33UX",
       credentialUrl: "https://www.coursera.org/account/accomplishments/professional-cert/BS1RNYXX33UX",
-      imageFile: "Coursera BS1RNYXX33UX.png"
+      imageFile: "Coursera BS1RNYXX33UX.png",
+      pdfFile: "Coursera BS1RNYXX33UX.pdf"
     },
     {
       name: "Cyber Security 101 Certificate",
@@ -1316,7 +1488,8 @@ const ModernPortfolio = () => {
       expirationDate: "December 2028",
       credentialId: "THM-J9VDC478VD",
       credentialUrl: "https://tryhackme.com/certificate/THM-J9VDC478VD",
-      imageFile: "THM-J9VDC478VD.png"
+      imageFile: "THM-J9VDC478VD.png",
+      pdfFile: "THM-J9VDC478VD.pdf"
     },
     {
       name: "Advent of Cyber 2025",
@@ -1325,7 +1498,8 @@ const ModernPortfolio = () => {
       expirationDate: "December 2028",
       credentialId: "THM-LILQEVPEOT",
       credentialUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-LILQEVPEOT.pdf",
-      imageFile: "THM-LILQEVPEOT.png"
+      imageFile: "THM-LILQEVPEOT.png",
+      pdfFile: "THM-LILQEVPEOT.pdf"
     },
     {
       name: "Pre Security Certificate",
@@ -1334,7 +1508,8 @@ const ModernPortfolio = () => {
       expirationDate: "December 2028",
       credentialId: "THM-WG2PKAMX71",
       credentialUrl: "https://tryhackme.com/certificate/THM-WG2PKAMX71",
-      imageFile: "THM-WG2PKAMX71.png"
+      imageFile: "THM-WG2PKAMX71.png",
+      pdfFile: "THM-WG2PKAMX71.pdf"
     },
     {
       name: "Systems Administration",
@@ -1378,7 +1553,8 @@ const ModernPortfolio = () => {
       expirationDate: "2029",
       credentialId: "THM-3CKQ2SIEX3",
       credentialUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-3CKQ2SIEX3.pdf",
-      imageFile: "THM-3CKQ2SIEX3.png"
+      imageFile: "THM-3CKQ2SIEX3.png",
+      pdfFile: "THM-3CKQ2SIEX3.pdf"
     },
     {
       name: "Hacker Holidays Participation",
@@ -1387,7 +1563,8 @@ const ModernPortfolio = () => {
       expirationDate: "2029",
       credentialId: "THM-MCQ79KBFWB",
       credentialUrl: "https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-MCQ79KBFWB.pdf",
-      imageFile: "THM-MCQ79KBFWB.png"
+      imageFile: "THM-MCQ79KBFWB.png",
+      pdfFile: "THM-MCQ79KBFWB.pdf"
     },
     {
       name: "Computer Hardware Basics",
@@ -1396,7 +1573,8 @@ const ModernPortfolio = () => {
       expirationDate: "None",
       credentialId: "25e654ca-689d-4176-9d3e-c4cdfe665e8",
       credentialUrl: "",
-      imageFile: "ComputerHardwareBasics.png"
+      imageFile: "ComputerHardwareBasics.png",
+      pdfFile: "Computer_Hardware_Basics_certificate_kuraisler-dev-gmail-com_25e654ca-689d-4176-9d3e-c4cdfe665e8.pdf"
     },
     {
       name: "Networking Basics",
@@ -1405,7 +1583,8 @@ const ModernPortfolio = () => {
       expirationDate: "None",
       credentialId: "e10b255b-9480-4439-bb7d-e57b0246c0bb",
       credentialUrl: "",
-      imageFile: "NetworkingBasics.png"
+      imageFile: "NetworkingBasics.png",
+      pdfFile: "Networking_Basics_certificate_kuraisler-dev-gmail-com_e10b255b-9480-4439-bb7d-e57b0246c0bb.pdf"
     },
     {
       name: "Operating Systems Basics",
@@ -1414,7 +1593,8 @@ const ModernPortfolio = () => {
       expirationDate: "None",
       credentialId: "6857240f-dcd2-4427-b18e-5ebec4ae750b",
       credentialUrl: "",
-      imageFile: "OperatingSystemsBasics.png"
+      imageFile: "OperatingSystemsBasics.png",
+      pdfFile: "Operating_Systems_Basics_certificate_kuraisler-dev-gmail-com_6857240f-dcd2-4427-b18e-5ebec4ae750b.pdf"
     }
   ];
 
@@ -3037,53 +3217,33 @@ const ModernPortfolio = () => {
               <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{achievements.length}</span>
             </div>
 
-            {/* Mobile: Compact 3x3 grid with image backgrounds */}
-            <div className="sm:hidden grid grid-cols-3 gap-2">
-              {achievements.map((achievement) => (
-                <article
-                  key={`${achievement.title}-${achievement.year}`}
-                  onClick={() => setSelectedAchievement(achievement)}
-                  className="relative aspect-square overflow-hidden rounded-xl cursor-pointer active:scale-95 transition-all duration-200"
-                >
+            <SwipableCarousel
+              items={achievements}
+              onSelect={(achievement) => setSelectedAchievement(achievement)}
+              reverse={false}
+              externalPaused={!!(selectedProject || selectedAchievement || selectedCertificate || fullscreenMode)}
+              cardWidth={300}
+              cardHeight={260}
+              gap={20}
+              renderCard={(achievement) => (
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-gray-100 bg-white group hover:shadow-lg transition-all duration-300">
                   {achievement.image ? (
-                    <img src={achievement.image} alt={achievement.title} className="absolute inset-0 w-full h-full object-cover" />
-                  ) : (
-                    <div className="absolute inset-0 brand-gradient"></div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-2">
-                    <p className="text-[8px] font-bold text-white leading-tight line-clamp-2">{achievement.title}</p>
-                    <p className="text-[7px] text-white/60 mt-0.5">{achievement.year}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            {/* Desktop: Full cards */}
-            <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {achievements.map((achievement) => (
-                <article
-                  key={`${achievement.title}-${achievement.year}`}
-                  onClick={() => setSelectedAchievement(achievement)}
-                  className="group overflow-hidden bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer"
-                >
-                  {achievement.image ? (
-                    <div className="aspect-[16/10] bg-gray-100 overflow-hidden">
-                      <img src={achievement.image} alt={achievement.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="aspect-[16/10] bg-gray-100 overflow-hidden" style={{ height: '60%' }}>
+                      <img src={achievement.image} alt={achievement.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" draggable={false} />
                     </div>
                   ) : (
                     <div className="h-2 brand-gradient"></div>
                   )}
-                  <div className="p-4 sm:p-6">
-                    <div className="flex items-start justify-between gap-3 mb-3">
-                      <h3 className="text-base md:text-lg font-bold text-[#111] leading-snug">{achievement.title}</h3>
-                      <span className="text-xs font-semibold text-gray-400 whitespace-nowrap">{achievement.year}</span>
+                  <div className="p-4" style={{ height: '40%' }}>
+                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                      <h3 className="text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
+                      <span className="text-[10px] font-semibold text-gray-400 whitespace-nowrap mt-0.5">{achievement.year}</span>
                     </div>
-                    <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{achievement.school}</p>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
                   </div>
-                </article>
-              ))}
-            </div>
+                </div>
+              )}
+            />
           </div>
         </section>
 
@@ -3121,45 +3281,44 @@ const ModernPortfolio = () => {
         {/* 7. CERTIFICATES SECTION */}
         <section id="certificates" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
-            <div className="flex items-center mb-8 md:mb-12">
+            <div className="flex items-center justify-between mb-8 md:mb-12">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
                 <Award size={24} className="theme-icon md:w-8 md:h-8" />
                 Certificates
               </h2>
+              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{certificates.length}</span>
             </div>
 
-            {/* Mobile: Compact 3x3 grid */}
-            <div className="sm:hidden grid grid-cols-3 gap-2">
-              {certificates.map((cert, index) => (
-                <button
-                  type="button"
-                  key={index}
-                  onClick={() => setSelectedCertificate(cert)}
-                  className="relative aspect-square flex flex-col items-center justify-center p-2 bg-white border border-gray-100 rounded-xl cursor-pointer active:scale-95 transition-all duration-200 hover:shadow-md text-center overflow-hidden"
-                  aria-label={`Preview ${cert.name}`}
-                >
-                  <div className="p-1.5 bg-gray-50 rounded-lg mb-1.5 group-hover:bg-black group-hover:text-white transition-colors">
-                    <Award size={14} />
-                  </div>
-                  <p className="text-[8px] font-bold text-[#111] leading-tight line-clamp-2">{cert.name}</p>
-                  <p className="text-[7px] text-gray-400 mt-0.5">{cert.issuer}</p>
-                </button>
-              ))}
-            </div>
-
-            {/* Desktop: Full cards */}
-            <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {certificates.map((cert, index) => (
-                <div key={index} className="group p-4 sm:p-6 md:p-8 bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-lg transition-all duration-300">
-                  <div className="flex justify-between items-start mb-3 md:mb-4">
-                    <div className="p-2 md:p-3 bg-gray-50 rounded-lg md:rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                      <Award size={20} className="md:w-6 md:h-6" />
+            <SwipableCarousel
+              items={certificates}
+              onSelect={(cert) => setSelectedCertificate(cert)}
+              reverse={true}
+              externalPaused={!!(selectedProject || selectedAchievement || selectedCertificate || fullscreenMode)}
+              cardWidth={300}
+              cardHeight={300}
+              gap={20}
+              renderCard={(cert) => (
+                <div className="relative w-full h-full p-5 bg-white border border-gray-100 rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 flex flex-col">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="p-2.5 bg-gray-50 rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
+                      <Award size={18} />
                     </div>
+                    {cert.pdfFile && (
+                      <a
+                        href={`/Certificates/${encodeURIComponent(cert.pdfFile)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 px-2.5 py-1.5 text-[10px] font-semibold text-gray-500 hover:text-black bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+                      >
+                        View PDF
+                        <ArrowUpRight size={11} />
+                      </a>
+                    )}
                   </div>
-                  <h3 className="text-base md:text-lg font-bold text-[#111] mb-2">{cert.name}</h3>
-                  <p className="text-xs md:text-sm font-semibold text-gray-500 mb-3">{cert.issuer}</p>
-                  
-                  <div className="space-y-1.5 mb-4 text-xs md:text-sm text-gray-600">
+                  <h3 className="text-sm font-bold text-[#111] mb-1 line-clamp-2">{cert.name}</h3>
+                  <p className="text-xs font-semibold text-gray-500 mb-3">{cert.issuer}</p>
+                  <div className="space-y-1 mb-4 text-[11px] text-gray-600">
                     <div className="flex justify-between">
                       <span className="font-medium">Issue Date:</span>
                       <span>{cert.issueDate}</span>
@@ -3168,33 +3327,29 @@ const ModernPortfolio = () => {
                       <span className="font-medium">Expires:</span>
                       <span>{cert.expirationDate}</span>
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="font-medium">Credential ID:</span>
-                      <span className="text-xs break-all font-mono bg-gray-50 px-2 py-1 rounded">{cert.credentialId}</span>
-                    </div>
                   </div>
-
                   <button
                     type="button"
-                    onClick={() => setSelectedCertificate(cert)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-black text-white text-xs md:text-sm font-semibold rounded-lg md:rounded-xl hover:bg-gray-800 transition-colors duration-300 w-full justify-center"
+                    onClick={(e) => { e.stopPropagation(); setSelectedCertificate(cert); }}
+                    className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-black text-white text-xs font-semibold rounded-xl hover:bg-gray-800 transition-colors duration-300 w-full"
                   >
                     Preview Certificate
-                    <Eye size={14} className="md:w-4 md:h-4" />
+                    <Eye size={13} />
                   </button>
                   {cert.credentialUrl && (
                     <a
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center mt-2 text-xs md:text-sm font-semibold text-gray-500 hover:text-black transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center justify-center mt-1.5 text-[11px] font-semibold text-gray-500 hover:text-black transition-colors"
                     >
-                      Verify credential <ArrowUpRight size={13} className="ml-1" />
+                      Verify credential <ArrowUpRight size={11} className="ml-1" />
                     </a>
                   )}
                 </div>
-              ))}
-            </div>
+              )}
+            />
           </div>
         </section>
 
@@ -4056,14 +4211,26 @@ const ModernPortfolio = () => {
                   <p className="truncate text-xs text-white/60">{selectedCertificate.issuer}</p>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setSelectedCertificate(null)}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform hover:scale-105"
-                aria-label="Close certificate preview"
-              >
-                <X size={20} />
-              </button>
+              <div className="flex items-center gap-2">
+                {selectedCertificate.pdfFile && (
+                  <a
+                    href={`/Certificates/${encodeURIComponent(selectedCertificate.pdfFile)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/10 text-white text-xs font-semibold hover:bg-white/20 transition-colors"
+                  >
+                    View PDF <ArrowUpRight size={13} />
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setSelectedCertificate(null)}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform hover:scale-105"
+                  aria-label="Close certificate preview"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
             <div className="min-h-0 flex-1 bg-[#080d16] p-2 sm:p-4">
               {selectedCertificate.imageFile ? (
