@@ -4130,7 +4130,7 @@ const ModernPortfolio = () => {
             </div>
             <div className="p-3 sm:p-6 md:p-10 pt-16 md:pt-10">
               <div
-                className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center py-4 px-12 sm:px-16"
+                className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden"
                 onTouchStart={(e) => { achievementSwipeX.current = e.touches[0].clientX; }}
                 onTouchEnd={(e) => {
                   const dx = e.changedTouches[0].clientX - achievementSwipeX.current;
@@ -4145,12 +4145,14 @@ const ModernPortfolio = () => {
                 >
                   <ChevronLeft size={20} />
                 </button>
-                <img
-                  src={selectedAchievement.image}
-                  alt={selectedAchievement.title}
-                  loading="lazy"
-                  className="max-h-[60vh] max-w-full object-contain"
-                />
+                <div className="flex items-center justify-center px-12 sm:px-16 py-4">
+                  <img
+                    src={selectedAchievement.image}
+                    alt={selectedAchievement.title}
+                    loading="lazy"
+                    className="max-h-[60vh] max-w-full object-contain"
+                  />
+                </div>
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goAchievement(1); }}
@@ -4215,7 +4217,7 @@ const ModernPortfolio = () => {
               </div>
             </div>
             <div
-              className="relative min-h-0 flex-1 bg-[#080d16] flex items-center justify-center py-4 px-12 sm:px-16"
+              className="relative flex-1 min-h-0 bg-[#080d16] overflow-hidden"
               onTouchStart={(e) => { certSwipeX.current = e.touches[0].clientX; }}
               onTouchEnd={(e) => {
                 const dx = e.changedTouches[0].clientX - certSwipeX.current;
@@ -4230,20 +4232,22 @@ const ModernPortfolio = () => {
               >
                 <ChevronLeft size={20} />
               </button>
-              {selectedCertificate.imageFile ? (
-                <img
-                  src={selectedCertificateUrl}
-                  alt={`${selectedCertificate.name} certificate`}
-                  className="max-h-full max-w-full object-contain"
-                  draggable={false}
-                />
-              ) : (
-                <iframe
-                  src={selectedCertificateUrl}
-                  title={`${selectedCertificate.name} certificate`}
-                  className="w-full h-full rounded-xl border-0 bg-white"
-                />
-              )}
+              <div className="absolute inset-0 flex items-center justify-center px-12 sm:px-16 py-4">
+                {selectedCertificate.imageFile ? (
+                  <img
+                    src={selectedCertificateUrl}
+                    alt={`${selectedCertificate.name} certificate`}
+                    className="max-h-full max-w-full object-contain"
+                    draggable={false}
+                  />
+                ) : (
+                  <iframe
+                    src={selectedCertificateUrl}
+                    title={`${selectedCertificate.name} certificate`}
+                    className="w-full h-full rounded-xl border-0 bg-white"
+                  />
+                )}
+              </div>
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); goCertificate(1); }}
