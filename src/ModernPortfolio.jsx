@@ -2682,7 +2682,7 @@ const ModernPortfolio = () => {
        )}
 
       {/* Main Content */}
-      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 pb-16 lg:pb-20">
+      <main className="relative z-10 max-w-6xl mx-auto px-3 sm:px-6 lg:px-12 pb-16 lg:pb-20">
         
         {/* 1. ABOUT SECTION (Hero) */}
         <section id="about" className="hero-section min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
@@ -3172,19 +3172,21 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 4. CERTIFICATES SECTION */}
-        <section id="certificates" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+        <section id="certificates" className="min-h-screen flex items-center py-14 sm:py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
-            <div className="flex items-center justify-between mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                <Award size={24} className="theme-icon md:w-8 md:h-8" />
-                Certificates
-              </h2>
-              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{certificates.length}</span>
+            <div className="flex items-center justify-between mb-6 sm:mb-8 md:mb-12 gap-3">
+              <div className="min-w-0">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                  <Award size={20} className="theme-icon md:w-8 md:h-8 flex-shrink-0" />
+                  Certificates
+                </h2>
+              </div>
+              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full flex-shrink-0">{certificates.length}</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
               {certificates.map((cert, index) => (
-                <div key={index} className="group p-4 md:p-5 bg-white border border-gray-100 rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 flex flex-col">
+                <div key={index} className="group p-3 sm:p-4 md:p-5 bg-white border border-gray-100 rounded-xl sm:rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 flex flex-col">
                   <div className="flex justify-between items-start mb-3">
                     <div className="p-2.5 bg-gray-50 rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
                       <Award size={18} />
@@ -3240,25 +3242,25 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 5. ACHIEVEMENTS SECTION */}
-        <section id="achievements" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+        <section id="achievements" className="min-h-screen flex items-center py-14 sm:py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
-            <div className="flex items-center justify-between mb-8 md:mb-12">
-              <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                  <Award size={24} className="theme-icon md:w-8 md:h-8" />
+            <div className="flex items-center justify-between mb-6 sm:mb-8 md:mb-12 gap-3">
+              <div className="min-w-0">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                  <Award size={20} className="theme-icon md:w-8 md:h-8 flex-shrink-0" />
                   Achievements
                 </h2>
-                <p className="text-sm md:text-base text-gray-500 mt-2">Academic honors, competitions, and research milestones.</p>
+                <p className="text-xs sm:text-sm md:text-base text-gray-500 mt-1 sm:mt-2">Academic honors, competitions, and research milestones.</p>
               </div>
-              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{achievements.length}</span>
+              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full flex-shrink-0">{achievements.length}</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
               {achievements.map((achievement, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedAchievement(achievement)}
-                  className="group overflow-hidden bg-white border border-gray-100 rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                  className="group overflow-hidden bg-white border border-gray-100 rounded-xl sm:rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer"
                 >
                   {achievement.image ? (
                     <div className="aspect-[16/10] bg-gray-100 overflow-hidden">
@@ -3267,12 +3269,12 @@ const ModernPortfolio = () => {
                   ) : (
                     <div className="h-2 brand-gradient"></div>
                   )}
-                  <div className="p-3 md:p-4">
-                    <div className="flex items-start justify-between gap-2 mb-1">
-                      <h3 className="text-xs md:text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
-                      <span className="text-[10px] font-semibold text-gray-400 whitespace-nowrap mt-0.5">{achievement.year}</span>
+                  <div className="p-2.5 sm:p-3 md:p-4">
+                    <div className="flex items-start justify-between gap-1.5 sm:gap-2 mb-1">
+                      <h3 className="text-[11px] sm:text-xs md:text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
+                      <span className="text-[9px] sm:text-[10px] font-semibold text-gray-400 whitespace-nowrap mt-0.5">{achievement.year}</span>
                     </div>
-                    <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
+                    <p className="text-[10px] sm:text-[11px] text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
                   </div>
                 </div>
               ))}
@@ -3283,9 +3285,9 @@ const ModernPortfolio = () => {
         {/* 6. EDUCATION SECTION */}
         <section id="education" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
-            <div className="flex items-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                <GraduationCap size={24} className="theme-icon md:w-8 md:h-8" />
+            <div className="flex items-center mb-6 sm:mb-8 md:mb-12">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                <GraduationCap size={20} className="theme-icon md:w-8 md:h-8 flex-shrink-0" />
                 Education Timeline
               </h2>
             </div>
@@ -3293,9 +3295,9 @@ const ModernPortfolio = () => {
           {/* Mobile: Compact 3x3 grid */}
           <div className="sm:hidden grid grid-cols-3 gap-2">
             {education.map((edu, index) => (
-              <div key={index} className="aspect-square flex flex-col items-center justify-center p-2 bg-white border border-gray-100 rounded-xl text-center">
-                <div className="p-1.5 bg-gray-50 rounded-lg mb-1.5">
-                  <Award size={12} />
+              <div key={index} className="aspect-square flex flex-col items-center justify-center p-1.5 bg-white border border-gray-100 rounded-xl text-center">
+                <div className="p-1 bg-gray-50 rounded-lg mb-1">
+                  <Award size={10} />
                 </div>
                 <p className="text-[8px] font-bold text-[#111] leading-tight line-clamp-2">{edu.degree}</p>
                 <p className="text-[7px] text-gray-400 mt-0.5 line-clamp-1">{edu.school}</p>
@@ -3305,20 +3307,20 @@ const ModernPortfolio = () => {
           </div>
 
           {/* Desktop: Full cards */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
             {education.map((edu, index) => (
-              <div key={index} className="group p-4 sm:p-6 md:p-8 bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-sm transition-all duration-300">
-                <div className="flex justify-between items-start mb-3 md:mb-4">
-                  <div className="p-2 md:p-3 bg-gray-50 rounded-lg md:rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                    <Award size={20} className="md:w-6 md:h-6" />
+              <div key={index} className="group p-3 sm:p-4 md:p-6 lg:p-8 bg-white border border-gray-100 rounded-xl sm:rounded-2xl lg:rounded-3xl hover:border-gray-300 hover:shadow-sm transition-all duration-300">
+                <div className="flex justify-between items-start mb-2 sm:mb-3 md:mb-4">
+                  <div className="p-1.5 sm:p-2 md:p-3 bg-gray-50 rounded-lg md:rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
+                    <Award size={16} className="sm:w-5 sm:h-5 md:w-6 md:h-6" />
                   </div>
-                  <span className="px-2 md:px-3 py-0.5 md:py-1 bg-gray-100 rounded-full text-[10px] md:text-xs font-semibold text-gray-600">
+                  <span className="px-1.5 sm:px-2 md:px-3 py-0.5 bg-gray-100 rounded-full text-[9px] sm:text-[10px] md:text-xs font-semibold text-gray-600">
                     {edu.year}
                   </span>
                 </div>
-                <h3 className="text-lg md:text-xl font-bold text-[#111] mb-1">{edu.degree}</h3>
-                <p className="text-xs md:text-sm font-semibold text-gray-500 mb-3 md:mb-4">{edu.school}</p>
-                <p className="text-gray-600 leading-relaxed text-xs md:text-sm">
+                <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-[#111] mb-1">{edu.degree}</h3>
+                <p className="text-[10px] sm:text-xs md:text-sm font-semibold text-gray-500 mb-2 sm:mb-3 md:mb-4">{edu.school}</p>
+                <p className="text-gray-600 leading-relaxed text-[10px] sm:text-xs md:text-sm">
                   {edu.desc}
                 </p>
               </div>
@@ -3330,26 +3332,26 @@ const ModernPortfolio = () => {
         {/* 7. SEMINARS SECTION */}
         <section id="seminars" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
-            <div className="flex items-center mb-8 md:mb-12">
+            <div className="flex items-center mb-6 sm:mb-8 md:mb-12">
               <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                  <GraduationCap size={24} className="theme-icon md:w-8 md:h-8" />
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                  <GraduationCap size={20} className="theme-icon md:w-8 md:h-8 flex-shrink-0" />
                   Seminars
                 </h2>
-                <p className="text-sm md:text-base text-gray-500 mt-2">Professional learning and industry exposure.</p>
+                <p className="text-xs sm:text-sm md:text-base text-gray-500 mt-1 sm:mt-2">Professional learning and industry exposure.</p>
               </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+            <div className="grid sm:grid-cols-2 gap-3 md:gap-4 lg:gap-6">
               {seminars.map((seminar) => (
-                <article key={seminar.name} className="group overflow-hidden bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-lg transition-all duration-300">
+                <article key={seminar.name} className="group overflow-hidden bg-white border border-gray-100 rounded-xl sm:rounded-2xl lg:rounded-3xl hover:border-gray-300 hover:shadow-lg transition-all duration-300">
                   <div className="aspect-[16/8] bg-gray-100 overflow-hidden">
                     <img src={seminar.image} alt={`${seminar.name} seminar`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
-                  <div className="p-5 md:p-7">
-                    <h3 className="text-xl md:text-2xl font-bold text-[#111] mb-2">{seminar.name}</h3>
-                    <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-5">{seminar.description}</p>
-                    <a href={seminar.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#111] text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-colors">
-                      Visit Website <ArrowUpRight size={16} />
+                  <div className="p-3 sm:p-5 md:p-7">
+                    <h3 className="text-base sm:text-xl md:text-2xl font-bold text-[#111] mb-1 sm:mb-2">{seminar.name}</h3>
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed mb-3 sm:mb-5">{seminar.description}</p>
+                    <a href={seminar.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-[#111] text-white text-xs sm:text-sm font-semibold rounded-lg sm:rounded-xl hover:bg-gray-800 transition-colors">
+                      Visit Website <ArrowUpRight size={14} className="sm:w-4 sm:h-4" />
                     </a>
                   </div>
                 </article>
@@ -4128,7 +4130,7 @@ const ModernPortfolio = () => {
             </div>
             <div className="p-3 sm:p-6 md:p-10 pt-16 md:pt-10">
               <div
-                className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center"
+                className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center py-4 px-12 sm:px-16"
                 onTouchStart={(e) => { achievementSwipeX.current = e.touches[0].clientX; }}
                 onTouchEnd={(e) => {
                   const dx = e.changedTouches[0].clientX - achievementSwipeX.current;
@@ -4138,7 +4140,7 @@ const ModernPortfolio = () => {
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goAchievement(-1); }}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-all shadow-lg flex-shrink-0"
                   aria-label="Previous achievement"
                 >
                   <ChevronLeft size={20} />
@@ -4147,12 +4149,12 @@ const ModernPortfolio = () => {
                   src={selectedAchievement.image}
                   alt={selectedAchievement.title}
                   loading="lazy"
-                  className="w-full max-h-[65vh] object-contain"
+                  className="max-h-[60vh] max-w-full object-contain"
                 />
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); goAchievement(1); }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-all shadow-lg flex-shrink-0"
                   aria-label="Next achievement"
                 >
                   <ChevronRight size={20} />
@@ -4184,36 +4186,36 @@ const ModernPortfolio = () => {
             aria-labelledby="certificate-modal-title"
             className="relative flex h-[92dvh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0b1220] shadow-2xl outline-none sm:rounded-[28px]"
           >
-            <div className="flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
-              <div className="min-w-0 flex items-center gap-3">
+            <div className="flex shrink-0 items-center justify-between gap-2 border-b border-white/10 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3">
+              <div className="min-w-0 flex items-center gap-2">
                 <div className="min-w-0">
-                  <h2 id="certificate-modal-title" className="truncate text-sm font-bold text-white sm:text-base">{selectedCertificate.name}</h2>
-                  <p className="truncate text-xs text-white/60">{selectedCertificate.issuer}</p>
+                  <h2 id="certificate-modal-title" className="truncate text-xs sm:text-sm md:text-base font-bold text-white">{selectedCertificate.name}</h2>
+                  <p className="truncate text-[10px] sm:text-xs text-white/60">{selectedCertificate.issuer}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
                 {selectedCertificate.pdfFile && (
                   <a
                     href={`/Certificates/${encodeURIComponent(selectedCertificate.pdfFile)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/10 text-white text-xs font-semibold hover:bg-white/20 transition-colors"
+                    className="flex items-center gap-1 px-2 sm:px-3 py-1.5 sm:py-2 rounded-full bg-white/10 text-white text-[10px] sm:text-xs font-semibold hover:bg-white/20 transition-colors"
                   >
-                    View PDF <ArrowUpRight size={13} />
+                    PDF <ArrowUpRight size={11} />
                   </a>
                 )}
                 <button
                   type="button"
                   onClick={() => setSelectedCertificate(null)}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform hover:scale-105"
+                  className="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform hover:scale-105"
                   aria-label="Close certificate preview"
                 >
-                  <X size={20} />
+                  <X size={16} className="sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>
             <div
-              className="relative min-h-0 flex-1 bg-[#080d16] p-2 sm:p-4"
+              className="relative min-h-0 flex-1 bg-[#080d16] flex items-center justify-center py-4 px-12 sm:px-16"
               onTouchStart={(e) => { certSwipeX.current = e.touches[0].clientX; }}
               onTouchEnd={(e) => {
                 const dx = e.changedTouches[0].clientX - certSwipeX.current;
@@ -4223,7 +4225,7 @@ const ModernPortfolio = () => {
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); goCertificate(-1); }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/25 transition-all backdrop-blur-sm"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-all shadow-lg flex-shrink-0"
                 aria-label="Previous certificate"
               >
                 <ChevronLeft size={20} />
@@ -4232,20 +4234,20 @@ const ModernPortfolio = () => {
                 <img
                   src={selectedCertificateUrl}
                   alt={`${selectedCertificate.name} certificate`}
-                  className="h-full w-full object-contain"
+                  className="max-h-full max-w-full object-contain"
                   draggable={false}
                 />
               ) : (
                 <iframe
                   src={selectedCertificateUrl}
                   title={`${selectedCertificate.name} certificate`}
-                  className="h-full w-full rounded-xl border-0 bg-white"
+                  className="w-full h-full rounded-xl border-0 bg-white"
                 />
               )}
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); goCertificate(1); }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/25 transition-all backdrop-blur-sm"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-all shadow-lg flex-shrink-0"
                 aria-label="Next certificate"
               >
                 <ChevronRight size={20} />
