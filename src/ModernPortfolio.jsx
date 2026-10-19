@@ -607,6 +607,21 @@ const ModernPortfolio = () => {
   const [selectedCertificate, setSelectedCertificate] = useState(null);
   const achievementSwipeX = React.useRef(0);
   const certSwipeX = React.useRef(0);
+
+  const goAchievement = (dir) => {
+    setSelectedAchievement((cur) => {
+      if (!cur) return cur;
+      const idx = achievements.findIndex(a => a.id === cur.id);
+      return achievements[(idx + dir + achievements.length) % achievements.length];
+    });
+  };
+  const goCertificate = (dir) => {
+    setSelectedCertificate((cur) => {
+      if (!cur) return cur;
+      const idx = certificates.findIndex(c => c.id === cur.id);
+      return certificates[(idx + dir + certificates.length) % certificates.length];
+    });
+  };
   const [showDevtoolsEasterEgg, setShowDevtoolsEasterEgg] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [viewCount, setViewCount] = useState(null);
@@ -1246,14 +1261,8 @@ const ModernPortfolio = () => {
     if (!selectedCertificate) return undefined;
     const onKeyDown = (event) => {
       if (event.key === 'Escape') setSelectedCertificate(null);
-      if (event.key === 'ArrowLeft') {
-        const idx = certificates.findIndex(c => c === selectedCertificate);
-        setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
-      }
-      if (event.key === 'ArrowRight') {
-        const idx = certificates.findIndex(c => c === selectedCertificate);
-        setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
-      }
+      if (event.key === 'ArrowLeft') goCertificate(-1);
+      if (event.key === 'ArrowRight') goCertificate(1);
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
@@ -1263,14 +1272,8 @@ const ModernPortfolio = () => {
     if (!selectedAchievement) return undefined;
     const onKeyDown = (event) => {
       if (event.key === 'Escape') setSelectedAchievement(null);
-      if (event.key === 'ArrowLeft') {
-        const idx = achievements.findIndex(a => a === selectedAchievement);
-        setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
-      }
-      if (event.key === 'ArrowRight') {
-        const idx = achievements.findIndex(a => a === selectedAchievement);
-        setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
-      }
+      if (event.key === 'ArrowLeft') goAchievement(-1);
+      if (event.key === 'ArrowRight') goAchievement(1);
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
@@ -1474,6 +1477,7 @@ const ModernPortfolio = () => {
 
   const certificates = [
     {
+      id: "cert-01",
       name: "Google IT Support Professional Certificate",
       issuer: "Coursera",
       issueDate: "2026",
@@ -1484,6 +1488,7 @@ const ModernPortfolio = () => {
       pdfFile: "Coursera BS1RNYXX33UX.pdf"
     },
     {
+      id: "cert-02",
       name: "Cyber Security 101 Certificate",
       issuer: "TryHackMe",
       issueDate: "December 2025",
@@ -1494,6 +1499,7 @@ const ModernPortfolio = () => {
       pdfFile: "THM-J9VDC478VD.pdf"
     },
     {
+      id: "cert-03",
       name: "Advent of Cyber 2025",
       issuer: "TryHackMe",
       issueDate: "December 2025",
@@ -1504,6 +1510,7 @@ const ModernPortfolio = () => {
       pdfFile: "THM-LILQEVPEOT.pdf"
     },
     {
+      id: "cert-04",
       name: "Pre Security Certificate",
       issuer: "TryHackMe",
       issueDate: "December 2025",
@@ -1514,6 +1521,7 @@ const ModernPortfolio = () => {
       pdfFile: "THM-WG2PKAMX71.pdf"
     },
     {
+      id: "cert-05",
       name: "Systems Administration",
       issuer: "STI College Santa Rosa",
       issueDate: "June 24, 2023",
@@ -1522,6 +1530,7 @@ const ModernPortfolio = () => {
       credentialUrl: "https://drive.google.com/file/d/1jfXa_wZpDPzYskv8wagWrz9LXVu91knK/view?usp=sharing"
     },
     {
+      id: "cert-06",
       name: "First Line Support Certificate",
       issuer: "ServiceDesk Simulator",
       issueDate: "2026",
@@ -1531,6 +1540,7 @@ const ModernPortfolio = () => {
       imageFile: "first-line-support-certificate.png"
     },
     {
+      id: "cert-07",
       name: "Help Desk Technician Certificate",
       issuer: "ServiceDesk Simulator",
       issueDate: "2026",
@@ -1540,6 +1550,7 @@ const ModernPortfolio = () => {
       imageFile: "help-desk-technician-certificate.png"
     },
     {
+      id: "cert-08",
       name: "IT Support Foundations Certificate",
       issuer: "ServiceDesk Simulator",
       issueDate: "2026",
@@ -1549,6 +1560,7 @@ const ModernPortfolio = () => {
       imageFile: "it-support-foundations-certificate.png"
     },
     {
+      id: "cert-09",
       name: "Love at First Breach",
       issuer: "TryHackMe",
       issueDate: "2026",
@@ -1559,6 +1571,7 @@ const ModernPortfolio = () => {
       pdfFile: "THM-3CKQ2SIEX3.pdf"
     },
     {
+      id: "cert-10",
       name: "Hacker Holidays Participation",
       issuer: "TryHackMe",
       issueDate: "2026",
@@ -1569,6 +1582,7 @@ const ModernPortfolio = () => {
       pdfFile: "THM-MCQ79KBFWB.pdf"
     },
     {
+      id: "cert-11",
       name: "Computer Hardware Basics",
       issuer: "Cisco Networking Academy",
       issueDate: "September 21, 2026",
@@ -1579,6 +1593,7 @@ const ModernPortfolio = () => {
       pdfFile: "Computer_Hardware_Basics_certificate_kuraisler-dev-gmail-com_25e654ca-689d-4176-9d3e-c4cdfe665e8.pdf"
     },
     {
+      id: "cert-12",
       name: "Networking Basics",
       issuer: "Cisco Networking Academy",
       issueDate: "September 29, 2026",
@@ -1589,6 +1604,7 @@ const ModernPortfolio = () => {
       pdfFile: "Networking_Basics_certificate_kuraisler-dev-gmail-com_e10b255b-9480-4439-bb7d-e57b0246c0bb.pdf"
     },
     {
+      id: "cert-13",
       name: "Operating Systems Basics",
       issuer: "Cisco Networking Academy",
       issueDate: "September 29, 2026",
@@ -1601,16 +1617,16 @@ const ModernPortfolio = () => {
   ];
 
   const achievements = [
-    { title: "Codefest 2024 — 3rd Runner Up", school: "STI College Santa Rosa", year: "2024", image: "/Achievements/Codefest.jpg" },
-    { title: "Senior High School — With Honors", school: "Lumil Integrated National High School", year: "Grade 12 · 2022", image: "/Achievements/Senior High.jpg" },
-    { title: "Grade 10 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2020", image: "/Achievements/Grade10.jpg" },
-    { title: "Grade 9 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2019", image: "/Achievements/Grade9.jpg" },
-    { title: "Grade 8 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2018", image: "/Achievements/Grade8.jpg" },
-    { title: "Grade 8 — Participant, Mathematical Investigatory Project (Regional in Benguet)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/MIP.jpg" },
-    { title: "Grade 8 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/achievement-placeholder.svg" },
-    { title: "Grade 7 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/Grade7.jpg" },
-    { title: "Grade 7 — Participant, Mathematical Investigatory Project (Regional in Abra)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" },
-    { title: "Grade 7 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" }
+    { id: "ach-01", title: "Codefest 2024 — 3rd Runner Up", school: "STI College Santa Rosa", year: "2024", image: "/Achievements/Codefest.jpg" },
+    { id: "ach-02", title: "Senior High School — With Honors", school: "Lumil Integrated National High School", year: "Grade 12 · 2022", image: "/Achievements/Senior High.jpg" },
+    { id: "ach-03", title: "Grade 10 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2020", image: "/Achievements/Grade10.jpg" },
+    { id: "ach-04", title: "Grade 9 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2019", image: "/Achievements/Grade9.jpg" },
+    { id: "ach-05", title: "Grade 8 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2018", image: "/Achievements/Grade8.jpg" },
+    { id: "ach-06", title: "Grade 8 — Participant, Mathematical Investigatory Project (Regional in Benguet)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/MIP.jpg" },
+    { id: "ach-07", title: "Grade 8 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/achievement-placeholder.svg" },
+    { id: "ach-08", title: "Grade 7 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/Grade7.jpg" },
+    { id: "ach-09", title: "Grade 7 — Participant, Mathematical Investigatory Project (Regional in Abra)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" },
+    { id: "ach-10", title: "Grade 7 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" }
   ];
 
   // Category color map for project types.
@@ -4116,20 +4132,12 @@ const ModernPortfolio = () => {
                 onTouchStart={(e) => { achievementSwipeX.current = e.touches[0].clientX; }}
                 onTouchEnd={(e) => {
                   const dx = e.changedTouches[0].clientX - achievementSwipeX.current;
-                  if (Math.abs(dx) > 50) {
-                    const idx = achievements.findIndex(a => a === selectedAchievement);
-                    if (dx < 0) setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
-                    else setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
-                  }
+                  if (Math.abs(dx) > 50) goAchievement(dx < 0 ? 1 : -1);
                 }}
               >
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const idx = achievements.findIndex(a => a === selectedAchievement);
-                    setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
-                  }}
+                  onClick={(e) => { e.stopPropagation(); goAchievement(-1); }}
                   className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
                   aria-label="Previous achievement"
                 >
@@ -4143,11 +4151,7 @@ const ModernPortfolio = () => {
                 />
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const idx = achievements.findIndex(a => a === selectedAchievement);
-                    setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
-                  }}
+                  onClick={(e) => { e.stopPropagation(); goAchievement(1); }}
                   className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
                   aria-label="Next achievement"
                 >
@@ -4213,20 +4217,12 @@ const ModernPortfolio = () => {
               onTouchStart={(e) => { certSwipeX.current = e.touches[0].clientX; }}
               onTouchEnd={(e) => {
                 const dx = e.changedTouches[0].clientX - certSwipeX.current;
-                if (Math.abs(dx) > 50) {
-                  const idx = certificates.findIndex(c => c === selectedCertificate);
-                  if (dx < 0) setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
-                  else setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
-                }
+                if (Math.abs(dx) > 50) goCertificate(dx < 0 ? 1 : -1);
               }}
             >
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const idx = certificates.findIndex(c => c === selectedCertificate);
-                  setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
-                }}
+                onClick={(e) => { e.stopPropagation(); goCertificate(-1); }}
                 className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/25 transition-all backdrop-blur-sm"
                 aria-label="Previous certificate"
               >
@@ -4248,11 +4244,7 @@ const ModernPortfolio = () => {
               )}
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const idx = certificates.findIndex(c => c === selectedCertificate);
-                  setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
-                }}
+                onClick={(e) => { e.stopPropagation(); goCertificate(1); }}
                 className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/25 transition-all backdrop-blur-sm"
                 aria-label="Next certificate"
               >
