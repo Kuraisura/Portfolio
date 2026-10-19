@@ -3166,16 +3166,9 @@ const ModernPortfolio = () => {
               <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{certificates.length}</span>
             </div>
 
-            <SwipableCarousel
-              items={certificates}
-              onSelect={(cert) => setSelectedCertificate(cert)}
-              reverse={true}
-              externalPaused={!!(selectedProject || selectedAchievement || selectedCertificate || fullscreenMode)}
-              cardWidth={300}
-              cardHeight={300}
-              gap={20}
-              renderCard={(cert) => (
-                <div className="relative w-full h-full p-5 bg-white border border-gray-100 rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 flex flex-col">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+              {certificates.map((cert, index) => (
+                <div key={index} className="group p-4 md:p-5 bg-white border border-gray-100 rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 flex flex-col">
                   <div className="flex justify-between items-start mb-3">
                     <div className="p-2.5 bg-gray-50 rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
                       <Award size={18} />
@@ -3188,16 +3181,16 @@ const ModernPortfolio = () => {
                         onClick={(e) => e.stopPropagation()}
                         className="inline-flex items-center gap-1 px-2.5 py-1.5 text-[10px] font-semibold text-gray-500 hover:text-black bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
                       >
-                        View PDF
+                        PDF
                         <ArrowUpRight size={11} />
                       </a>
                     )}
                   </div>
                   <h3 className="text-sm font-bold text-[#111] mb-1 line-clamp-2">{cert.name}</h3>
-                  <p className="text-xs font-semibold text-gray-500 mb-3">{cert.issuer}</p>
-                  <div className="space-y-1 mb-4 text-[11px] text-gray-600">
+                  <p className="text-xs font-semibold text-gray-500 mb-2">{cert.issuer}</p>
+                  <div className="space-y-1 mb-3 text-[11px] text-gray-600">
                     <div className="flex justify-between">
-                      <span className="font-medium">Issue Date:</span>
+                      <span className="font-medium">Issued:</span>
                       <span>{cert.issueDate}</span>
                     </div>
                     <div className="flex justify-between">
@@ -3207,10 +3200,10 @@ const ModernPortfolio = () => {
                   </div>
                   <button
                     type="button"
-                    onClick={(e) => { e.stopPropagation(); setSelectedCertificate(cert); }}
-                    className="mt-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-black text-white text-xs font-semibold rounded-xl hover:bg-gray-800 transition-colors duration-300 w-full"
+                    onClick={() => setSelectedCertificate(cert)}
+                    className="mt-auto inline-flex items-center justify-center gap-2 px-3 py-2 bg-black text-white text-xs font-semibold rounded-xl hover:bg-gray-800 transition-colors duration-300 w-full"
                   >
-                    Preview Certificate
+                    Preview
                     <Eye size={13} />
                   </button>
                   {cert.credentialUrl && (
@@ -3221,12 +3214,12 @@ const ModernPortfolio = () => {
                       onClick={(e) => e.stopPropagation()}
                       className="inline-flex items-center justify-center mt-1.5 text-[11px] font-semibold text-gray-500 hover:text-black transition-colors"
                     >
-                      Verify credential <ArrowUpRight size={11} className="ml-1" />
+                      Verify <ArrowUpRight size={11} className="ml-1" />
                     </a>
                   )}
                 </div>
-              )}
-            />
+              ))}
+            </div>
           </div>
         </section>
 
@@ -3244,33 +3237,30 @@ const ModernPortfolio = () => {
               <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{achievements.length}</span>
             </div>
 
-            <SwipableCarousel
-              items={achievements}
-              onSelect={(achievement) => setSelectedAchievement(achievement)}
-              reverse={false}
-              externalPaused={!!(selectedProject || selectedAchievement || selectedCertificate || fullscreenMode)}
-              cardWidth={300}
-              cardHeight={260}
-              gap={20}
-              renderCard={(achievement) => (
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-gray-100 bg-white group hover:shadow-lg transition-all duration-300">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+              {achievements.map((achievement, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedAchievement(achievement)}
+                  className="group overflow-hidden bg-white border border-gray-100 rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer"
+                >
                   {achievement.image ? (
-                    <div className="aspect-[16/10] bg-gray-100 overflow-hidden" style={{ height: '60%' }}>
-                      <img src={achievement.image} alt={achievement.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" draggable={false} />
+                    <div className="aspect-[16/10] bg-gray-100 overflow-hidden">
+                      <img src={achievement.image} alt={achievement.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                   ) : (
                     <div className="h-2 brand-gradient"></div>
                   )}
-                  <div className="p-4" style={{ height: '40%' }}>
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <h3 className="text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
+                  <div className="p-3 md:p-4">
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <h3 className="text-xs md:text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
                       <span className="text-[10px] font-semibold text-gray-400 whitespace-nowrap mt-0.5">{achievement.year}</span>
                     </div>
-                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
+                    <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
                   </div>
                 </div>
-              )}
-            />
+              ))}
+            </div>
           </div>
         </section>
 
@@ -4135,7 +4125,8 @@ const ModernPortfolio = () => {
               >
                 <button
                   type="button"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     const idx = achievements.findIndex(a => a === selectedAchievement);
                     setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
                   }}
@@ -4152,7 +4143,8 @@ const ModernPortfolio = () => {
                 />
                 <button
                   type="button"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     const idx = achievements.findIndex(a => a === selectedAchievement);
                     setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
                   }}
@@ -4230,7 +4222,8 @@ const ModernPortfolio = () => {
             >
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   const idx = certificates.findIndex(c => c === selectedCertificate);
                   setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
                 }}
@@ -4255,7 +4248,8 @@ const ModernPortfolio = () => {
               )}
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   const idx = certificates.findIndex(c => c === selectedCertificate);
                   setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
                 }}
