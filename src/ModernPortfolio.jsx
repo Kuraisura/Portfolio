@@ -605,6 +605,8 @@ const ModernPortfolio = () => {
   const modalSwiperRef = React.useRef(null);
   const [selectedAchievement, setSelectedAchievement] = useState(null);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
+  const achievementSwipeX = React.useRef(0);
+  const certSwipeX = React.useRef(0);
   const [showDevtoolsEasterEgg, setShowDevtoolsEasterEgg] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [viewCount, setViewCount] = useState(null);
@@ -4119,7 +4121,18 @@ const ModernPortfolio = () => {
               </button>
             </div>
             <div className="p-3 sm:p-6 md:p-10 pt-16 md:pt-10">
-              <div className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center">
+              <div
+                className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center"
+                onTouchStart={(e) => { achievementSwipeX.current = e.touches[0].clientX; }}
+                onTouchEnd={(e) => {
+                  const dx = e.changedTouches[0].clientX - achievementSwipeX.current;
+                  if (Math.abs(dx) > 50) {
+                    const idx = achievements.findIndex(a => a === selectedAchievement);
+                    if (dx < 0) setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
+                    else setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
+                  }
+                }}
+              >
                 <button
                   type="button"
                   onClick={() => {
@@ -4148,9 +4161,6 @@ const ModernPortfolio = () => {
                 >
                   <ChevronRight size={20} />
                 </button>
-                <span className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/60 text-white text-xs font-semibold">
-                  {achievements.findIndex(a => a === selectedAchievement) + 1} / {achievements.length}
-                </span>
               </div>
               <div className="pt-5 md:pt-7">
                 <p className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400 mb-2">{selectedAchievement.year}</p>
@@ -4186,7 +4196,6 @@ const ModernPortfolio = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-white/50 font-semibold">{certificates.findIndex(c => c === selectedCertificate) + 1} / {certificates.length}</span>
                 {selectedCertificate.pdfFile && (
                   <a
                     href={`/Certificates/${encodeURIComponent(selectedCertificate.pdfFile)}`}
@@ -4207,7 +4216,18 @@ const ModernPortfolio = () => {
                 </button>
               </div>
             </div>
-            <div className="relative min-h-0 flex-1 bg-[#080d16] p-2 sm:p-4">
+            <div
+              className="relative min-h-0 flex-1 bg-[#080d16] p-2 sm:p-4"
+              onTouchStart={(e) => { certSwipeX.current = e.touches[0].clientX; }}
+              onTouchEnd={(e) => {
+                const dx = e.changedTouches[0].clientX - certSwipeX.current;
+                if (Math.abs(dx) > 50) {
+                  const idx = certificates.findIndex(c => c === selectedCertificate);
+                  if (dx < 0) setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
+                  else setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
+                }
+              }}
+            >
               <button
                 type="button"
                 onClick={() => {
