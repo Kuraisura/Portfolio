@@ -1604,14 +1604,11 @@ const ModernPortfolio = () => {
     { title: "Grade 10 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2020", image: "/Achievements/Grade10.jpg" },
     { title: "Grade 9 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2019", image: "/Achievements/Grade9.jpg" },
     { title: "Grade 8 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2018", image: "/Achievements/Grade8.jpg" },
-    { title: "Grade 8 — 2nd Place, Rational DaMath (District)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/DistrictDamath.jpg" },
     { title: "Grade 8 — Participant, Mathematical Investigatory Project (Regional in Benguet)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/MIP.jpg" },
     { title: "Grade 8 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/achievement-placeholder.svg" },
     { title: "Grade 7 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/Grade7.jpg" },
     { title: "Grade 7 — Participant, Mathematical Investigatory Project (Regional in Abra)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" },
-    { title: "Grade 7 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" },
-    { title: "Grade 7 — 3rd Place, Integer DaMath (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" },
-    { title: "Grade 7 — 1st Place, Integer DaMath (District)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" }
+    { title: "Grade 7 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" }
   ];
 
   // Category color map for project types.
@@ -2147,7 +2144,7 @@ const ModernPortfolio = () => {
         : selectedCertificate.credentialUrl
     : '';
 
-  const navItems = ['About', 'Projects', 'Skills', 'Education', 'Achievements', 'Seminars', 'Certificates', 'Contact'];
+  const navItems = ['About', 'Projects', 'Skills', 'Certificates', 'Achievements', 'Education', 'Seminars', 'Contact'];
 
   return (
     <div
@@ -3156,129 +3153,7 @@ const ModernPortfolio = () => {
           </div>
         </section>
 
-        {/* 4. EDUCATION SECTION */}
-        <section id="education" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
-          <div className="w-full">
-            <div className="flex items-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                <GraduationCap size={24} className="theme-icon md:w-8 md:h-8" />
-                Education Timeline
-              </h2>
-            </div>
-
-          {/* Mobile: Compact 3x3 grid */}
-          <div className="sm:hidden grid grid-cols-3 gap-2">
-            {education.map((edu, index) => (
-              <div key={index} className="aspect-square flex flex-col items-center justify-center p-2 bg-white border border-gray-100 rounded-xl text-center">
-                <div className="p-1.5 bg-gray-50 rounded-lg mb-1.5">
-                  <Award size={12} />
-                </div>
-                <p className="text-[8px] font-bold text-[#111] leading-tight line-clamp-2">{edu.degree}</p>
-                <p className="text-[7px] text-gray-400 mt-0.5 line-clamp-1">{edu.school}</p>
-                <p className="text-[7px] font-semibold text-gray-500 mt-0.5">{edu.year}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop: Full cards */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {education.map((edu, index) => (
-              <div key={index} className="group p-4 sm:p-6 md:p-8 bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-sm transition-all duration-300">
-                <div className="flex justify-between items-start mb-3 md:mb-4">
-                  <div className="p-2 md:p-3 bg-gray-50 rounded-lg md:rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                    <Award size={20} className="md:w-6 md:h-6" />
-                  </div>
-                  <span className="px-2 md:px-3 py-0.5 md:py-1 bg-gray-100 rounded-full text-[10px] md:text-xs font-semibold text-gray-600">
-                    {edu.year}
-                  </span>
-                </div>
-                <h3 className="text-lg md:text-xl font-bold text-[#111] mb-1">{edu.degree}</h3>
-                <p className="text-xs md:text-sm font-semibold text-gray-500 mb-3 md:mb-4">{edu.school}</p>
-                <p className="text-gray-600 leading-relaxed text-xs md:text-sm">
-                  {edu.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-          </div>
-        </section>
-
-        {/* 5. ACHIEVEMENTS SECTION */}
-        <section id="achievements" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
-          <div className="w-full">
-            <div className="flex items-center justify-between mb-8 md:mb-12">
-              <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                  <Award size={24} className="theme-icon md:w-8 md:h-8" />
-                  Achievements
-                </h2>
-                <p className="text-sm md:text-base text-gray-500 mt-2">Academic honors, competitions, and research milestones.</p>
-              </div>
-              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{achievements.length}</span>
-            </div>
-
-            <SwipableCarousel
-              items={achievements}
-              onSelect={(achievement) => setSelectedAchievement(achievement)}
-              reverse={false}
-              externalPaused={!!(selectedProject || selectedAchievement || selectedCertificate || fullscreenMode)}
-              cardWidth={300}
-              cardHeight={260}
-              gap={20}
-              renderCard={(achievement) => (
-                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-gray-100 bg-white group hover:shadow-lg transition-all duration-300">
-                  {achievement.image ? (
-                    <div className="aspect-[16/10] bg-gray-100 overflow-hidden" style={{ height: '60%' }}>
-                      <img src={achievement.image} alt={achievement.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" draggable={false} />
-                    </div>
-                  ) : (
-                    <div className="h-2 brand-gradient"></div>
-                  )}
-                  <div className="p-4" style={{ height: '40%' }}>
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
-                      <h3 className="text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
-                      <span className="text-[10px] font-semibold text-gray-400 whitespace-nowrap mt-0.5">{achievement.year}</span>
-                    </div>
-                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
-                  </div>
-                </div>
-              )}
-            />
-          </div>
-        </section>
-
-        {/* 6. SEMINARS SECTION */}
-        <section id="seminars" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
-          <div className="w-full">
-            <div className="flex items-center mb-8 md:mb-12">
-              <div>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                  <GraduationCap size={24} className="theme-icon md:w-8 md:h-8" />
-                  Seminars
-                </h2>
-                <p className="text-sm md:text-base text-gray-500 mt-2">Professional learning and industry exposure.</p>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-              {seminars.map((seminar) => (
-                <article key={seminar.name} className="group overflow-hidden bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-lg transition-all duration-300">
-                  <div className="aspect-[16/8] bg-gray-100 overflow-hidden">
-                    <img src={seminar.image} alt={`${seminar.name} seminar`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  </div>
-                  <div className="p-5 md:p-7">
-                    <h3 className="text-xl md:text-2xl font-bold text-[#111] mb-2">{seminar.name}</h3>
-                    <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-5">{seminar.description}</p>
-                    <a href={seminar.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#111] text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-colors">
-                      Visit Website <ArrowUpRight size={16} />
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* 7. CERTIFICATES SECTION */}
+        {/* 4. CERTIFICATES SECTION */}
         <section id="certificates" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
             <div className="flex items-center justify-between mb-8 md:mb-12">
@@ -3353,7 +3228,129 @@ const ModernPortfolio = () => {
           </div>
         </section>
 
-        {/* 6. CONTACT SECTION (Form) */}
+        {/* 5. ACHIEVEMENTS SECTION */}
+        <section id="achievements" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+          <div className="w-full">
+            <div className="flex items-center justify-between mb-8 md:mb-12">
+              <div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                  <Award size={24} className="theme-icon md:w-8 md:h-8" />
+                  Achievements
+                </h2>
+                <p className="text-sm md:text-base text-gray-500 mt-2">Academic honors, competitions, and research milestones.</p>
+              </div>
+              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full">{achievements.length}</span>
+            </div>
+
+            <SwipableCarousel
+              items={achievements}
+              onSelect={(achievement) => setSelectedAchievement(achievement)}
+              reverse={false}
+              externalPaused={!!(selectedProject || selectedAchievement || selectedCertificate || fullscreenMode)}
+              cardWidth={300}
+              cardHeight={260}
+              gap={20}
+              renderCard={(achievement) => (
+                <div className="relative w-full h-full rounded-2xl overflow-hidden border border-gray-100 bg-white group hover:shadow-lg transition-all duration-300">
+                  {achievement.image ? (
+                    <div className="aspect-[16/10] bg-gray-100 overflow-hidden" style={{ height: '60%' }}>
+                      <img src={achievement.image} alt={achievement.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" draggable={false} />
+                    </div>
+                  ) : (
+                    <div className="h-2 brand-gradient"></div>
+                  )}
+                  <div className="p-4" style={{ height: '40%' }}>
+                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                      <h3 className="text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
+                      <span className="text-[10px] font-semibold text-gray-400 whitespace-nowrap mt-0.5">{achievement.year}</span>
+                    </div>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+        </section>
+
+        {/* 6. EDUCATION SECTION */}
+        <section id="education" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+          <div className="w-full">
+            <div className="flex items-center mb-8 md:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                <GraduationCap size={24} className="theme-icon md:w-8 md:h-8" />
+                Education Timeline
+              </h2>
+            </div>
+
+          {/* Mobile: Compact 3x3 grid */}
+          <div className="sm:hidden grid grid-cols-3 gap-2">
+            {education.map((edu, index) => (
+              <div key={index} className="aspect-square flex flex-col items-center justify-center p-2 bg-white border border-gray-100 rounded-xl text-center">
+                <div className="p-1.5 bg-gray-50 rounded-lg mb-1.5">
+                  <Award size={12} />
+                </div>
+                <p className="text-[8px] font-bold text-[#111] leading-tight line-clamp-2">{edu.degree}</p>
+                <p className="text-[7px] text-gray-400 mt-0.5 line-clamp-1">{edu.school}</p>
+                <p className="text-[7px] font-semibold text-gray-500 mt-0.5">{edu.year}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: Full cards */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {education.map((edu, index) => (
+              <div key={index} className="group p-4 sm:p-6 md:p-8 bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-sm transition-all duration-300">
+                <div className="flex justify-between items-start mb-3 md:mb-4">
+                  <div className="p-2 md:p-3 bg-gray-50 rounded-lg md:rounded-xl group-hover:bg-black group-hover:text-white transition-colors duration-300">
+                    <Award size={20} className="md:w-6 md:h-6" />
+                  </div>
+                  <span className="px-2 md:px-3 py-0.5 md:py-1 bg-gray-100 rounded-full text-[10px] md:text-xs font-semibold text-gray-600">
+                    {edu.year}
+                  </span>
+                </div>
+                <h3 className="text-lg md:text-xl font-bold text-[#111] mb-1">{edu.degree}</h3>
+                <p className="text-xs md:text-sm font-semibold text-gray-500 mb-3 md:mb-4">{edu.school}</p>
+                <p className="text-gray-600 leading-relaxed text-xs md:text-sm">
+                  {edu.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+          </div>
+        </section>
+
+        {/* 7. SEMINARS SECTION */}
+        <section id="seminars" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+          <div className="w-full">
+            <div className="flex items-center mb-8 md:mb-12">
+              <div>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
+                  <GraduationCap size={24} className="theme-icon md:w-8 md:h-8" />
+                  Seminars
+                </h2>
+                <p className="text-sm md:text-base text-gray-500 mt-2">Professional learning and industry exposure.</p>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+              {seminars.map((seminar) => (
+                <article key={seminar.name} className="group overflow-hidden bg-white border border-gray-100 rounded-2xl md:rounded-3xl hover:border-gray-300 hover:shadow-lg transition-all duration-300">
+                  <div className="aspect-[16/8] bg-gray-100 overflow-hidden">
+                    <img src={seminar.image} alt={`${seminar.name} seminar`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  </div>
+                  <div className="p-5 md:p-7">
+                    <h3 className="text-xl md:text-2xl font-bold text-[#111] mb-2">{seminar.name}</h3>
+                    <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-5">{seminar.description}</p>
+                    <a href={seminar.website} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#111] text-white text-sm font-semibold rounded-xl hover:bg-gray-800 transition-colors">
+                      Visit Website <ArrowUpRight size={16} />
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 8. CONTACT SECTION (Form) */}
         <footer id="contact" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
           <div className="w-full">
            <div className="max-w-2xl mx-auto px-4 md:px-0">
@@ -4112,31 +4109,7 @@ const ModernPortfolio = () => {
             onTouchMove={(event) => event.stopPropagation()}
             className="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto overscroll-contain bg-white rounded-2xl md:rounded-[32px] shadow-2xl animate-scale-in outline-none"
           >
-            <div className="sticky top-4 z-10 flex items-center justify-between mr-4 md:mr-6 float-right">
-              <div className="flex gap-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const idx = achievements.findIndex(a => a === selectedAchievement);
-                    setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
-                  }}
-                  className="w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
-                  aria-label="Previous achievement"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const idx = achievements.findIndex(a => a === selectedAchievement);
-                    setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
-                  }}
-                  className="w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
-                  aria-label="Next achievement"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
+            <div className="sticky top-4 z-10 flex justify-end mr-4 md:mr-6 float-right">
               <button
                 onClick={() => setSelectedAchievement(null)}
                 className="w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
@@ -4146,13 +4119,38 @@ const ModernPortfolio = () => {
               </button>
             </div>
             <div className="p-3 sm:p-6 md:p-10 pt-16 md:pt-10">
-              <div className="bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center">
+              <div className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = achievements.findIndex(a => a === selectedAchievement);
+                    setSelectedAchievement(achievements[(idx - 1 + achievements.length) % achievements.length]);
+                  }}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
+                  aria-label="Previous achievement"
+                >
+                  <ChevronLeft size={20} />
+                </button>
                 <img
                   src={selectedAchievement.image}
                   alt={selectedAchievement.title}
                   loading="lazy"
                   className="w-full max-h-[65vh] object-contain"
                 />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const idx = achievements.findIndex(a => a === selectedAchievement);
+                    setSelectedAchievement(achievements[(idx + 1) % achievements.length]);
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
+                  aria-label="Next achievement"
+                >
+                  <ChevronRight size={20} />
+                </button>
+                <span className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/60 text-white text-xs font-semibold">
+                  {achievements.findIndex(a => a === selectedAchievement) + 1} / {achievements.length}
+                </span>
               </div>
               <div className="pt-5 md:pt-7">
                 <p className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400 mb-2">{selectedAchievement.year}</p>
@@ -4182,36 +4180,13 @@ const ModernPortfolio = () => {
           >
             <div className="flex shrink-0 items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
               <div className="min-w-0 flex items-center gap-3">
-                <div className="flex gap-1">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const idx = certificates.findIndex(c => c === selectedCertificate);
-                      setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
-                    }}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
-                    aria-label="Previous certificate"
-                  >
-                    <ChevronLeft size={16} />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const idx = certificates.findIndex(c => c === selectedCertificate);
-                      setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
-                    }}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
-                    aria-label="Next certificate"
-                  >
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
                 <div className="min-w-0">
                   <h2 id="certificate-modal-title" className="truncate text-sm font-bold text-white sm:text-base">{selectedCertificate.name}</h2>
                   <p className="truncate text-xs text-white/60">{selectedCertificate.issuer}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <span className="text-xs text-white/50 font-semibold">{certificates.findIndex(c => c === selectedCertificate) + 1} / {certificates.length}</span>
                 {selectedCertificate.pdfFile && (
                   <a
                     href={`/Certificates/${encodeURIComponent(selectedCertificate.pdfFile)}`}
@@ -4232,7 +4207,18 @@ const ModernPortfolio = () => {
                 </button>
               </div>
             </div>
-            <div className="min-h-0 flex-1 bg-[#080d16] p-2 sm:p-4">
+            <div className="relative min-h-0 flex-1 bg-[#080d16] p-2 sm:p-4">
+              <button
+                type="button"
+                onClick={() => {
+                  const idx = certificates.findIndex(c => c === selectedCertificate);
+                  setSelectedCertificate(certificates[(idx - 1 + certificates.length) % certificates.length]);
+                }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/25 transition-all backdrop-blur-sm"
+                aria-label="Previous certificate"
+              >
+                <ChevronLeft size={20} />
+              </button>
               {selectedCertificate.imageFile ? (
                 <img
                   src={selectedCertificateUrl}
@@ -4247,6 +4233,17 @@ const ModernPortfolio = () => {
                   className="h-full w-full rounded-xl border-0 bg-white"
                 />
               )}
+              <button
+                type="button"
+                onClick={() => {
+                  const idx = certificates.findIndex(c => c === selectedCertificate);
+                  setSelectedCertificate(certificates[(idx + 1) % certificates.length]);
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/25 transition-all backdrop-blur-sm"
+                aria-label="Next certificate"
+              >
+                <ChevronRight size={20} />
+              </button>
             </div>
           </div>
         </div>
