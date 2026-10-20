@@ -1482,7 +1482,7 @@ const ModernPortfolio = () => {
       role: 'Junior GHL Tech Specialist',
       type: 'Full-time',
       company: 'GoHighLevel',
-      period: 'Sep 14, 2026 — Present',
+      period: '2026',
       bullets: [
         'Configure and maintain GoHighLevel (HighLevel) client workspaces — custom pipelines, calendars, contact tags, and lead-source tracking — to keep sales and marketing data organized end to end.',
         'Build automated email/SMS workflows for lead nurture, appointment reminders, and follow-ups, reducing manual outreach and speeding up response times.',
