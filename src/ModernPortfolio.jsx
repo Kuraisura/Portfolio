@@ -2667,15 +2667,15 @@ const ModernPortfolio = () => {
       )}
 
       {/* Desktop Navigation - Top Center (Horizontal & Longer) */}
-       <nav className="hidden lg:block fixed top-8 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[calc(100vw-14rem)]">
-         <div className="flex w-full items-center justify-center gap-1.5 bg-white/95 dark:bg-gray-900/95 rounded-full px-3 py-2 shadow-lg border border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
+       <nav className="hidden lg:block fixed top-8 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[calc(100vw-12rem)]">
+         <div className="flex w-full items-center justify-center gap-2.5 bg-white/95 dark:bg-gray-900/95 rounded-full px-4 py-2 shadow-lg border border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
           {navItems.map((item) => {
             const isActive = activeSection === navItemId(item);
             return (
             <button 
               key={item} 
               onClick={() => scrollToSection(navItemId(item))}
-              className={`relative px-4 xl:px-5 py-3 text-sm font-semibold rounded-full transition-all duration-300 shrink-0 ${
+              className={`relative px-5 xl:px-6 py-3 text-sm font-semibold rounded-full transition-all duration-300 shrink-0 ${
                 isActive
                   ? 'shadow-lg shadow-blue-500/30'
                   : 'text-gray-600 hover:text-black hover:bg-gray-50 spark-button hover:-translate-y-0.5'
