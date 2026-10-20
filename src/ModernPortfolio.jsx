@@ -1479,6 +1479,18 @@ const ModernPortfolio = () => {
 
   const workExperience = [
     {
+      role: 'Junior GHL Tech Specialist',
+      type: 'Full-time',
+      company: 'GoHighLevel',
+      period: 'Sep 14, 2026 — Present',
+      bullets: [
+        'Configure and maintain GoHighLevel (HighLevel) client workspaces — custom pipelines, calendars, contact tags, and lead-source tracking — to keep sales and marketing data organized end to end.',
+        'Build automated email/SMS workflows for lead nurture, appointment reminders, and follow-ups, reducing manual outreach and speeding up response times.',
+        'Design and launch sales funnels, landing pages, and websites inside GHL, plus snapshot setup and third-party integrations (Zapier, webhooks, APIs).',
+        'Troubleshoot account issues, reputation-management automations (review requests, Google Business Profile), and SaaS-mode configurations for ongoing client success.'
+      ]
+    },
+    {
       role: 'MIS Technical Support & Software Developer',
       type: 'Internship',
       company: 'STI College Santa Rosa',
