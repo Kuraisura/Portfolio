@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { projects } from './data/projects';
+import ProjectDetails from './components/ProjectDetails';
 import ReactPlayer from 'react-player';
 import { SiTiktok, SiTryhackme } from 'react-icons/si';
 import Lenis from 'lenis';
@@ -1203,7 +1205,6 @@ const ModernPortfolio = () => {
       document.head.appendChild(script);
     }
     script.textContent = JSON.stringify(item);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Blocks rubber-banding / chain-scrolling behind the open dialog so a drag
@@ -1712,419 +1713,6 @@ const ModernPortfolio = () => {
     }
   ];
 
-  const projects = [
-    // ── Mobile (newest → oldest) ──
-    {
-      id: 12,
-      title: "SeismicWatch",
-      logo: "/Portfolio/OfficialThumbnails/optimized/SeismicWatch.webp",
-      subtitle: "Hazard & Emergency Safety App",
-      type: "Mobile",
-      desc: "Comprehensive Philippine disaster preparedness app with earthquake tracking, family location sharing, SOS, and offline mesh relay.",
-      longDesc: "Gising! (Filipino for 'Wake up!') is a free Philippine hazard and emergency safety app. Features real-time earthquake tracking from USGS/PHIVOLCS via Supabase Realtime WebSocket, typhoon/cyclone tracking from GDACS/PAGASA, live weather for 40+ Philippine cities via Open-Meteo, family location sharing (Life360-style circles) with foreground/background GPS, emergency SOS from app/Quick Settings tile/widget/power-button panic gesture, offline P2P mesh relay via Nearby Connections, in-app encrypted chat, emergency contacts with auto-SMS/call, first aid overlay, alarm siren, and 5 switchable launcher icon themes. Built free-tier-first with Firebase + Supabase.",
-      tech: ["Kotlin", "Jetpack Compose", "Room + SQLCipher", "Firebase", "Supabase", "MapLibre", "Nearby Connections", "WorkManager", "Glance", "Coil"],
-      stats: { platform: "Android", year: "2026", features: "15+", status: "In Development" },
-      link: "https://github.com/Kuraisura/SeismicWatch",
-      date: "June 11, 2026",
-      size: "medium",
-      color: "bg-emerald-600",
-      gradient: "from-emerald-600/20 to-teal-500/20",
-      screenshots: [
-        "/Portfolio/SeismicWatch/1.jpg",
-        "/Portfolio/SeismicWatch/2.jpg",
-        "/Portfolio/SeismicWatch/3.jpg",
-        "/Portfolio/SeismicWatch/4.jpg",
-        "/Portfolio/SeismicWatch/5.jpg",
-        "/Portfolio/SeismicWatch/6.jpg",
-        "/Portfolio/SeismicWatch/7.jpg",
-        "/Portfolio/SeismicWatch/8.jpg",
-        "/Portfolio/SeismicWatch/9.jpg",
-        "/Portfolio/SeismicWatch/10.jpg",
-        "/Portfolio/SeismicWatch/11.jpg",
-        "/Portfolio/SeismicWatch/12.jpg",
-        "/Portfolio/SeismicWatch/13.jpg",
-        "/Portfolio/SeismicWatch/14.jpg"
-      ],
-      howMade: "Single-Activity Compose-only UI with MVVM + Repository pattern (13 repositories). Dual backend: Firebase (Auth, Firestore, FCM, App Check) for social/location layer, Supabase (PostgREST, Realtime) for hazard data — all on free tiers. Room + SQLCipher for encrypted local storage. MapLibre for open-source OSM map tiles (no API key). Foreground services for persistent earthquake monitoring, location sharing, and mesh relay. Nearby Connections (BLE + Wi-Fi) for offline P2P SOS relay. Glance for home-screen widgets. 5 launcher icon themes via activity-alias toggling. Supabase Edge Functions (pg_cron) scrape PHIVOLCS + PAGASA data into Supabase Postgres."
-    },
-    {
-      id: 17,
-      title: "STIRAMS Web",
-      subtitle: "RFID Attendance Dashboard",
-      type: "Websites",
-      desc: "Real-time web dashboard for RFID attendance monitoring with DTR generation, leave management, and analytics.",
-      longDesc: "STI RAMS Web is the dashboard component of the RFID-based employee attendance system built for STI College Santa Rosa. Built with Next.js 14 App Router, it provides real-time monitoring of RFID card tap-ins and tap-outs, DTR (Daily Time Record) generation, leave management with manager approval, substitute scheduling, holiday handling, audit logs, and comprehensive reports. Features include Radix UI/shadcn components, PostgreSQL via pg driver, SWR for data fetching, Recharts for analytics, and a hybrid offline/online architecture with GUID-based conflict resolution. Shares the same Supabase backend as the WPF desktop client.",
-      tech: ["Next.js 14", "TypeScript", "Tailwind CSS 4", "PostgreSQL", "SQLite", "Dapper", "Supabase", "Recharts", "Radix UI", "SWQ"],
-      stats: { status: "Featured", year: "2026", commits: "116+", platform: "Web" },
-      link: "https://github.com/Kuraisura/STIRAMSWEB",
-      website: "https://stiramsweb.vercel.app/",
-      date: "May 7, 2026",
-      size: "large",
-      color: "bg-orange-500",
-      gradient: "from-orange-500/20 to-amber-500/20",
-      screenshots: [
-        "/Portfolio/STIRAMS(WEB)/1.png",
-        "/Portfolio/STIRAMS(WEB)/2.png",
-        "/Portfolio/STIRAMS(WEB)/3.png",
-        "/Portfolio/STIRAMS(WEB)/4.png",
-        "/Portfolio/STIRAMS(WEB)/5.png",
-        "/Portfolio/STIRAMS(WEB)/6.png",
-        "/Portfolio/STIRAMS(WEB)/7.png",
-        "/Portfolio/STIRAMS(WEB)/8.png",
-        "/Portfolio/STIRAMS(WEB)/9.png",
-        "/Portfolio/STIRAMS(WEB)/10.png",
-        "/Portfolio/STIRAMS(WEB)/11.png",
-        "/Portfolio/STIRAMS(WEB)/12.png",
-        "/Portfolio/STIRAMS(WEB)/13.png",
-        "/Portfolio/STIRAMS(WEB)/14.png",
-        "/Portfolio/STIRAMS(WEB)/15.png"
-      ],
-      howMade: "Next.js 14 App Router with Radix UI/shadcn components, PostgreSQL via pg driver, SWR for data fetching, and Recharts for analytics. Shares a Supabase backend with the WPF desktop client. Hybrid offline/online architecture with GUID-based conflict resolution. Developer console and emergency admin recovery features. The web dashboard provides real-time monitoring, DTR generation, leave management, substitute scheduling, holiday handling, audit logs, and reports."
-    },
-    {
-      id: 18,
-      title: "STIRAMS WPF",
-      subtitle: "RFID Attendance Desktop Client",
-      type: "IoT",
-      desc: "WPF desktop client that reads HID RFID cards for employee attendance, with offline sync and kiosk mode.",
-      longDesc: "STI RAMS WPF is the desktop client component of the RFID-based employee attendance system built for STI College Santa Rosa. Written in C# with .NET 8 and WPF, it reads HID RFID card taps via USB auto-detected readers (WMI), displays employee profile photos, and manages clock-in/clock-out with local SQLite storage and background PostgreSQL sync. Features include MVVM architecture with CommunityToolkit.Mvvm, MaterialDesignThemes UI, 30+ services (attendance validation, holiday handling, RFID detection, schedule caching), full-screen kiosk tap-in mode, and emergency admin recovery.",
-      tech: ["C#", ".NET 8", "WPF", "MaterialDesign", "SQLite", "PostgreSQL", "Supabase", "WMI", "CommunityToolkit.Mvvm"],
-      stats: { status: "Featured", year: "2026", platform: "Windows" },
-      link: "https://github.com/Kuraisura/STIRAMSWPF",
-      date: "May 7, 2026",
-      size: "large",
-      color: "bg-blue-600",
-      gradient: "from-blue-600/20 to-cyan-500/20",
-      screenshots: [
-        "/Portfolio/STIRAMS(WPF)/1.png",
-        "/Portfolio/STIRAMS(WPF)/2.png",
-        "/Portfolio/STIRAMS(WPF)/3.png",
-        "/Portfolio/STIRAMS(WPF)/4.png",
-        "/Portfolio/STIRAMS(WPF)/5.png"
-      ],
-      howMade: "WPF desktop client using MVVM architecture with CommunityToolkit.Mvvm, 30+ services (attendance validation, holiday handling, RFID detection, schedule caching), and MaterialDesignThemes UI. Runs as a kiosk with full-screen tap-in mode. Auto-detects USB RFID readers via WMI and syncs offline attendance to PostgreSQL in the background. Shares a Supabase backend with the web dashboard."
-    },
-    {
-      id: 13,
-      title: "Neural Lens",
-      subtitle: "Facial Recognition Attendance System",
-      type: "IoT",
-      desc: "Enterprise facial recognition attendance with Flask web UI, role-based access, Docker deployment, and system monitoring.",
-      longDesc: "Neural Lens (internally 'Neural Eye') is an enterprise-grade facial recognition attendance system. Enrolls employees via webcam, stores encrypted 128-dimensional face encodings (no raw images), and auto clocks in/out when recognized. Calculates attendance status (ON-TIME, LATE, UNDERTIME, OVERTIME) with configurable work hours and grace periods. Full employee lifecycle management: departments, positions, shifts, leave requests with manager approval. Web dashboard for real-time monitoring and reporting. Features AES-256-GCM encryption, multi-role auth (admin/manager/viewer), structured JSON logging, system health monitoring (CPU/memory/disk/temperature), backup/restore with SHA-256 verification, Docker deployment, and GitHub Actions CI/CD.",
-      tech: ["Python", "Flask", "OpenCV", "face_recognition", "SQLite", "Docker", "GitHub Actions", "pytest", "bcrypt"],
-      stats: { platform: "Web + Embedded", year: "2025", apiEndpoints: "20+", status: "In Development" },
-      link: "https://github.com/Kuraisura/NeuralLens",
-      date: "December 26, 2025",
-      size: "large",
-      color: "bg-blue-600",
-      gradient: "from-blue-600/20 to-cyan-500/20",
-      howMade: "4-layer architecture: Presentation (Web UI HTML templates + REST API JSON + MJPEG video stream), Application (face recognition, attendance logic, employee/leave management), Core (SQLite database, security, logging, config, cache, watchdog), HAL (camera interface with USB/CSI/Mock support, storage, network, GPIO). Uses face-recognition library (dlib-based) with OpenCV for camera capture. Thread-safe camera reader with timeout protection. Mock camera mode for development. Repository pattern for database abstraction, Factory pattern for camera devices, Observer pattern for notifications. Docker multi-stage build with health checks. pytest + coverage + benchmarks for testing. CI/CD via GitHub Actions with Black/isort/Flake8/Pylint/MyPy/Bandit code quality checks."
-    },
-    // ── Websites (newest → oldest) ──
-    {
-      id: 8,
-      title: "YT Converter",
-      subtitle: "Media Conversion Web App",
-      type: "Websites",
-      desc: "Queue-based YouTube to MP3/MP4 converter with playlist support, quality selection, and Cloudflare R2 storage.",
-      longDesc: "YT Converter is a full-stack web application that converts YouTube videos and playlists to MP3 or MP4. Users paste a YouTube URL, choose format (MP3 128-320kbps / MP4 360-1080p), and the app fetches metadata, downloads via yt-dlp, converts with FFmpeg, uploads to Cloudflare R2, and serves a presigned download URL. Features include queue-based async processing with Upstash Redis, animated 5-state UI (idle→fetching→selection→processing→success), playlist ZIP archival, real-time progress polling, mobile 'Pocket mode' with action sheet, and scheduled R2 cleanup.",
-      tech: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Framer Motion", "FFmpeg", "yt-dlp", "Cloudflare R2", "Upstash Redis", "Docker", "Radix UI"],
-      stats: { type: "Utility", year: "2026", apiEndpoints: "9", platform: "Web" },
-      link: "https://github.com/Kuraisura/YTConverter",
-      website: "https://ytconverter-vt6g.onrender.com/",
-      date: "May 10, 2026",
-      size: "small",
-      color: "bg-orange-500",
-      gradient: "from-orange-500/20 to-amber-500/20",
-      screenshots: [
-        "/Portfolio/YT Converter/1.png",
-        "/Portfolio/YT Converter/2.png",
-        "/Portfolio/YT Converter/3.png"
-      ],
-      howMade: "Queue-based architecture: Browser → POST /api/convert → Redis Queue → background worker (queue-worker.js) polls every 2s → processor downloads with yt-dlp, converts with FFmpeg (fluent-ffmpeg), uploads to Cloudflare R2 via AWS SDK → serves presigned URL. Frontend uses Framer Motion for physics-based animations and AnimatePresence for state transitions. 58 shadcn/ui components, Radix UI primitives, and Orbitron custom font. Docker deployment with Alpine Node 18 + ffmpeg + Python + yt-dlp. Mobile-optimized with responsive breakpoints and 'Pocket mode' action sheet."
-    },
-    {
-      id: 5,
-      title: "Raiko",
-      subtitle: "E-Commerce Website",
-      type: "Websites",
-      desc: "A front-end anime merchandise storefront with hero banners, product grids, and a checkout flow.",
-      longDesc: "Raiko is a static front-end e-commerce website for selling anime/Japanese/Korean-themed t-shirts and merchandise. Features a hero banner with trade-in offers, featured products and new arrivals sections with anime character shirts (Eren Yeager, Anya, Gojo Satoru, Makima), product detail pages, and a shopping cart. Pricing in Philippine Pesos. Built as a learning project following a web development tutorial.",
-      tech: ["HTML", "CSS", "JavaScript"],
-      stats: { year: "2024", pages: "7", platform: "Web" },
-      link: "https://github.com/Kuraisura/Raiko",
-      website: "https://raiko-three.vercel.app/",
-      date: "May 7, 2024",
-      size: "small",
-      color: "bg-orange-500",
-      gradient: "from-orange-500/20 to-amber-500/20",
-      screenshots: [
-        "/Portfolio/Raiko/home.png",
-        "/Portfolio/Raiko/shop.png",
-        "/Portfolio/Raiko/about.png",
-        "/Portfolio/Raiko/blog.png",
-        "/Portfolio/Raiko/contact.png"
-      ],
-      howMade: "Pure vanilla HTML/CSS/JS — no frameworks or build tools. 7 pages (index, shop, blog, about, contact, cart, sproduct) with custom CSS (523 lines) using Google Fonts (Spartan). Product images organized in subdirectories (img/products/, img/banner/, img/blog/). The index page is fully built out with hero banners, featured products, and new arrivals grids. Other pages are structured shells. Built as a learning exercise following a web development tutorial."
-    },
-    {
-      id: 15,
-      title: "Chrono Desktop",
-      subtitle: "Task & Habit Tracker",
-      type: "Desktop",
-      desc: "Desktop task and habit tracking application with a Pomodoro timer, streak calendar, and gamified progress.",
-      longDesc: "Chrono Desktop is a productivity desktop application for task and habit management with gamification elements. Features include a Pomodoro timer, streak calendar with heat-map visualization, task categories with drag-and-drop reordering, habit tracking with daily and weekly goals, project management with kanban-style boards, and a points-based reward system.",
-      tech: ["React", "TypeScript", "Tailwind CSS", "Firebase", "Framer Motion"],
-      stats: { type: "Productivity", year: "2026", platform: "Desktop" },
-      link: "https://github.com/Kuraisura/ChronoWeb",
-      date: "September 12, 2026",
-      size: "medium",
-      color: "bg-orange-500",
-      gradient: "from-orange-500/20 to-amber-500/20",
-      howMade: "React single-page application with TypeScript and Tailwind CSS. State management via React Context API with persistence to localStorage. Firebase Authentication for user accounts and Firestore for real-time data sync. Framer Motion for smooth animations and transitions. The Pomodoro timer uses the Web Audio API for sound notifications. Drag-and-drop functionality implemented using React DnD. Streak calendar renders a heat-map using SVG."
-    },
-    // ── Game ──
-    {
-      id: 3,
-      title: "Silid 1201",
-      subtitle: "Survival Horror",
-      type: "Game",
-      desc: "A first-person Unity horror game — collect 8 pages in an abandoned school while a Weeping Angel-style enemy freezes when looked at.",
-      longDesc: "Silid 1201 is a first-person survival-horror school project built in only two days. The player explores an abandoned school, manages a flashlight and sprint stamina, collects scattered ritual pages, and survives an enemy that freezes while being watched.",
-      tech: ["Unity 6", "C#", "URP 17", "Unity Input System", "Barracuda 3.0", "NavMesh", "Timeline", "TextMeshPro", "GLTFast"],
-      stats: { genre: "Horror", year: "2025", scripts: "130+", engine: "Unity 6000.2" },
-      link: "https://github.com/Kuraisura/Silid1201",
-      date: "November 20, 2025",
-      size: "large",
-      color: "bg-red-900",
-      gradient: "from-red-900/40 to-black/60",
-      screenshots: [
-        "/Portfolio/Silid 1201/1.png",
-        "/Portfolio/Silid 1201/2.png",
-        "/Portfolio/Silid 1201/3.png",
-        "/Portfolio/Silid 1201/4.png",
-        "/Portfolio/Silid 1201/5.png"
-      ],
-      showcase: ["/Portfolio/Silid 1201/Showcase/gameplay.mp4"],
-      howMade: "Created in two days for a school project using Unity 6 and the Universal Render Pipeline (URP). The enemy uses Unity AI Navigation (NavMesh) and a visibility system that freezes it when the player looks at it. Player movement uses Unity's Input System, while dedicated components manage the flashlight, stamina, collectibles, HUD, doors, and cutscenes."
-    },
-    // ── Mobile (newest → oldest) ──
-    {
-      id: 14,
-      title: "Wiz",
-      subtitle: "AI-Powered Study Platform",
-      type: "Mobile",
-      desc: "Cross-platform study app that generates quizzes from documents, flashcards, and camera OCR with multi-provider AI chain.",
-      longDesc: "Wiz is an AI-powered learning platform that transforms study materials into interactive quizzes and flashcards. Users upload PDF, DOCX, PPTX, or EPUB files and the app uses a multi-provider AI chain (Groq → Gemini → Cerebras → OpenRouter) to generate quiz questions. Features include a Scan-to-Quiz camera mode with hybrid OCR (Supabase Edge Functions, AI Vision, Tesseract.js), spaced-repetition flashcards, a cloud-synced document library, and a Pro subscription via PayMongo. Built as a hybrid web + mobile app using Capacitor for iOS and Android.",
-      tech: ["React 19", "Vite 8", "Tailwind CSS 3", "Supabase", "Capacitor", "Groq", "Gemini", "Cerebras", "OpenRouter", "PayMongo", "Tesseract.js"],
-      stats: { platforms: "Web, iOS, Android", year: "2026", aiProviders: "4", status: "In Development" },
-      link: "https://github.com/Kuraisura/Wiz",
-      date: "September 8, 2026",
-      size: "large",
-      color: "bg-emerald-600",
-      gradient: "from-emerald-600/20 to-teal-500/20",
-      screenshots: [
-        "/Portfolio/Wiz/1.png",
-        "/Portfolio/Wiz/2.png",
-        "/Portfolio/Wiz/3.png",
-        "/Portfolio/Wiz/4.png",
-        "/Portfolio/Wiz/5.png",
-        "/Portfolio/Wiz/6.png",
-        "/Portfolio/Wiz/7.png",
-        "/Portfolio/Wiz/8.png",
-        "/Portfolio/Wiz/9.png",
-        "/Portfolio/Wiz/10.png",
-        "/Portfolio/Wiz/11.png",
-        "/Portfolio/Wiz/12.png",
-        "/Portfolio/Wiz/13.png",
-        "/Portfolio/Wiz/14.png"
-      ],
-      howMade: "React 19 + Vite 8 SPA with Tailwind CSS 3 styling. Supabase handles auth, database (document library, flashcard progress), and Edge Functions for OCR processing. AI quiz generation uses a multi-provider chain with automatic fallback: Groq (fastest) → Gemini → Cerebras → OpenRouter. Camera mode uses Capacitor Camera API + hybrid OCR pipeline (Supabase Edge Functions for server-side processing, AI Vision as fallback, Tesseract.js for client-side). Spaced-repetition algorithm for flashcard scheduling. PayMongo integration for Pro subscription payments. Capacitor wraps the web app for native iOS/Android deployment."
-    },
-    {
-      id: 9,
-      title: "Musikk",
-      subtitle: "AI Music Stem Separation",
-      type: "Mobile",
-      desc: "AI-powered Android app that splits songs into individual instrument tracks with a DAW-like mixer and practice tools.",
-      longDesc: "Musikk is an AI-powered music stem separation Android app — a mobile alternative to Moises or BandLab. Upload an audio file, and the app splits it into individual instrument tracks (vocals, drums, bass, guitar, piano, etc.) using Demucs/HTDemucs models via a local Python backend or Hugging Face cloud inference. Features a DAW-like mixing console with per-stem volume/mute/solo, audio effects (EQ, reverb, delay, chorus, compression, noise reduction), practice tools (A/B loop, metronome, chord reader, key transposer), repertoire management, and user accounts with credit-based AI usage tracking.",
-      tech: ["Kotlin", "Jetpack Compose", "Media3 ExoPlayer", "FastAPI", "Demucs", "Firebase Auth", "Cloudflare R2", "Cloud Firestore", "OkHttp", "Retrofit"],
-      stats: { platform: "Android", year: "2026", stemPresets: "10", status: "In Development" },
-      link: "https://github.com/Kuraisura/Musikk",
-      date: "August 1, 2026",
-      size: "medium",
-      color: "bg-emerald-600",
-      gradient: "from-emerald-600/20 to-teal-500/20",
-      screenshots: [
-        "/Portfolio/Musikk/1.jpg",
-        "/Portfolio/Musikk/2.jpg",
-        "/Portfolio/Musikk/3.jpg",
-        "/Portfolio/Musikk/4.jpg",
-        "/Portfolio/Musikk/5.jpg",
-        "/Portfolio/Musikk/6.jpg",
-        "/Portfolio/Musikk/7.jpg",
-        "/Portfolio/Musikk/8.png"
-      ],
-      howMade: "Single-Activity Compose app with NavHost (Splash → Onboarding → 4 main tabs: Stems, Practice, Repertoire, Profile). Stem separation runs on a local FastAPI server (Demucs v4 CLI subprocess) or Hugging Face Inference API. Separated stems uploaded to Cloudflare R2 with custom AWS4-HMAC-SHA256 signing in pure Kotlin. Mixer uses up to 10 parallel ExoPlayer instances with synchronized playback. Audio effects chain includes Android audiofx (Equalizer, BassBoost) + custom PureKotlinAudioProcessor for speed/pitch. Firebase Auth for user accounts, Firestore for song library. Subscription model UI built (free 20 mins/month, $4.99 monthly, $11.99 pro) but payments not yet wired."
-    },
-    {
-      id: 16,
-      title: "Chrono Android",
-      subtitle: "Task & Habit Tracker",
-      type: "Mobile",
-      desc: "Android task and habit tracking app with Pomodoro timer, streak calendar, and gamified progress built with Jetpack Compose and Kotlin.",
-      longDesc: "Chrono Android is a productivity mobile application for task and habit management with gamification elements. Features include a Pomodoro timer, streak calendar with heat-map visualization, task categories with drag-and-drop reordering, habit tracking with daily/weekly goals, and a points-based reward system. Built with Jetpack Compose following modern Android architecture best practices.",
-      tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt", "Navigation Compose", "WorkManager", "Firebase Firestore"],
-      stats: { platform: "Android", year: "2026", status: "In Development" },
-      link: "https://github.com/Kuraisura/ChronoAndroid",
-      date: "September 12, 2026",
-      size: "medium",
-      color: "bg-emerald-600",
-      gradient: "from-emerald-600/20 to-teal-500/20",
-      howMade: "Jetpack Compose Single-Activity architecture with MVVM + Repository pattern. Room database for local task/habit storage with encrypted SQLCipher. Hilt for dependency injection. WorkManager for Pomodoro timer background tasks. Firebase Firestore for cross-device sync. Navigation Compose for tab-based navigation."
-    },
-    {
-      id: 19,
-      title: "STITimer",
-      subtitle: "Countdown Timer for STI College",
-      type: "Windows Forms",
-      desc: "A countdown timer application built in a 12-hour sprint for a college event at STI College Santa Rosa.",
-      longDesc: "STITimer is a Windows Forms countdown timer application built in just 12 hours before an event at STI College Santa Rosa. Created as part of the STIRams project ecosystem, it provides a clean, reliable countdown display for event timing. The application was developed under extreme time pressure and deployed successfully for the school event. The project demonstrates rapid prototyping and delivery under tight deadlines.",
-      tech: ["C#", ".NET Framework", "Windows Forms"],
-      stats: { platform: "Windows", year: "2026" },
-      link: "https://github.com/Kuraisura/STITimer",
-      date: "March 4, 2026",
-      size: "medium",
-      color: "bg-purple-600",
-      gradient: "from-purple-600/20 to-indigo-500/20",
-      screenshots: [
-        "/Portfolio/STITimer/1.png",
-        "/Portfolio/STITimer/2.png",
-        "/Portfolio/STITimer/3.png",
-        "/Portfolio/STITimer/4.png",
-        "/Portfolio/STITimer/5.png",
-        "/Portfolio/STITimer/6.png",
-        "/Portfolio/STITimer/7.png",
-        "/Portfolio/STITimer/8.png",
-        "/Portfolio/STITimer/9.png",
-        "/Portfolio/STITimer/10.png",
-        "/Portfolio/STITimer/11.png"
-      ],
-      showcase: [
-        "/Portfolio/STITimer/Events/1.png",
-        "/Portfolio/STITimer/Events/2.png",
-        "/Portfolio/STITimer/Events/3.png",
-        "/Portfolio/STITimer/Events/4.png"
-      ],
-      howMade: "Built in a 12-hour sprint using C# and Windows Forms. The application was created under extreme time pressure before an STI College Santa Rosa event. It provides a reliable countdown display for event timing. Developed as part of the STIRams project ecosystem."
-    },
-    {
-      id: 10,
-      title: "RN Ready",
-      subtitle: "Nursing Board Exam Prep",
-      type: "Mobile",
-      desc: "Open-source Flutter study app with AI tutoring, anatomy quizzes, care plans, and MCQ banks for PNLE/NCLEX.",
-      longDesc: "RN Ready is a free, open-source Flutter mobile study app for nursing board exam prep (PNLE/NCLEX). Features AI tutoring with multi-provider fallback (Groq → Gemini → OpenRouter), interactive anatomy quizzes with diagrams, AI-assisted care plan generation, clinical scenario quizzes, dynamic MCQ quiz banks with progress tracking, study modules with slide viewers, note-taking, and offline-capable content. Built with a feature-based modular architecture using Riverpod for state management, clinical-navy palette with glassmorphism UI, and dual-font offline typography.",
-      tech: ["Flutter 3", "Dart", "Riverpod", "Groq", "Gemini", "OpenRouter", "Flutter Markdown", "Google Fonts", "SharedPreferences"],
-      stats: { platforms: "Android, iOS, Web, Windows", year: "2026", status: "In Development" },
-      link: "https://github.com/Kuraisura/RNReady",
-      date: "June 12, 2026",
-      size: "large",
-      color: "bg-teal-600",
-      gradient: "from-teal-600/20 to-emerald-500/20",
-      screenshots: [
-        "/Portfolio/Rn Ready/1.png",
-        "/Portfolio/Rn Ready/2.png",
-        "/Portfolio/Rn Ready/3.png",
-        "/Portfolio/Rn Ready/4.png",
-        "/Portfolio/Rn Ready/8.png",
-        "/Portfolio/Rn Ready/9.png",
-        "/Portfolio/Rn Ready/10.png",
-        "/Portfolio/Rn Ready/11.png",
-        "/Portfolio/Rn Ready/12.png",
-        "/Portfolio/Rn Ready/13.png",
-        "/Portfolio/Rn Ready/14.png",
-        "/Portfolio/Rn Ready/15.png"
-      ],
-      howMade: "Clean feature-based modular structure: core/ (animations, router, theme, widgets), data/ (models, services), features/ (ai_tutor, anatomy, care_plan, clinical_quiz, mcq_quiz, module_slides, module_viewer, notes). Riverpod ProviderScope wraps the app with ThemeController injected as provider override. AI tutoring uses http package with automatic provider fallback chain (Groq → Gemini → OpenRouter/Anthropic). Content stored as JSON-backed slides in assets/study/slides/. Dual-font offline typography (Playfair Display + Inter) via bundled TTFs. Light/dark theme persisted with SharedPreferences.",
-      landscapeIndices: []
-    },
-    {
-      id: 6,
-      title: "JournalEase",
-      subtitle: "Android Journaling App",
-      type: "Mobile",
-      desc: "Android note-taking app with color-coded notes, PDF/DOCX export, and staggered grid layout.",
-      longDesc: "JournalEase is a Java Android journaling application with full CRUD operations on notes. Features include color-coded notes displayed in a Pinterest-style 2-column staggered grid, export to PDF (iTextG) and DOCX (Apache POI), animated RecyclerView items, popup menus for edit/delete/export, session management via SharedPreferences, and a splash screen with animations. Originally forked from a Firebase-based tutorial, modified to work fully offline with local SharedPreferences storage.",
-      tech: ["Java", "Android SDK", "iTextG 5.5", "Apache POI", "SharedPreferences", "Material Design"],
-      stats: { platform: "Android", year: "2022", minSDK: "26", targetSDK: "33" },
-      link: "https://github.com/Kuraisura/Journal-Ease",
-      date: "May 22, 2022",
-      size: "medium", 
-      color: "bg-green-600",
-      gradient: "from-green-600/20 to-emerald-500/20",
-      screenshots: [
-        "/Portfolio/JournalEase/1.png",
-        "/Portfolio/JournalEase/2.png",
-        "/Portfolio/JournalEase/3.png",
-        "/Portfolio/JournalEase/4.png",
-        "/Portfolio/JournalEase/5.png",
-        "/Portfolio/JournalEase/6.png"
-      ],
-      howMade: "Activity-based Android architecture (no fragments/ViewModel). Data stored in SharedPreferences as JSON-serialized note list via LocalNoteStore singleton. Each note gets a random background color from a 10-color palette. PDF export uses Android PdfDocument + iTextG 5.5, DOCX export uses Apache POI poi-ooxml 4.1.2. RecyclerView with StaggeredGridLayoutManager for the Pinterest-style grid. Originally a Firebase tutorial project (NotesAppInAndroidStudio), modified to remove Firebase and use local storage only — making it work fully offline in demo mode."
-    },
-    // ── Windows Forms (newest → oldest) ──
-    {
-      id: 7,
-      title: "Pet Haven",
-      subtitle: "Pet Shop POS System",
-      type: "Windows Forms",
-      desc: "Full-featured pet shop point-of-sale system with inventory, billing, PDF receipts with QR codes, and transaction history.",
-      longDesc: "Pet Haven is a complete desktop POS system for a physical pet shop in Santa Rosa, Laguna. Manages employees (admin/employee roles), product inventory categorized by animal type (Dog, Cat, Bird, Fish), customer records, billing with cash/change calculation, and transaction history. Generates PDF receipts with company logo, product table, and QR codes encoding transaction numbers. Features role-based access, real-time dashboard with category-level inventory counts, auto-incrementing transaction numbers, and product stock validation to prevent overselling.",
-      tech: ["C#", ".NET Framework 4.7.2", "Windows Forms", "SQL Server", "Guna.UI2", "iTextSharp", "QRCoder", "PDFsharp", "BouncyCastle"],
-      stats: { status: "Featured", year: "2024", platform: "Windows", publisher: "TeamPetHaven" },
-      link: "https://github.com/Kuraisura/Pet-Haven",
-      date: "May 24, 2024",
-      size: "small",
-      color: "bg-purple-600",
-      gradient: "from-purple-600/20 to-pink-500/20",
-      screenshots: [
-        "/Portfolio/PetHaven/1.png",
-        "/Portfolio/PetHaven/2.png",
-        "/Portfolio/PetHaven/3.png",
-        "/Portfolio/PetHaven/4.png",
-        "/Portfolio/PetHaven/5.png",
-        "/Portfolio/PetHaven/6.png",
-        "/Portfolio/PetHaven/7.png",
-        "/Portfolio/PetHaven/8.png"
-      ],
-      howMade: "Traditional WinForms code-behind architecture — each form manages its own database queries via SqlConnection/SqlCommand. SQL Server LocalDB .mdf file (dbPetHaven.mdf) stores all data in 4 tables (Employee, Product, Customer, Billing). SplashForm → LoginForm (BINARY_CHECKSUM auth) → MainForm hub. Product categories filter by animal type. Billing calculates cash/change in real-time. PDF receipts generated with iTextSharp (company branding, product table, totals) and QRCoder (transaction QR code). Guna.UI2 provides the UI theme with rounded controls and modern styling."
-    },
-    {
-      id: 4,
-      title: "St. Benedict Hospital Management System",
-      subtitle: "Hospital Management System",
-      type: "Windows Forms",
-      desc: "Desktop hospital system for patient records, doctor appointments, billing, prescriptions, surgical procedures, and clinical encounters.",
-      longDesc: "St. Benedict is a full-featured hospital management system built across 8 iterative versions. It manages patient records, doctor scheduling, appointments, medical histories, clinical encounter records, billing with iTextSharp PDF receipts, prescriptions with disease-to-drug mappings, surgical procedures, and clinic-hour scheduling. Two roles: doctors get a focused dashboard (patients, appointments, medical history), front desk staff get the full management suite. Uses SQL Server LocalDB with ADO.NET data access and Guna.UI2 for a polished interface.",
-      tech: ["C#", ".NET Framework 4.7.2", "Windows Forms", "SQL Server", "Guna.UI2", "iTextSharp", "QRCoder", "BouncyCastle", "Newtonsoft.Json"],
-      stats: { status: "Featured", year: "2024", versions: "8", platform: "Windows" },
-      link: "https://github.com/Kuraisura/StBenedict",
-      date: "December 13, 2024",
-      size: "small",
-      color: "bg-emerald-600",
-      gradient: "from-emerald-600/20 to-teal-500/20",
-      screenshots: [
-        "/Portfolio/St.Benedict/1.png",
-        "/Portfolio/St.Benedict/2.png",
-        "/Portfolio/St.Benedict/3.png",
-        "/Portfolio/St.Benedict/4.png",
-        "/Portfolio/St.Benedict/5.png",
-        "/Portfolio/St.Benedict/6.png"
-      ],
-      howMade: "Built iteratively across 8 versions in WinForms. Started with basic CRUD forms (v1.0), added typed datasets and dbConnect class (v2.0), clinical encounter records (v3.0), prescription and surgical procedure modules with disease-to-drug/surgery cost mappings (v4.0-6.0), and doctor-specific dashboards with PDF/QR generation (v8.0). Uses ADO.NET (SqlConnection/SqlCommand/SqlDataAdapter) for all database operations against SQL Server LocalDB .mdf files. UI powered by Guna.UI2 components. iTextSharp generates PDF receipts, QRCoder generates QR codes for patient records."
-    }
-  ];
 
   // Curated "best of so far" set. Order here is the order they are shown in.
   const FEATURED_TITLES = ['RN Ready', 'Wiz', 'Musikk', 'STIRAMS Web', 'STIRAMS WPF'];
@@ -3563,7 +3151,7 @@ const ModernPortfolio = () => {
             onClick={() => setSelectedProject(null)}
           ></div>
           
-          <div className="relative w-full max-w-3xl">
+          <div className="project-dialog-frame relative w-full max-w-3xl">
             <div
               ref={projectModalRef}
               tabIndex={-1}
@@ -3572,7 +3160,7 @@ const ModernPortfolio = () => {
               aria-labelledby="project-modal-title"
               onWheel={(event) => event.stopPropagation()}
               onTouchMove={(event) => event.stopPropagation()}
-              className="relative bg-white w-full max-h-[90vh] overflow-y-auto overscroll-contain rounded-2xl md:rounded-[32px] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] animate-scale-in outline-none"
+              className="project-dialog-scroll relative bg-white w-full overflow-y-auto overscroll-contain animate-scale-in outline-none"
             >
             {/* Modal Header with Swiper Coverflow Gallery or Hero Image */}
             {selectedProject.screenshots && selectedProject.screenshots.length > 0 ? (
@@ -3774,66 +3362,21 @@ const ModernPortfolio = () => {
                     rel="noopener noreferrer"
                     className="inline-flex shrink-0 items-center justify-center gap-1.5 bg-[#111] text-white px-3 sm:px-4 py-2 rounded-full text-[11px] sm:text-sm font-semibold hover:bg-black/90 hover:shadow-lg hover:shadow-black/20 transition-all duration-300 active:scale-95"
                   >
-                    View Project <ArrowUpRight size={14} />
+                    View Repository <ArrowUpRight size={14} />
                   </a>
                 )}
               </div>
               {selectedProject.date && (
                 <p className="text-xs md:text-sm text-gray-400 mb-2 md:mb-3">Created: {selectedProject.date}</p>
               )}
-              <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed mb-6 md:mb-10 font-medium">
-                {selectedProject.longDesc}
-              </p>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-10">
-                {Object.entries(selectedProject.stats).filter(([key]) => key !== 'status').map(([key, value]) => (
-                  <div key={key} className="p-3 sm:p-4 md:p-5 bg-gray-50 rounded-xl md:rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors">
-                    <div className="text-[10px] md:text-xs text-gray-400 uppercase tracking-wider font-semibold mb-1">{key}</div>
-                    <div className="text-lg md:text-xl font-bold text-[#111]">{value}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* How It Was Made */}
-              {selectedProject.howMade && (
-                <div className="mb-6 md:mb-10">
-                  <h3 className="text-sm md:text-base font-bold text-[#111] mb-3 md:mb-4 uppercase tracking-wider">How It Was Made</h3>
-                  <p className="text-sm sm:text-base text-gray-600 leading-relaxed font-medium bg-gray-50 rounded-xl md:rounded-2xl p-4 md:p-6 border border-gray-100">
-                    {selectedProject.howMade}
-                  </p>
-                </div>
-              )}
-
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 md:gap-6 pt-6 md:pt-8 border-t border-gray-100">
-                <div className="tech-tags flex gap-1.5 md:gap-2 flex-wrap">
-                  {selectedProject.tech.map(t => (
-                    <span key={t} className="px-2 md:px-3 py-0.5 md:py-1 bg-white border border-gray-200 text-gray-600 text-[10px] md:text-xs font-semibold rounded-full shadow-sm">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                {selectedProject.githubLinks && selectedProject.githubLinks.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {selectedProject.githubLinks.map((gl, idx) => (
-                      <a
-                        key={idx}
-                        href={gl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-xs md:text-sm text-gray-500 hover:text-black underline decoration-gray-300 hover:decoration-gray-500 transition-colors"
-                      >
-                        {gl.replace("https://github.com/", "")} <ArrowUpRight size={12} />
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <p className="project-summary">{selectedProject.desc}</p>
+              <ProjectDetails project={selectedProject} />
             </div>
           </div>
 
-          {/* Docked toolbar — sits on the card frame, never scrolls with content */}
-          <div className="absolute top-3 right-3 z-40 flex items-center gap-2">
+          {/* Reserved header keeps controls clear of the scrolling description. */}
+          <div className="absolute top-2 left-4 right-3 z-40 flex h-10 items-center gap-2">
+            <span className="min-w-0 mr-auto truncate text-xs sm:text-sm font-semibold" style={{ color: 'var(--page-text)' }}>{selectedProject.title}</span>
             <button
               type="button"
               onClick={copyProjectLink}
@@ -4083,39 +3626,12 @@ const ModernPortfolio = () => {
                   )}
                   {selectedProject.link && (
                     <a href={selectedProject.link} target="_blank" rel="noopener noreferrer" className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white/10 border border-white/15 px-3 sm:px-4 py-2 text-[11px] sm:text-sm font-semibold text-white hover:bg-white/20 transition-colors">
-                      View Project <ArrowUpRight size={14} />
+                      View Repository <ArrowUpRight size={14} />
                     </a>
                   )}
                 </div>
-                <p className="text-sm sm:text-base md:text-lg text-white/70 leading-relaxed mb-6 md:mb-8 font-medium">
-                  {selectedProject.longDesc}
-                </p>
-
-                {selectedProject.howMade && (
-                  <div className="mb-6 md:mb-8">
-                    <h3 className="text-sm md:text-base font-bold text-white mb-3 uppercase tracking-wider">How It Was Made</h3>
-                    <p className="text-sm sm:text-base text-white/60 leading-relaxed font-medium bg-white/5 rounded-xl md:rounded-2xl p-4 md:p-6 border border-white/10">
-                      {selectedProject.howMade}
-                    </p>
-                  </div>
-                )}
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 mb-6 md:mb-8">
-                  {Object.entries(selectedProject.stats).filter(([key]) => key !== 'status').map(([key, value]) => (
-                    <div key={key} className="p-3 sm:p-4 bg-white/5 rounded-xl md:rounded-2xl border border-white/10">
-                      <div className="text-[10px] md:text-xs text-white/40 uppercase tracking-wider font-semibold mb-1">{key}</div>
-                      <div className="text-base md:text-lg font-bold text-white">{value}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="tech-tags flex gap-1.5 md:gap-2 flex-wrap">
-                  {selectedProject.tech.map(t => (
-                    <span key={t} className="px-2 md:px-3 py-0.5 md:py-1 bg-white/10 border border-white/15 text-white/80 text-[10px] md:text-xs font-semibold rounded-full">
-                      {t}
-                    </span>
-                  ))}
-                </div>
+                <p className="project-summary project-summary-dark">{selectedProject.desc}</p>
+                <ProjectDetails project={selectedProject} dark />
               </div>
             </div>
           </Motion.div>

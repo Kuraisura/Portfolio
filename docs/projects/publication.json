@@ -1,0 +1,117 @@
+{
+  "reviewedOn": "2026-10-27",
+  "readmes": [
+    {
+      "repository": "Kuraisura/ChronoAndroid",
+      "status": "updated",
+      "branch": "main",
+      "commit": "85b5a249f807b3d81084b46d95ae8da93617b1d3",
+      "url": "https://github.com/Kuraisura/ChronoAndroid/commit/85b5a249f807b3d81084b46d95ae8da93617b1d3"
+    },
+    {
+      "repository": "Kuraisura/ChronoDesktop",
+      "status": "updated",
+      "branch": "main",
+      "commit": "ceef52a146565139438e481f55a8c611ff217a54",
+      "url": "https://github.com/Kuraisura/ChronoDesktop/commit/ceef52a146565139438e481f55a8c611ff217a54"
+    },
+    {
+      "repository": "Kuraisura/Journal-Ease",
+      "status": "updated",
+      "branch": "main",
+      "commit": "975567b52454652d0587ee81eaa65f5c79a55e0b",
+      "url": "https://github.com/Kuraisura/Journal-Ease/commit/975567b52454652d0587ee81eaa65f5c79a55e0b"
+    },
+    {
+      "repository": "Kuraisura/Musikk",
+      "status": "updated",
+      "branch": "main",
+      "commit": "2b04df36e85b1c76560d57caebb4a3a2c58341c5",
+      "url": "https://github.com/Kuraisura/Musikk/commit/2b04df36e85b1c76560d57caebb4a3a2c58341c5"
+    },
+    {
+      "repository": "Kuraisura/NeuralLens",
+      "status": "updated",
+      "branch": "main",
+      "commit": "6bfdf71e6c9a41ae93d7344471a79c405e963820",
+      "url": "https://github.com/Kuraisura/NeuralLens/commit/6bfdf71e6c9a41ae93d7344471a79c405e963820"
+    },
+    {
+      "repository": "Kuraisura/Pet-Haven",
+      "status": "updated",
+      "branch": "main",
+      "commit": "810c9e09b0847b7de731011784abcb9304523c91",
+      "url": "https://github.com/Kuraisura/Pet-Haven/commit/810c9e09b0847b7de731011784abcb9304523c91"
+    },
+    {
+      "repository": "Kuraisura/Raiko",
+      "status": "updated",
+      "branch": "main",
+      "commit": "14c9a65ffe1cd4864d4dd97999f8e4f9b9511418",
+      "url": "https://github.com/Kuraisura/Raiko/commit/14c9a65ffe1cd4864d4dd97999f8e4f9b9511418"
+    },
+    {
+      "repository": "Kuraisura/RNReady",
+      "status": "updated",
+      "branch": "main",
+      "commit": "2296f359cf3db5483ffa01607a12b2f7b1237336",
+      "url": "https://github.com/Kuraisura/RNReady/commit/2296f359cf3db5483ffa01607a12b2f7b1237336"
+    },
+    {
+      "repository": "Kuraisura/SeismicWatch",
+      "status": "updated",
+      "branch": "main",
+      "commit": "014cdfb6664638d81ff07a7bfd2299d646788fde",
+      "url": "https://github.com/Kuraisura/SeismicWatch/commit/014cdfb6664638d81ff07a7bfd2299d646788fde"
+    },
+    {
+      "repository": "Kuraisura/Silid1201",
+      "status": "updated",
+      "branch": "main",
+      "commit": "4a3fc0624d2f34d85e8f28206bf9f8dd09b6e265",
+      "url": "https://github.com/Kuraisura/Silid1201/commit/4a3fc0624d2f34d85e8f28206bf9f8dd09b6e265"
+    },
+    {
+      "repository": "Kuraisura/StBenedict",
+      "status": "updated",
+      "branch": "main",
+      "commit": "3ae6c75472399427652b0af75d2d15f1c08b3b95",
+      "url": "https://github.com/Kuraisura/StBenedict/commit/3ae6c75472399427652b0af75d2d15f1c08b3b95"
+    },
+    {
+      "repository": "Kuraisura/STIRAMSWEB",
+      "status": "updated",
+      "branch": "main",
+      "commit": "cde7d0bcb007b6525418fd677dcc78aebdef6728",
+      "url": "https://github.com/Kuraisura/STIRAMSWEB/commit/cde7d0bcb007b6525418fd677dcc78aebdef6728"
+    },
+    {
+      "repository": "Kuraisura/STIRAMSWPF",
+      "status": "updated",
+      "branch": "main",
+      "commit": "ae12526ff932875f1e6e220323c9c47a98692eba",
+      "url": "https://github.com/Kuraisura/STIRAMSWPF/commit/ae12526ff932875f1e6e220323c9c47a98692eba"
+    },
+    {
+      "repository": "Kuraisura/STITimer",
+      "status": "updated",
+      "branch": "main",
+      "commit": "83f97dad9218dc3c06d82c37195fcb6b6b8d4396",
+      "url": "https://github.com/Kuraisura/STITimer/commit/83f97dad9218dc3c06d82c37195fcb6b6b8d4396"
+    },
+    {
+      "repository": "Kuraisura/Wiz",
+      "status": "updated",
+      "branch": "main",
+      "commit": "7d3e7f16bb38454f0a44da64d39f6cf9f08ba6ae",
+      "url": "https://github.com/Kuraisura/Wiz/commit/7d3e7f16bb38454f0a44da64d39f6cf9f08ba6ae"
+    },
+    {
+      "repository": "Kuraisura/YTConverter",
+      "status": "updated",
+      "branch": "main",
+      "commit": "df1ac58a552e60a2b25988a2a451579380d45d78",
+      "url": "https://github.com/Kuraisura/YTConverter/commit/df1ac58a552e60a2b25988a2a451579380d45d78"
+    }
+  ]
+}
