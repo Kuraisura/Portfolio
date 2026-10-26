@@ -1,3 +1,5 @@
+import projectMedia from './projectMedia.json' with { type: 'json' };
+
 // Project descriptions reviewed against repository source and available demos in October 2026.
 // Group technologies by responsibility; derive flat tags for existing card consumers.
 const projectEntries = [
@@ -1293,7 +1295,13 @@ const projectEntries = [
   }
 ];
 
-export const projects = projectEntries.map((project) => ({
-  ...project,
-  tech: project.stackGroups.flatMap((group) => group.items),
-}));
+export const projects = projectEntries.map((project) => {
+  const media = projectMedia[project.link.split('/').at(-1)] || { screenshots: [] };
+  const showcase = [...new Set([...(project.showcase || []), ...(media.videos || []).map((video) => video.asset)])];
+  return {
+    ...project,
+    media,
+    ...(showcase.length ? { showcase } : {}),
+    tech: project.stackGroups.flatMap((group) => group.items),
+  };
+});

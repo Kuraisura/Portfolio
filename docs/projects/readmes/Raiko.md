@@ -51,37 +51,52 @@ The live storefront front end was inspected directly. The linked public reposito
 
 This repository currently contains documentation and screenshots. Application source and a reproducible build are not included. Technology details are limited to what the project documentation supports.
 
-## Screenshots
+## Screenshot and module walkthrough
 
-<table>
-<tr>
-<td align="center"><img src="screenshots/home.png" alt="First impression" width="440"><br>First impression</td>
-<td align="center"><img src="screenshots/shop.png" alt="Product discovery" width="440"><br>Product discovery</td>
-</tr>
-</table>
+Expand a screen below to see the capture and an explanation of the module, its visible controls, and its role in the application.
+
+<details open>
+<summary><strong>01 · Brand story and positioning</strong></summary>
+
+The About page combines a brand headline, supporting statement, illustration, and story text. It explains the label identity alongside the storefront instead of presenting only product listings.
+
+<p><img src="screenshots/about.png" alt="Brand story and positioning" width="960"></p>
+
+</details>
 
 <details>
-<summary>View all 5 screenshots</summary>
+<summary><strong>02 · Editorial article listing</strong></summary>
 
-### 1. First impression
+Image-led article cards display titles, dates, excerpts, and Continue Reading links. The blog module provides style and brand content that complements the shopping pages.
 
-![First impression](screenshots/home.png)
+<p><img src="screenshots/blog.png" alt="Editorial article listing" width="960"></p>
 
-### 2. Product discovery
+</details>
 
-![Product discovery](screenshots/shop.png)
+<details>
+<summary><strong>03 · Contact and inquiry form</strong></summary>
 
-### 3. Brand storytelling
+An address and phone block sits beside name, email, subject, and message fields. Visitors can compose an inquiry through Send message; the screenshot does not demonstrate successful delivery.
 
-![Brand storytelling](screenshots/about.png)
+<p><img src="screenshots/contact.png" alt="Contact and inquiry form" width="960"></p>
 
-### 4. Content marketing
+</details>
 
-![Content marketing](screenshots/blog.png)
+<details>
+<summary><strong>04 · Storefront landing page</strong></summary>
 
-### 5. Customer support channel
+A campaign photograph, headline, Shop the collection button, and story link introduce the label. The hero offers a direct path to products while keeping brand information accessible.
 
-![Customer support channel](screenshots/contact.png)
+<p><img src="screenshots/home.png" alt="Storefront landing page" width="960"></p>
+
+</details>
+
+<details>
+<summary><strong>05 · Filtered product catalog</strong></summary>
+
+Category, price, and size filters sit beside product cards with names, prices, stock badges, and bag controls. This shopping module helps customers narrow the catalog and inspect available pieces.
+
+<p><img src="screenshots/shop.png" alt="Filtered product catalog" width="960"></p>
 
 </details>
 

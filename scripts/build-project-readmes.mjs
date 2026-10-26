@@ -105,22 +105,29 @@ for (const project of projects) {
   } else {
     lines.push('## Repository contents', '', 'This repository currently contains documentation and screenshots. Application source and a reproducible build are not included. Technology details are limited to what the project documentation supports.', '');
   }
+  if (project.media?.videos?.length) {
+    lines.push('## Project video', '');
+    for (const video of project.media.videos) {
+      const watch = `https://kuraisler.xyz${encodeURI(video.asset)}`;
+      const poster = project.media.screenshots.find((image) => image.asset === video.poster)?.file || project.media.screenshots[0]?.file;
+      lines.push(`### ${video.title}`, '', `**${video.kind} · ${video.duration}**`, '', video.description, '');
+      if (poster) lines.push(`[![Watch ${video.title}](${poster})](${watch})`, '');
+      lines.push(`[Watch in your browser](${watch}) · [Video file in this repository](${video.file})`, '');
+    }
+  }
   const readmePath = path.join(auditRoot, repo, 'files', 'README.md');
   const old = fs.existsSync(readmePath) ? fs.readFileSync(readmePath, 'utf8') : '';
-  const images = [...old.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)]
+  const images = project.media?.screenshots?.map((note) => ({ caption: note.title, src: note.file })) || [...old.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g)]
     .filter((match) => files.has(match[2]))
     .map((match) => ({ caption: match[1].split(' — ')[0], src: match[2] }));
   if (images.length) {
-    lines.push('## Screenshots', '', '<table>', '<tr>');
-    for (const image of images.slice(0, 2)) {
-      lines.push(`<td align="center"><img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.caption)}" width="${project.type === 'Mobile' ? '260' : '440'}"><br>${escapeHtml(image.caption)}</td>`);
-    }
-    lines.push('</tr>', '</table>', '');
-    if (images.length > 2) {
-      lines.push('<details>', `<summary>View all ${images.length} screenshots</summary>`, '');
-      images.forEach((image, index) => lines.push(`### ${index + 1}. ${image.caption}`, '', `![${image.caption}](${image.src})`, ''));
-      lines.push('</details>', '');
-    }
+    const notes = project.media?.screenshots || [];
+    if (notes.length !== images.length) throw new Error(`Incomplete screenshot notes: ${repo}`);
+    lines.push('## Screenshot and module walkthrough', '', 'Expand a screen below to see the capture and an explanation of the module, its visible controls, and its role in the application.', '');
+    notes.forEach((note, index) => {
+      if (!files.has(note.file)) throw new Error(`Screenshot not in repository: ${repo}/${note.file}`);
+      lines.push(index === 0 ? '<details open>' : '<details>', `<summary><strong>${String(index + 1).padStart(2, '0')} · ${escapeHtml(note.title)}</strong></summary>`, '', note.description, '', `<p><img src="${escapeHtml(note.file)}" alt="${escapeHtml(note.title)}" width="${project.type === 'Mobile' ? '360' : '960'}"></p>`, '', '</details>', '');
+    });
   }
   const license = [...files].find((file) => /^licen[cs]e[^/]*$/i.test(file));
   if (license) lines.push('## License', '', `See [${license}](${license}).`, '');

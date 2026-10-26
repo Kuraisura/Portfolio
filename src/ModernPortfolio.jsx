@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { projects } from './data/projects';
 import ProjectDetails from './components/ProjectDetails';
+import ProjectMediaCaption from './components/ProjectMediaCaption';
+import { findProjectMedia } from './utils/projectMedia';
 import ReactPlayer from 'react-player';
 import { SiTiktok, SiTryhackme } from 'react-icons/si';
 import Lenis from 'lenis';
@@ -602,6 +604,8 @@ const ModernPortfolio = () => {
   const [theme, setTheme] = useState(getInitialTheme);
   const [selectedProject, setSelectedProject] = useState(null);
   const [coverflowIndex, setCoverflowIndex] = useState(0);
+  const [modalMediaIndex, setModalMediaIndex] = useState(0);
+  const [fullscreenMediaIndex, setFullscreenMediaIndex] = useState(0);
   const [fullscreenMode, setFullscreenMode] = useState(false);
   const [sheetExpanded, setSheetExpanded] = useState(false);
   const [galleryTab, setGalleryTab] = useState('screenshots'); // 'screenshots' | 'showcase'
@@ -3187,6 +3191,7 @@ const ModernPortfolio = () => {
                   onSwiper={(swiper) => {
                     modalSwiperRef.current = swiper;
                     setCoverflowIndex(0);
+                    setModalMediaIndex(0);
                     requestAnimationFrame(() => {
                       if (!swiper.destroyed) {
                         swiper.update();
@@ -3201,6 +3206,7 @@ const ModernPortfolio = () => {
                   onTouchEnd={() => finishSwiperDrag('modal')}
                   onSlideChange={(swiper) => {
                     swiper.zoom?.out();
+                    setModalMediaIndex(swiper.realIndex);
                     writeSlideCounter(modalCounterRef, swiper.realIndex, swiper.slides.length);
                   }}
                   effect={'slide'}
@@ -3256,7 +3262,7 @@ const ModernPortfolio = () => {
                         ) : (
                           <img
                             src={src}
-                            alt={`${selectedProject.title} ${galleryTab === 'showcase' ? 'event' : 'screenshot'} ${idx + 1}`}
+                            alt={findProjectMedia(selectedProject, src)?.title || `${selectedProject.title} screenshot ${idx + 1}`}
                             loading="eager"
                             decoding="async"
                             draggable={false}
@@ -3309,6 +3315,11 @@ const ModernPortfolio = () => {
               </div>
             )}
             
+            <ProjectMediaCaption
+              project={selectedProject}
+              asset={(galleryTab === 'showcase' ? selectedProject.showcase : selectedProject.screenshots)?.[modalMediaIndex]}
+            />
+
             {/* Modal Content */}
             <div className="px-4 sm:px-6 md:px-8 pb-6 md:pb-10 pt-2">
               <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
@@ -3456,6 +3467,7 @@ const ModernPortfolio = () => {
               onSwiper={(swiper) => {
                 fullscreenSwiperRef.current = swiper;
                 const selectedIndex = coverflowIndex;
+                setFullscreenMediaIndex(selectedIndex);
                 requestAnimationFrame(() => {
                   if (!swiper.destroyed) {
                     swiper.update();
@@ -3470,6 +3482,7 @@ const ModernPortfolio = () => {
               onTouchEnd={() => finishSwiperDrag('fs')}
               onSlideChange={(swiper) => {
                 swiper.zoom?.out();
+                setFullscreenMediaIndex(swiper.realIndex);
                 writeSlideCounter(fullscreenCounterRef, swiper.realIndex, swiper.slides.length);
               }}
               effect={'coverflow'}
@@ -3519,7 +3532,7 @@ const ModernPortfolio = () => {
                             src={src}
                             loading="eager"
                             decoding="sync"
-                            alt={`${selectedProject.title} ${galleryTab === 'showcase' ? 'event' : 'screenshot'} ${idx + 1}`}
+                            alt={findProjectMedia(selectedProject, src)?.title || `${selectedProject.title} screenshot ${idx + 1}`}
                             draggable={false}
                             onLoad={() => runSwiperUpdate('fs')}
                           />
@@ -3607,6 +3620,11 @@ const ModernPortfolio = () => {
               onTouchMove={(e) => e.stopPropagation()}
             >
               <div className="max-w-4xl mx-auto">
+                <ProjectMediaCaption
+                  project={selectedProject}
+                  asset={(galleryTab === 'showcase' ? selectedProject.showcase : selectedProject.screenshots)?.[fullscreenMediaIndex]}
+                  dark
+                />
                 <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
                   <span className="text-xs md:text-sm font-semibold uppercase tracking-wide text-white/50">
                     {selectedProject.type}

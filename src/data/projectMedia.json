@@ -1,0 +1,770 @@
+{
+  "SeismicWatch": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.jpg",
+        "title": "Account access",
+        "description": "Email/phone credentials, Google sign-in, phone OTP, and password recovery provide entry points to the account-based hazard and family features. The screenshot shows sign-in choices rather than a completed login.",
+        "asset": "/Portfolio/SeismicWatch/1.jpg"
+      },
+      {
+        "file": "screenshots/2.jpg",
+        "title": "Hazard dashboard",
+        "description": "Active alerts, earthquake totals, and storm signals summarize current activity. The featured typhoon card and recent earthquake list lead into detailed tracking and event reports.",
+        "asset": "/Portfolio/SeismicWatch/2.jpg"
+      },
+      {
+        "file": "screenshots/3.jpg",
+        "title": "Combined hazard map",
+        "description": "Earthquake and typhoon markers share a regional map. Magnitude filters and the color legend help users narrow events and see where activity is concentrated.",
+        "asset": "/Portfolio/SeismicWatch/3.jpg"
+      },
+      {
+        "file": "screenshots/4.jpg",
+        "title": "Typhoon track and timeline",
+        "description": "Storm-track points, intensity colors, weather imagery, and a playback timeline let users inspect the storm position over time. The legend distinguishes storm intensity and projected track markers.",
+        "asset": "/Portfolio/SeismicWatch/4.jpg"
+      },
+      {
+        "file": "screenshots/5.jpg",
+        "title": "Earthquake event details",
+        "description": "Magnitude, location, depth, distance, and a location-based assessment explain one selected earthquake. Area, sharing, and felt-report actions support follow-up; the displayed assessment is an app estimate, not an official safety determination.",
+        "asset": "/Portfolio/SeismicWatch/5.jpg"
+      },
+      {
+        "file": "screenshots/6.jpg",
+        "title": "Earthquake report browser",
+        "description": "Search, severity filters, totals, and sorting organize a list of earthquake reports. Each entry provides magnitude, location, depth, and time before the user opens detailed information.",
+        "asset": "/Portfolio/SeismicWatch/6.jpg"
+      },
+      {
+        "file": "screenshots/7.jpg",
+        "title": "Typhoon reports and local weather",
+        "description": "Storm-category filters and signal counts sit above a Philippine weather list. Regional filters and the location card let users move between storm monitoring and local weather conditions.",
+        "asset": "/Portfolio/SeismicWatch/7.jpg"
+      },
+      {
+        "file": "screenshots/8.jpg",
+        "title": "Family and friends directory",
+        "description": "Contact cards show activity and location-sharing state alongside communication actions. The directory gathers family connections so the user can choose whom to contact or locate.",
+        "asset": "/Portfolio/SeismicWatch/8.jpg"
+      },
+      {
+        "file": "screenshots/9.jpg",
+        "title": "Family circles and live location",
+        "description": "The screen combines a sharing switch, create/join circle actions, a map, and member information. It lets users organize family circles and control their own location-sharing preference.",
+        "asset": "/Portfolio/SeismicWatch/9.jpg"
+      },
+      {
+        "file": "screenshots/10.jpg",
+        "title": "Family emergency-alert settings",
+        "description": "A master family-alert switch, auto-SMS and auto-call settings, saved contacts, and test/share shortcuts configure intended emergency communication. Several controls are disabled in the captured state; actual delivery is not demonstrated.",
+        "asset": "/Portfolio/SeismicWatch/10.jpg"
+      },
+      {
+        "file": "screenshots/11.jpg",
+        "title": "Notification preferences",
+        "description": "Earthquake, typhoon, flood, sound/vibration, and emergency-override controls appear beneath the profile. Users can select alert categories and open emergency-contact setup.",
+        "asset": "/Portfolio/SeismicWatch/11.jpg"
+      },
+      {
+        "file": "screenshots/12.jpg",
+        "title": "Profile and app preferences",
+        "description": "The profile form collects a name, mobile number, and home address. Alert threshold, language, background synchronization, and appearance settings control the wider app experience.",
+        "asset": "/Portfolio/SeismicWatch/12.jpg"
+      },
+      {
+        "file": "screenshots/13.jpg",
+        "title": "Appearance and emergency options",
+        "description": "Theme and display-mode choices appear above strobe, SMS-fallback, mesh-relay, and panic-gesture switches. This screen configures optional behaviors; it does not demonstrate successful emergency delivery or nearby relay.",
+        "asset": "/Portfolio/SeismicWatch/13.jpg"
+      },
+      {
+        "file": "screenshots/14.jpg",
+        "title": "Help, privacy, and account controls",
+        "description": "Help Center, Data Sources, Privacy Policy, version information, sign-out, and account deletion give users a place to inspect application information and manage their account.",
+        "asset": "/Portfolio/SeismicWatch/14.jpg"
+      }
+    ]
+  },
+  "Wiz": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "Sign-in and account entry",
+        "description": "Email/password, Google, and GitHub options lead into the personal study workspace. Password recovery and sign-up links support returning and first-time learners.",
+        "asset": "/Portfolio/Wiz/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Manual quiz builder",
+        "description": "Creation-mode tabs, a title field, question-count presets, difficulty choices, and question-type buttons define a new quiz. The disabled Save Quiz button reflects a draft with no questions added yet.",
+        "asset": "/Portfolio/Wiz/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Quiz library empty state",
+        "description": "Search, progress filters, completed-test totals, average score, and study-time metrics frame the quiz library. The empty list shows how the module appears before study sets have been created.",
+        "asset": "/Portfolio/Wiz/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Learner profile and preferences",
+        "description": "The profile combines identity, flashcard totals, daily streak, and mastery with theme, reminder, password, subscription, and cache controls. It centralizes account settings and study-progress indicators.",
+        "asset": "/Portfolio/Wiz/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Subscription and trial state",
+        "description": "The plan page compares Free and Pro features and shows a cancelled trial that remains active until the displayed date. It explains the captured account entitlement; displayed prices and dates are historical screenshot content.",
+        "asset": "/Portfolio/Wiz/5.png"
+      },
+      {
+        "file": "screenshots/6.png",
+        "title": "Photo-to-quiz capture",
+        "description": "Camera and image-upload options begin the Scan to Quiz workflow. Capture tips explain how to prepare a clear image before OCR and question parsing; no extracted text is shown yet.",
+        "asset": "/Portfolio/Wiz/6.png"
+      },
+      {
+        "file": "screenshots/7.png",
+        "title": "Bulk-question import guide",
+        "description": "The Bulk Paste mode displays examples for multiple-choice, true/false, identification, and enumeration syntax. The format guide helps users structure pasted questions and mark correct answers before importing.",
+        "asset": "/Portfolio/Wiz/7.png"
+      },
+      {
+        "file": "screenshots/8.png",
+        "title": "Document-based AI setup",
+        "description": "The AI Generate tab accepts a course document and optional review scope, quiz title, and question formats. This module converts source material into a configured generation request.",
+        "asset": "/Portfolio/Wiz/8.png"
+      },
+      {
+        "file": "screenshots/9.png",
+        "title": "Generated study-set confirmation",
+        "description": "An uploaded file, selected formats, question count, and difficulty remain visible after the Study Set Ready confirmation. The completion message reports a generated set; the screenshot alone does not validate question quality.",
+        "asset": "/Portfolio/Wiz/9.png"
+      },
+      {
+        "file": "screenshots/10.png",
+        "title": "Saved quizzes and retakes",
+        "description": "The populated library distinguishes a new, untaken study set from a completed set with a score. Review Answers, Take Quiz, and Retake actions connect storage to practice and revision.",
+        "asset": "/Portfolio/Wiz/10.png"
+      },
+      {
+        "file": "screenshots/11.png",
+        "title": "Quiz session configuration",
+        "description": "Time-limit presets, question shuffle, and answer shuffle configure a selected quiz attempt. Start Quiz begins the session after the learner chooses how to practice.",
+        "asset": "/Portfolio/Wiz/11.png"
+      },
+      {
+        "file": "screenshots/12.png",
+        "title": "Active quiz question",
+        "description": "A question counter, elapsed time, progress bar, answer choices, and Next Question button show the testing interface. The learner selects an answer before advancing; this capture demonstrates layout rather than verified content accuracy.",
+        "asset": "/Portfolio/Wiz/12.png"
+      },
+      {
+        "file": "screenshots/13.png",
+        "title": "Results and answer review",
+        "description": "A completion score and duration appear above individual answer comparisons. Red and green review cards distinguish mistakes from correct responses, helping learners identify material to revisit.",
+        "asset": "/Portfolio/Wiz/13.png"
+      },
+      {
+        "file": "screenshots/14.png",
+        "title": "Flashcard study session",
+        "description": "A single card shows deck progress, mastery, flip interaction, audio/bookmark icons, and shuffle, hint, and star controls. This mode turns a saved study set into repeated recall practice.",
+        "asset": "/Portfolio/Wiz/14.png"
+      }
+    ]
+  },
+  "RNReady": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "Nursing-review home",
+        "description": "Quick actions open the AI tutor, clinical cases, care plans, notes, anatomy lab, and practice quizzes. Nursing-practice sections continue below, making the home screen the starting point for different review activities.",
+        "asset": "/Portfolio/Rn Ready/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "AI tutor conversation",
+        "description": "The chat screen shows a learner question, a generated explanation, a message field, and a clear-history action. It supports follow-up study questions; the visible response is AI-generated material, not validated clinical guidance.",
+        "asset": "/Portfolio/Rn Ready/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Clinical-case category selection",
+        "description": "Topic cards group practice around physiology, emergencies, disease, prioritization, pharmacology, and communication. Learners choose the area for a generated scenario rather than starting with an unrelated random case.",
+        "asset": "/Portfolio/Rn Ready/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Additional clinical-case topics",
+        "description": "The lower category list adds maternal/child care, ethics, diagnostics, infection control, and a random-topic option. It expands the same scenario-selection module to more review areas.",
+        "asset": "/Portfolio/Rn Ready/4.png"
+      },
+      {
+        "file": "screenshots/8.png",
+        "title": "Notes and journal",
+        "description": "A saved note card and New note button show the personal writing space. This module keeps short reflections, reminders, and study notes alongside the review tools.",
+        "asset": "/Portfolio/Rn Ready/8.png"
+      },
+      {
+        "file": "screenshots/9.png",
+        "title": "Anatomy topic library",
+        "description": "Illustrated cards organize labeling exercises by structure, including heart, neuron, skin, bone, eye, and respiratory topics. Each card identifies the body system and the number of parts available for practice.",
+        "asset": "/Portfolio/Rn Ready/9.png"
+      },
+      {
+        "file": "screenshots/10.png",
+        "title": "Heart-labeling exercise",
+        "description": "Numbered callouts connect a heart diagram to a list of labels, with some entries left for the learner to complete. Visible attribution identifies the illustration source; the activity focuses on recalling anatomical names.",
+        "asset": "/Portfolio/Rn Ready/10.png"
+      },
+      {
+        "file": "screenshots/11.png",
+        "title": "Practice-quiz topic browser",
+        "description": "Numbered subtopics and completion indicators sit under a nursing-practice section. Learners can see which topics remain unattempted and select material for a focused quiz.",
+        "asset": "/Portfolio/Rn Ready/11.png"
+      },
+      {
+        "file": "screenshots/12.png",
+        "title": "Question-type selection",
+        "description": "A bottom sheet lets the learner select multiple choice, identification, enumeration, and matching. The Start button reflects the chosen types before a practice attempt begins.",
+        "asset": "/Portfolio/Rn Ready/12.png"
+      },
+      {
+        "file": "screenshots/13.png",
+        "title": "Timed practice question",
+        "description": "A countdown, question number, point value, answer choices, and Next button form the quiz-taking view. The interface supports timed retrieval practice without requiring the learner to leave the selected topic.",
+        "asset": "/Portfolio/Rn Ready/13.png"
+      },
+      {
+        "file": "screenshots/14.png",
+        "title": "Quiz results and rationales",
+        "description": "The results page combines score, correct-answer count, points, and duration with question-by-question review. Rationale text and Retry help users revisit mistakes after an attempt.",
+        "asset": "/Portfolio/Rn Ready/14.png"
+      },
+      {
+        "file": "screenshots/15.png",
+        "title": "Study-module slide reader",
+        "description": "A paginated slide displays module notes with previous/next navigation. Ask AI and Quiz this subtopic connect reading to explanation and practice, keeping those activities tied to the current material.",
+        "asset": "/Portfolio/Rn Ready/15.png"
+      }
+    ]
+  },
+  "Musikk": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.jpg",
+        "title": "App launch identity",
+        "description": "The splash screen presents the Musikk mark and AI Stem Studio label before the main interface loads. It establishes the application identity without yet showing a processing or playback result.",
+        "asset": "/Portfolio/Musikk/1.jpg"
+      },
+      {
+        "file": "screenshots/2.jpg",
+        "title": "Repertoire and song preparation",
+        "description": "Upload, format filters, search, and collection tabs organize the song library. A saved track reports four stems ready and offers Load into Stems, linking processing status to the mixer.",
+        "asset": "/Portfolio/Musikk/2.jpg"
+      },
+      {
+        "file": "screenshots/3.jpg",
+        "title": "Instrument-channel mixer",
+        "description": "The stem screen combines shared transport, a multichannel waveform, and individual instrument strips with volume and solo controls. Audio is still initializing in this capture, so it demonstrates mixer controls rather than confirmed playback.",
+        "asset": "/Portfolio/Musikk/3.jpg"
+      },
+      {
+        "file": "screenshots/4.jpg",
+        "title": "Vocal-channel controls",
+        "description": "The vocals strip is visible above the drums strip, with a fader, numeric level, and solo/mute-style controls. Users can adjust a part independently when valid stem audio has been loaded.",
+        "asset": "/Portfolio/Musikk/4.jpg"
+      },
+      {
+        "file": "screenshots/5.jpg",
+        "title": "Playback effects panel",
+        "description": "The Effects tab reveals speed, pitch, and deep-filter controls underneath the shared waveform. These settings support slowing a passage or transposing playback for practice; the captured transport remains in its initializing state.",
+        "asset": "/Portfolio/Musikk/5.jpg"
+      },
+      {
+        "file": "screenshots/6.jpg",
+        "title": "Profile and processing allowance",
+        "description": "The profile shows account identity, remaining AI-processing minutes, upgrade cards, and processing-quality selection. It communicates usage and plan options; the visible prices do not establish a completed payment integration.",
+        "asset": "/Portfolio/Musikk/6.jpg"
+      },
+      {
+        "file": "screenshots/7.jpg",
+        "title": "Audio, storage, and account settings",
+        "description": "Profile rows lead to identity editing, processing quality, Firebase/storage information, privacy, and logout. The screen groups technical preferences and account actions below the plan presentation.",
+        "asset": "/Portfolio/Musikk/7.jpg"
+      },
+      {
+        "file": "screenshots/8.png",
+        "title": "Account onboarding",
+        "description": "A product introduction leads into Google sign-in or email/password account creation, with a marketing preference and terms links. This is the entry flow before building a repertoire and using the practice tools.",
+        "asset": "/Portfolio/Musikk/8.png"
+      }
+    ]
+  },
+  "Journal-Ease": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "JournalEase splash screen",
+        "description": "The owl-and-graduation-cap mark introduces the journal with its beige/brown visual theme. This is a startup identity screen, not a cloud-sync or authentication status display.",
+        "asset": "/Portfolio/JournalEase/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Empty note library",
+        "description": "The note list is empty, with a search action, overflow menu, and prominent add button. It gives first-time users a direct route to creating their first entry.",
+        "asset": "/Portfolio/JournalEase/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Note creation editor",
+        "description": "A title and body are being entered, with Clear Fields and save controls near the bottom. This module captures a new local journal entry before returning to the library.",
+        "asset": "/Portfolio/JournalEase/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Saved note and confirmation",
+        "description": "A note card appears alongside a Note Created Successfully message. The card exposes an overflow menu for follow-up actions, confirming that the create flow has returned to the library.",
+        "asset": "/Portfolio/JournalEase/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Multiple color-coded entries",
+        "description": "Two cards show how the collection grows, with distinct colors, title/body previews, and per-note menus. Users can scan the library and reopen an entry without viewing every note in full.",
+        "asset": "/Portfolio/JournalEase/5.png"
+      },
+      {
+        "file": "screenshots/6.png",
+        "title": "Local demo sign-in",
+        "description": "Email/password fields, password visibility, recovery, and registration links form the login interface. The current repository uses a local demo session; this screen should not be interpreted as real account protection or cloud synchronization.",
+        "asset": "/Portfolio/JournalEase/6.png"
+      }
+    ]
+  },
+  "STIRAMSWPF": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "RFID kiosk ready state",
+        "description": "The terminal displays Ready to Scan, a manual-entry shortcut, and a recent-attendance panel. This is the waiting state before an employee presents a registered RFID card.",
+        "asset": "/Portfolio/STIRAMS(WPF)/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Employment-start validation",
+        "description": "A warning explains that the selected employee has not reached the scheduled employment start date. It shows how the attendance validator blocks a tap that falls before the permitted start date.",
+        "asset": "/Portfolio/STIRAMS(WPF)/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Controlled date/time test tool",
+        "description": "The Time Changer dialog lets a tester select a date/time, preview it, apply an override, or clear it. It supports controlled attendance scenarios without presenting the override as a normal employee operation.",
+        "asset": "/Portfolio/STIRAMS(WPF)/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Time-in confirmation",
+        "description": "The feedback screen identifies the employee, recorded time, department, role, and attendance status. The captured test displays an on-time result, giving the person immediate confirmation that the tap was recorded.",
+        "asset": "/Portfolio/STIRAMS(WPF)/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Time-out confirmation",
+        "description": "The corresponding time-out screen shows the employee and the end-of-day tap result. It completes the visible attendance pair while keeping recorded time and status readable at the kiosk.",
+        "asset": "/Portfolio/STIRAMS(WPF)/5.png"
+      }
+    ]
+  },
+  "STIRAMSWEB": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "Administrator sign-in",
+        "description": "A campus-branded login form overlays a photograph of STI College Santa Rosa. Email, password, and session options provide the entry point to the attendance-management dashboard.",
+        "asset": "/Portfolio/STIRAMS(WEB)/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Dashboard overview",
+        "description": "The dashboard combines an institutional banner, employee/department counts, attendance summaries, and persistent navigation. It provides a starting overview before administrators open operational modules.",
+        "asset": "/Portfolio/STIRAMS(WEB)/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Attendance monitoring",
+        "description": "Summary cards classify attendance while the log table shows employee, log type, time, date, and status. Search, date/department filters, and refresh controls help staff inspect individual tap records.",
+        "asset": "/Portfolio/STIRAMS(WEB)/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Daily Time Record generation",
+        "description": "The DTR command center walks the user through cutoff selection, a faculty member, school year, and semester. Single-record generation and bulk-print actions turn attendance records into reporting output.",
+        "asset": "/Portfolio/STIRAMS(WEB)/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Printable DTR preview",
+        "description": "A modal previews the faculty Daily Time Record in a page-oriented layout, with Close and Print DTR actions. Administrators can inspect the selected report before sending it to a printer.",
+        "asset": "/Portfolio/STIRAMS(WEB)/5.png"
+      },
+      {
+        "file": "screenshots/6.png",
+        "title": "Teaching-schedule management",
+        "description": "Faculty cards summarize class counts by weekday under the active term. Search, department/status filters, and grid/list options help staff locate and manage teaching schedules; this capture shows an employee with no classes.",
+        "asset": "/Portfolio/STIRAMS(WEB)/6.png"
+      },
+      {
+        "file": "screenshots/7.png",
+        "title": "Exam-schedule management",
+        "description": "The exam-schedule page provides staff search, filters, past-exam visibility, and grid/list views. Its No Teaching Staff Found state shows how the module handles a selection without available staff records.",
+        "asset": "/Portfolio/STIRAMS(WEB)/7.png"
+      },
+      {
+        "file": "screenshots/8.png",
+        "title": "Employee directory and departments",
+        "description": "Search and employment filters sit above an employee table containing identity, department, contact, RFID/schedule, and work-status information. Add Employee and department-management controls maintain the records used by attendance and scheduling.",
+        "asset": "/Portfolio/STIRAMS(WEB)/8.png"
+      },
+      {
+        "file": "screenshots/9.png",
+        "title": "Holiday and no-class setup",
+        "description": "The holiday module offers Add Holiday and an empty list for holidays, suspended classes, and no-class days. These entries provide scheduling exceptions that administrators can maintain as the calendar changes.",
+        "asset": "/Portfolio/STIRAMS(WEB)/9.png"
+      },
+      {
+        "file": "screenshots/10.png",
+        "title": "Substitute assignments",
+        "description": "Search, status filtering, and refresh controls organize class-substitution requests. The empty state indicates no assignments are currently listed and directs staff toward creating a substitution.",
+        "asset": "/Portfolio/STIRAMS(WEB)/10.png"
+      },
+      {
+        "file": "screenshots/11.png",
+        "title": "Substitution records and forms",
+        "description": "Date-range, schedule-type, and text filters narrow substitution records intended for review and printing. This capture shows no matching forms, distinguishing the reporting view from assignment creation.",
+        "asset": "/Portfolio/STIRAMS(WEB)/11.png"
+      },
+      {
+        "file": "screenshots/12.png",
+        "title": "Attendance verification filings",
+        "description": "Leave-token limits and filing-status totals appear above verification records and search. The module supports reviewing employee attendance-related filings and their approval state; this capture contains zero totals.",
+        "asset": "/Portfolio/STIRAMS(WEB)/12.png"
+      },
+      {
+        "file": "screenshots/13.png",
+        "title": "Activity log and audit trail",
+        "description": "Date, action, user-type, and text filters narrow a table of recorded actions such as login and record creation. Administrators can review who acted, when, and the logged description during investigation or support.",
+        "asset": "/Portfolio/STIRAMS(WEB)/13.png"
+      },
+      {
+        "file": "screenshots/14.png",
+        "title": "Academic-term configuration",
+        "description": "The active-term summary and term table show academic year, semester, date boundaries, duration, and status. Add/edit controls organize the term context used by scheduling and reports.",
+        "asset": "/Portfolio/STIRAMS(WEB)/14.png"
+      },
+      {
+        "file": "screenshots/15.png",
+        "title": "Database backup and restore",
+        "description": "Connection status and last-backup information appear above backup creation and restore controls. This is an administrative recovery module; the screenshot shows the interface, not a completed or verified restoration.",
+        "asset": "/Portfolio/STIRAMS(WEB)/15.png"
+      }
+    ]
+  },
+  "Pet-Haven": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "Startup loading screen",
+        "description": "Pet Haven branding and a progress bar introduce the Windows application. This screen precedes account entry and the shop-management workspace.",
+        "asset": "/Portfolio/PetHaven/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Staff login",
+        "description": "Username and password fields open the staff session. The split layout keeps shop branding beside the login form; the screenshot documents the interface rather than the strength of its authentication.",
+        "asset": "/Portfolio/PetHaven/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Main workspace and daily sales",
+        "description": "Navigation provides access to dashboard, customer, employee, product, and billing modules. A daily-report area displays the current sales total and a reset action, giving staff a persistent operational summary.",
+        "asset": "/Portfolio/PetHaven/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Inventory category summary",
+        "description": "Dog, cat, fish, and bird cards display category counts with a refresh control. This dashboard gives staff a quick view of the animal-category records represented in the inventory.",
+        "asset": "/Portfolio/PetHaven/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Customer registration and editing",
+        "description": "A customer list sits behind a modal collecting name, address, and phone number. Save, Update, and Cancel support adding or revising customer records used by the sales workflow.",
+        "asset": "/Portfolio/PetHaven/5.png"
+      },
+      {
+        "file": "screenshots/6.png",
+        "title": "Product registration and stock fields",
+        "description": "The product modal captures name, type, animal category, quantity, and price. Its actions maintain the inventory records that cashiers select during billing.",
+        "asset": "/Portfolio/PetHaven/6.png"
+      },
+      {
+        "file": "screenshots/7.png",
+        "title": "Bill composition and checkout",
+        "description": "Selected products appear with quantity, unit price, line totals, and transaction number. Add Product, quantity controls, removal actions, and Check Out let the cashier assemble and review a sale.",
+        "asset": "/Portfolio/PetHaven/7.png"
+      },
+      {
+        "file": "screenshots/8.png",
+        "title": "Daily total after a sale",
+        "description": "The billing list is empty while the daily-report total has increased compared with the previous capture. It illustrates the post-sale workspace and updated summary; a receipt document itself is not shown.",
+        "asset": "/Portfolio/PetHaven/8.png"
+      }
+    ]
+  },
+  "StBenedict": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "Application startup",
+        "description": "A medical icon and loading bar introduce the desktop project before login. This is a startup presentation screen, not a patient or administrative record view.",
+        "asset": "/Portfolio/St.Benedict/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Administrator login",
+        "description": "The branded login window accepts a username and password before opening the management modules. It establishes the account-entry flow for the school-project hospital interface.",
+        "asset": "/Portfolio/St.Benedict/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Doctor record management",
+        "description": "Name, contact number, specialization, and account fields sit above a doctor table with record actions. Administrators use this module to maintain the doctor directory for related appointment workflows.",
+        "asset": "/Portfolio/St.Benedict/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Patient registration",
+        "description": "Demographic fields, diagnosis, and doctor assignment appear above the patient list. The module captures the patient information referenced by appointments and billing in the demonstration system.",
+        "asset": "/Portfolio/St.Benedict/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Appointment scheduling",
+        "description": "Patient and doctor selectors combine with appointment date, status, time fields, floor, and availability. A table below organizes saved appointments for administrative review.",
+        "asset": "/Portfolio/St.Benedict/5.png"
+      },
+      {
+        "file": "screenshots/6.png",
+        "title": "Medical billing and receipt actions",
+        "description": "The bill form connects a patient and diagnosis with medication, procedures, treatment costs, payment method, and totals. View Receipt, Pay, and Delete expose the billing actions; the capture does not show a completed payment or receipt.",
+        "asset": "/Portfolio/St.Benedict/6.png"
+      }
+    ]
+  },
+  "Raiko": {
+    "screenshots": [
+      {
+        "file": "screenshots/about.png",
+        "title": "Brand story and positioning",
+        "description": "The About page combines a brand headline, supporting statement, illustration, and story text. It explains the label identity alongside the storefront instead of presenting only product listings.",
+        "asset": "/Portfolio/Raiko/about.png"
+      },
+      {
+        "file": "screenshots/blog.png",
+        "title": "Editorial article listing",
+        "description": "Image-led article cards display titles, dates, excerpts, and Continue Reading links. The blog module provides style and brand content that complements the shopping pages.",
+        "asset": "/Portfolio/Raiko/blog.png"
+      },
+      {
+        "file": "screenshots/contact.png",
+        "title": "Contact and inquiry form",
+        "description": "An address and phone block sits beside name, email, subject, and message fields. Visitors can compose an inquiry through Send message; the screenshot does not demonstrate successful delivery.",
+        "asset": "/Portfolio/Raiko/contact.png"
+      },
+      {
+        "file": "screenshots/home.png",
+        "title": "Storefront landing page",
+        "description": "A campaign photograph, headline, Shop the collection button, and story link introduce the label. The hero offers a direct path to products while keeping brand information accessible.",
+        "asset": "/Portfolio/Raiko/home.png"
+      },
+      {
+        "file": "screenshots/shop.png",
+        "title": "Filtered product catalog",
+        "description": "Category, price, and size filters sit beside product cards with names, prices, stock badges, and bag controls. This shopping module helps customers narrow the catalog and inspect available pieces.",
+        "asset": "/Portfolio/Raiko/shop.png"
+      }
+    ]
+  },
+  "Silid1201": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "Main menu",
+        "description": "The title screen presents Play and Quit over a red horror-themed background. It is the entry point that establishes the tone before the player starts a session.",
+        "asset": "/Portfolio/Silid 1201/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Exterior establishing cinematic",
+        "description": "A nighttime view of the school introduces the setting before exploration begins. The visible skip prompt lets the player move past the cinematic rather than replaying it on every run.",
+        "asset": "/Portfolio/Silid 1201/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Character close-up cinematic",
+        "description": "A close-up character shot continues the opening sequence, with the same skip prompt. It demonstrates the character presentation and cinematic framing used before first-person gameplay.",
+        "asset": "/Portfolio/Silid 1201/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Hooded-character cinematic",
+        "description": "A second character appears in a dim interior during the opening sequence. The shot builds scene context and atmosphere; the still image alone does not establish the character role or enemy behavior.",
+        "asset": "/Portfolio/Silid 1201/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Exploration, objectives, and HUD",
+        "description": "The first-person view shows a school interior, an Interact prompt, resource bars, and page collection at seven of eight. This is the active exploration module, where navigation, interactions, and the collection objective meet.",
+        "asset": "/Portfolio/Silid 1201/5.png"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Silid 1201 gameplay recording",
+        "description": "The original gameplay recording shows the opening cinematics and first-person exploration, including the school setting, character encounter, page objective, and on-screen resource indicators.",
+        "kind": "Gameplay recording",
+        "asset": "/Portfolio/Silid 1201/Showcase/gameplay.mp4",
+        "file": "media/gameplay.mp4",
+        "poster": "/Portfolio/Silid 1201/5.png",
+        "duration": "3:35"
+      }
+    ]
+  },
+  "STITimer": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "All in Place live-event setup",
+        "description": "A laptop and projected display show the All in Place timer during an activity. The photograph documents the application in an event setting, with large digits visible beyond the operator screen.",
+        "asset": "/Portfolio/STITimer/Events/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Chef Xpress elapsed-time display",
+        "description": "A venue laptop shows the Chef Xpress preset counting elapsed time. This photograph demonstrates how an organizer can place the timing interface at the activity site.",
+        "asset": "/Portfolio/STITimer/Events/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Travelogue timer at an event",
+        "description": "The Travelogue preset is visible on a laptop during a presentation setting. The elapsed-time display gives the operator a reference for tracking how long a presentation has run.",
+        "asset": "/Portfolio/STITimer/Events/3.png"
+      },
+      {
+        "file": "screenshots/4.png",
+        "title": "Event venue context",
+        "description": "The photograph shows contestants, judges, equipment, and the THM Week venue. It documents the environment associated with the timer project, rather than exposing a separate software module.",
+        "asset": "/Portfolio/STITimer/Events/4.png"
+      },
+      {
+        "file": "screenshots/5.png",
+        "title": "Codefest long-duration countdown",
+        "description": "The Codefest preset opens at 36 hours with Start, Reset, and keyboard hints. It adapts the countdown module to a long coding competition while keeping the display readable at a distance.",
+        "asset": "/Portfolio/STITimer/5.png"
+      },
+      {
+        "file": "screenshots/6.png",
+        "title": "Essay contest countdown",
+        "description": "The Essay Does It preset starts from one hour and shares the countdown controls. Event artwork identifies the contest while the timer gives participants a common deadline.",
+        "asset": "/Portfolio/STITimer/6.png"
+      },
+      {
+        "file": "screenshots/7.png",
+        "title": "Mix N Flair stopwatch",
+        "description": "The elapsed-time preset starts at zero, with Start and Reset controls. It records duration instead of counting down from a fixed limit, suiting activities measured by time taken.",
+        "asset": "/Portfolio/STITimer/7.png"
+      },
+      {
+        "file": "screenshots/8.png",
+        "title": "Preparation and speech phases",
+        "description": "Stand Up and Deliver shows a preparation countdown, separate prep/speech duration settings, and a skip-preparation option. This module supports moving between the two stages of a speaking activity.",
+        "asset": "/Portfolio/STITimer/8.png"
+      },
+      {
+        "file": "screenshots/9.png",
+        "title": "Think Quest question timer",
+        "description": "Easy, Medium, and Hard choices expose 15-, 30-, and 45-second limits above a large countdown. The quiz timer lets the host select a duration appropriate to the current round.",
+        "asset": "/Portfolio/STITimer/9.png"
+      },
+      {
+        "file": "screenshots/10.png",
+        "title": "Travelogue stopwatch preset",
+        "description": "The Travelogue interface begins at zero with elapsed-time labeling and standard timer controls. It reuses the stopwatch behavior with presentation-specific branding.",
+        "asset": "/Portfolio/STITimer/10.png"
+      },
+      {
+        "file": "screenshots/11.png",
+        "title": "Worth the Whisk countdown",
+        "description": "The cooking/baking preset opens at three hours with Start, Reset, and keyboard shortcuts. It applies the countdown module to a longer practical contest.",
+        "asset": "/Portfolio/STITimer/11.png"
+      }
+    ],
+    "additionalScreenshots": [
+      {
+        "asset": "/Portfolio/STITimer/1.png",
+        "title": "Contest-preset launcher",
+        "description": "The launcher presents the available college contest presets as large illustrated choices. Operators can open a timer matched to the activity without configuring every screen from scratch."
+      },
+      {
+        "asset": "/Portfolio/STITimer/2.png",
+        "title": "Event branding display",
+        "description": "A full-screen STI logo provides a branded holding display between timed activities. This screen presents event identity rather than an active countdown."
+      },
+      {
+        "asset": "/Portfolio/STITimer/3.png",
+        "title": "All in Place countdown",
+        "description": "The All in Place preset opens with a 30-minute countdown, Start and Reset controls, and keyboard shortcuts. It gives this contest a fixed-duration timing display."
+      },
+      {
+        "asset": "/Portfolio/STITimer/4.png",
+        "title": "Chef Xpress stopwatch",
+        "description": "The Chef Xpress preset counts elapsed time from zero, with standard start/pause and reset actions. Contest-specific artwork distinguishes it from the other stopwatch modes."
+      }
+    ],
+    "videos": [
+      {
+        "title": "STITimer screenshot walkthrough",
+        "description": "A silent, captioned walkthrough of the existing event photos and timer screenshots. It explains live-event context, countdowns, stopwatch presets, speech phases, and quiz timing. This is a still-image presentation, not a recording of live timer interaction.",
+        "kind": "Screenshot walkthrough",
+        "asset": "/Portfolio/STITimer/Showcase/screenshot-walkthrough.mp4",
+        "file": "media/screenshot-walkthrough.mp4",
+        "poster": "/Portfolio/STITimer/1.png",
+        "duration": "1:09"
+      }
+    ]
+  },
+  "YTConverter": {
+    "screenshots": [
+      {
+        "file": "screenshots/1.png",
+        "title": "Conversion request setup",
+        "description": "The form accepts a YouTube link, individual/playlist mode, output format, and audio quality. Fetch Metadata begins the preview stage, while an adjacent guide explains the conversion flow.",
+        "asset": "/Portfolio/YT Converter/1.png"
+      },
+      {
+        "file": "screenshots/2.png",
+        "title": "Metadata preview and confirmation",
+        "description": "The retrieved thumbnail, title, and channel let users check the source before conversion. The preview panel provides Back and Convert now actions while retaining the selected output options.",
+        "asset": "/Portfolio/YT Converter/2.png"
+      },
+      {
+        "file": "screenshots/3.png",
+        "title": "Completed conversion and download",
+        "description": "The result panel reports a ready download with format and file size. Download File, Copy link, and Convert another connect the completed background job to retrieval and the next request.",
+        "asset": "/Portfolio/YT Converter/3.png"
+      }
+    ]
+  }
+}

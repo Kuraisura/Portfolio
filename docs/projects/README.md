@@ -6,6 +6,9 @@ The portfolio contains 16 project descriptions, each organized by purpose, inten
 
 - `src/data/projects.js`: the website project content and grouped technology stacks.
 - `src/components/ProjectDetails.jsx`: the shared description layout for the project dialog and fullscreen sheet.
+- `src/data/projectMedia.json`: 112 visually reviewed repository screenshots, four additional STITimer website captures, and video descriptions.
+- `src/components/ProjectMediaCaption.jsx`: the explanation for the selected gallery image in normal and fullscreen views.
+- `src/components/ProjectVideos.jsx`: on-demand video players in project details.
 - `readmes/`: the README files prepared for the linked GitHub repositories.
 
 ## Repository review
@@ -52,3 +55,15 @@ Reviewed on October 27, 2026. Source inspection covers manifests and representat
 - README section consistency and repository-relative link checks.
 
 The source projects were not rebuilt, deployed, or functionally retested as part of this documentation update.
+
+## Screenshot and video review
+
+Every screenshot currently present in the 13 repositories with screenshot galleries was visually inspected. Each now has a named module explanation describing visible controls and the screen's role. ChronoWeb, ChronoAndroid, and NeuralLens have no repository screenshots to annotate.
+
+The README galleries use expandable module sections, with the first screen expanded by default. Website captions follow the active carousel image, including fullscreen views. Four additional STITimer website screens have matching captions without being represented as existing GitHub screenshots.
+
+- Silid1201 includes the original 3:35 gameplay recording under `media/gameplay.mp4`.
+- STITimer includes a silent 1:09 screenshot/event-photo walkthrough under `media/screenshot-walkthrough.mp4`. It is explicitly labeled as a still-image presentation, not live application footage. The pre-existing animated background asset is not presented as a demo.
+- Each video has a repository file link and a browser-playback link. The portfolio players use controls and load on demand.
+
+Verification covered all 112 repository screenshots and four additional website captures, fullscreen caption changes, native video playback at desktop and mobile widths, repository screenshot coverage, video-file hashes, and representative GitHub-rendered Markdown sections. Publication commits and media hashes are recorded in `publication.json`.

@@ -58,41 +58,61 @@ A school management-system project. Clinical and cost mappings are demonstration
 
 Open the project under StBenedict/ in Visual Studio on Windows with the .NET desktop workload and .NET Framework 4.7.2 targeting pack. Restore dependencies and configure the expected SQL Server LocalDB database. Verify the schema and use synthetic records for demonstration workflows.
 
-## Screenshots
+## Screenshot and module walkthrough
 
-<table>
-<tr>
-<td align="center"><img src="screenshots/1.png" alt="System initialization" width="440"><br>System initialization</td>
-<td align="center"><img src="screenshots/2.png" alt="Secure staff access" width="440"><br>Secure staff access</td>
-</tr>
-</table>
+Expand a screen below to see the capture and an explanation of the module, its visible controls, and its role in the application.
+
+<details open>
+<summary><strong>01 · Application startup</strong></summary>
+
+A medical icon and loading bar introduce the desktop project before login. This is a startup presentation screen, not a patient or administrative record view.
+
+<p><img src="screenshots/1.png" alt="Application startup" width="960"></p>
+
+</details>
 
 <details>
-<summary>View all 6 screenshots</summary>
+<summary><strong>02 · Administrator login</strong></summary>
 
-### 1. System initialization
+The branded login window accepts a username and password before opening the management modules. It establishes the account-entry flow for the school-project hospital interface.
 
-![System initialization](screenshots/1.png)
+<p><img src="screenshots/2.png" alt="Administrator login" width="960"></p>
 
-### 2. Secure staff access
+</details>
 
-![Secure staff access](screenshots/2.png)
+<details>
+<summary><strong>03 · Doctor record management</strong></summary>
 
-### 3. Doctor directory management
+Name, contact number, specialization, and account fields sit above a doctor table with record actions. Administrators use this module to maintain the doctor directory for related appointment workflows.
 
-![Doctor directory management](screenshots/3.png)
+<p><img src="screenshots/3.png" alt="Doctor record management" width="960"></p>
 
-### 4. Patient intake
+</details>
 
-![Patient intake](screenshots/4.png)
+<details>
+<summary><strong>04 · Patient registration</strong></summary>
 
-### 5. Appointment scheduler
+Demographic fields, diagnosis, and doctor assignment appear above the patient list. The module captures the patient information referenced by appointments and billing in the demonstration system.
 
-![Appointment scheduler](screenshots/5.png)
+<p><img src="screenshots/4.png" alt="Patient registration" width="960"></p>
 
-### 6. Billing & payment
+</details>
 
-![Billing & payment](screenshots/6.png)
+<details>
+<summary><strong>05 · Appointment scheduling</strong></summary>
+
+Patient and doctor selectors combine with appointment date, status, time fields, floor, and availability. A table below organizes saved appointments for administrative review.
+
+<p><img src="screenshots/5.png" alt="Appointment scheduling" width="960"></p>
+
+</details>
+
+<details>
+<summary><strong>06 · Medical billing and receipt actions</strong></summary>
+
+The bill form connects a patient and diagnosis with medication, procedures, treatment costs, payment method, and totals. View Receipt, Pay, and Delete expose the billing actions; the capture does not show a completed payment or receipt.
+
+<p><img src="screenshots/6.png" alt="Medical billing and receipt actions" width="960"></p>
 
 </details>
 

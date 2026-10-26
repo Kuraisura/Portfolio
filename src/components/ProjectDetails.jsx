@@ -1,3 +1,5 @@
+import ProjectVideos from './ProjectVideos';
+
 export default function ProjectDetails({ project, dark = false }) {
   return (
     <div className="project-details" data-appearance={dark ? 'dark' : undefined}>
@@ -17,6 +19,8 @@ export default function ProjectDetails({ project, dark = false }) {
           <p>{project.audience}</p>
         </section>
       </div>
+
+      <ProjectVideos project={project} />
 
       <section>
         <h3>What you can do</h3>

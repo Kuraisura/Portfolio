@@ -50,37 +50,64 @@ A school project described as a two-day build. The public repository is a showca
 
 This repository currently contains documentation and screenshots. Application source and a reproducible build are not included. Technology details are limited to what the project documentation supports.
 
-## Screenshots
+## Project video
 
-<table>
-<tr>
-<td align="center"><img src="screenshots/1.png" alt="Game entry point" width="440"><br>Game entry point</td>
-<td align="center"><img src="screenshots/2.png" alt="Establishing shot" width="440"><br>Establishing shot</td>
-</tr>
-</table>
+### Silid 1201 gameplay recording
+
+**Gameplay recording · 3:35**
+
+The original gameplay recording shows the opening cinematics and first-person exploration, including the school setting, character encounter, page objective, and on-screen resource indicators.
+
+[![Watch Silid 1201 gameplay recording](screenshots/5.png)](https://kuraisler.xyz/Portfolio/Silid%201201/Showcase/gameplay.mp4)
+
+[Watch in your browser](https://kuraisler.xyz/Portfolio/Silid%201201/Showcase/gameplay.mp4) · [Video file in this repository](media/gameplay.mp4)
+
+## Screenshot and module walkthrough
+
+Expand a screen below to see the capture and an explanation of the module, its visible controls, and its role in the application.
+
+<details open>
+<summary><strong>01 · Main menu</strong></summary>
+
+The title screen presents Play and Quit over a red horror-themed background. It is the entry point that establishes the tone before the player starts a session.
+
+<p><img src="screenshots/1.png" alt="Main menu" width="960"></p>
+
+</details>
 
 <details>
-<summary>View all 5 screenshots</summary>
+<summary><strong>02 · Exterior establishing cinematic</strong></summary>
 
-### 1. Game entry point
+A nighttime view of the school introduces the setting before exploration begins. The visible skip prompt lets the player move past the cinematic rather than replaying it on every run.
 
-![Game entry point](screenshots/1.png)
+<p><img src="screenshots/2.png" alt="Exterior establishing cinematic" width="960"></p>
 
-### 2. Establishing shot
+</details>
 
-![Establishing shot](screenshots/2.png)
+<details>
+<summary><strong>03 · Character close-up cinematic</strong></summary>
 
-### 3. Character introduction
+A close-up character shot continues the opening sequence, with the same skip prompt. It demonstrates the character presentation and cinematic framing used before first-person gameplay.
 
-![Character introduction](screenshots/3.png)
+<p><img src="screenshots/3.png" alt="Character close-up cinematic" width="960"></p>
 
-### 4. Antagonist reveal
+</details>
 
-![Antagonist reveal](screenshots/4.png)
+<details>
+<summary><strong>04 · Hooded-character cinematic</strong></summary>
 
-### 5. Core gameplay loop
+A second character appears in a dim interior during the opening sequence. The shot builds scene context and atmosphere; the still image alone does not establish the character role or enemy behavior.
 
-![Core gameplay loop](screenshots/5.png)
+<p><img src="screenshots/4.png" alt="Hooded-character cinematic" width="960"></p>
+
+</details>
+
+<details>
+<summary><strong>05 · Exploration, objectives, and HUD</strong></summary>
+
+The first-person view shows a school interior, an Interact prompt, resource bars, and page collection at seven of eight. This is the active exploration module, where navigation, interactions, and the collection objective meet.
+
+<p><img src="screenshots/5.png" alt="Exploration, objectives, and HUD" width="960"></p>
 
 </details>
 

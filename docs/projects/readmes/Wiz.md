@@ -68,73 +68,133 @@ npm run dev
 npm run build
 ```
 
-## Screenshots
+## Screenshot and module walkthrough
 
-<table>
-<tr>
-<td align="center"><img src="screenshots/1.png" alt="Account gate" width="260"><br>Account gate</td>
-<td align="center"><img src="screenshots/2.png" alt="Manual quiz builder" width="260"><br>Manual quiz builder</td>
-</tr>
-</table>
+Expand a screen below to see the capture and an explanation of the module, its visible controls, and its role in the application.
+
+<details open>
+<summary><strong>01 · Sign-in and account entry</strong></summary>
+
+Email/password, Google, and GitHub options lead into the personal study workspace. Password recovery and sign-up links support returning and first-time learners.
+
+<p><img src="screenshots/1.png" alt="Sign-in and account entry" width="360"></p>
+
+</details>
 
 <details>
-<summary>View all 14 screenshots</summary>
+<summary><strong>02 · Manual quiz builder</strong></summary>
 
-### 1. Account gate
+Creation-mode tabs, a title field, question-count presets, difficulty choices, and question-type buttons define a new quiz. The disabled Save Quiz button reflects a draft with no questions added yet.
 
-![Account gate](screenshots/1.png)
+<p><img src="screenshots/2.png" alt="Manual quiz builder" width="360"></p>
 
-### 2. Manual quiz builder
+</details>
 
-![Manual quiz builder](screenshots/2.png)
+<details>
+<summary><strong>03 · Quiz library empty state</strong></summary>
 
-### 3. Fresh account state
+Search, progress filters, completed-test totals, average score, and study-time metrics frame the quiz library. The empty list shows how the module appears before study sets have been created.
 
-![Fresh account state](screenshots/3.png)
+<p><img src="screenshots/3.png" alt="Quiz library empty state" width="360"></p>
 
-### 4. Learner profile
+</details>
 
-![Learner profile](screenshots/4.png)
+<details>
+<summary><strong>04 · Learner profile and preferences</strong></summary>
 
-### 5. Monetization page
+The profile combines identity, flashcard totals, daily streak, and mastery with theme, reminder, password, subscription, and cache controls. It centralizes account settings and study-progress indicators.
 
-![Monetization page](screenshots/5.png)
+<p><img src="screenshots/4.png" alt="Learner profile and preferences" width="360"></p>
 
-### 6. Camera-to-quiz pipeline
+</details>
 
-![Camera-to-quiz pipeline](screenshots/6.png)
+<details>
+<summary><strong>05 · Subscription and trial state</strong></summary>
 
-### 7. Bulk paste importer
+The plan page compares Free and Pro features and shows a cancelled trial that remains active until the displayed date. It explains the captured account entitlement; displayed prices and dates are historical screenshot content.
 
-![Bulk paste importer](screenshots/7.png)
+<p><img src="screenshots/5.png" alt="Subscription and trial state" width="360"></p>
 
-### 8. AI generation setup
+</details>
 
-![AI generation setup](screenshots/8.png)
+<details>
+<summary><strong>06 · Photo-to-quiz capture</strong></summary>
 
-### 9. Generation confirmation
+Camera and image-upload options begin the Scan to Quiz workflow. Capture tips explain how to prepare a clear image before OCR and question parsing; no extracted text is shown yet.
 
-![Generation confirmation](screenshots/9.png)
+<p><img src="screenshots/6.png" alt="Photo-to-quiz capture" width="360"></p>
 
-### 10. Quiz library
+</details>
 
-![Quiz library](screenshots/10.png)
+<details>
+<summary><strong>07 · Bulk-question import guide</strong></summary>
 
-### 11. Pre-quiz configuration
+The Bulk Paste mode displays examples for multiple-choice, true/false, identification, and enumeration syntax. The format guide helps users structure pasted questions and mark correct answers before importing.
 
-![Pre-quiz configuration](screenshots/11.png)
+<p><img src="screenshots/7.png" alt="Bulk-question import guide" width="360"></p>
 
-### 12. Active testing environment
+</details>
 
-![Active testing environment](screenshots/12.png)
+<details>
+<summary><strong>08 · Document-based AI setup</strong></summary>
 
-### 13. Results & review
+The AI Generate tab accepts a course document and optional review scope, quiz title, and question formats. This module converts source material into a configured generation request.
 
-![Results & review](screenshots/13.png)
+<p><img src="screenshots/8.png" alt="Document-based AI setup" width="360"></p>
 
-### 14. Spaced repetition flashcards
+</details>
 
-![Spaced repetition flashcards](screenshots/14.png)
+<details>
+<summary><strong>09 · Generated study-set confirmation</strong></summary>
+
+An uploaded file, selected formats, question count, and difficulty remain visible after the Study Set Ready confirmation. The completion message reports a generated set; the screenshot alone does not validate question quality.
+
+<p><img src="screenshots/9.png" alt="Generated study-set confirmation" width="360"></p>
+
+</details>
+
+<details>
+<summary><strong>10 · Saved quizzes and retakes</strong></summary>
+
+The populated library distinguishes a new, untaken study set from a completed set with a score. Review Answers, Take Quiz, and Retake actions connect storage to practice and revision.
+
+<p><img src="screenshots/10.png" alt="Saved quizzes and retakes" width="360"></p>
+
+</details>
+
+<details>
+<summary><strong>11 · Quiz session configuration</strong></summary>
+
+Time-limit presets, question shuffle, and answer shuffle configure a selected quiz attempt. Start Quiz begins the session after the learner chooses how to practice.
+
+<p><img src="screenshots/11.png" alt="Quiz session configuration" width="360"></p>
+
+</details>
+
+<details>
+<summary><strong>12 · Active quiz question</strong></summary>
+
+A question counter, elapsed time, progress bar, answer choices, and Next Question button show the testing interface. The learner selects an answer before advancing; this capture demonstrates layout rather than verified content accuracy.
+
+<p><img src="screenshots/12.png" alt="Active quiz question" width="360"></p>
+
+</details>
+
+<details>
+<summary><strong>13 · Results and answer review</strong></summary>
+
+A completion score and duration appear above individual answer comparisons. Red and green review cards distinguish mistakes from correct responses, helping learners identify material to revisit.
+
+<p><img src="screenshots/13.png" alt="Results and answer review" width="360"></p>
+
+</details>
+
+<details>
+<summary><strong>14 · Flashcard study session</strong></summary>
+
+A single card shows deck progress, mastery, flip interaction, audio/bookmark icons, and shuffle, hint, and star controls. This mode turns a saved study set into repeated recall practice.
+
+<p><img src="screenshots/14.png" alt="Flashcard study session" width="360"></p>
 
 </details>
 
