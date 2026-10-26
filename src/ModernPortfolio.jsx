@@ -605,18 +605,9 @@ const ModernPortfolio = () => {
   const [galleryTab, setGalleryTab] = useState('screenshots'); // 'screenshots' | 'showcase'
   const fullscreenSwiperRef = React.useRef(null);
   const modalSwiperRef = React.useRef(null);
-  const [selectedAchievement, setSelectedAchievement] = useState(null);
   const [selectedCertificate, setSelectedCertificate] = useState(null);
-  const achievementSwipeX = React.useRef(0);
   const certSwipeX = React.useRef(0);
 
-  const goAchievement = (dir) => {
-    setSelectedAchievement((cur) => {
-      if (!cur) return cur;
-      const idx = achievements.findIndex(a => a.id === cur.id);
-      return achievements[(idx + dir + achievements.length) % achievements.length];
-    });
-  };
   const goCertificate = (dir) => {
     setSelectedCertificate((cur) => {
       if (!cur) return cur;
@@ -630,7 +621,6 @@ const ModernPortfolio = () => {
   const dragRef = React.useRef(null);
   const lenisRef = React.useRef(null);
   const projectModalRef = React.useRef(null);
-  const achievementModalRef = React.useRef(null);
   const certificateModalRef = React.useRef(null);
   const navScrollActiveRef = React.useRef(false);
   const navigationTargetRef = React.useRef(null);
@@ -951,7 +941,7 @@ const ModernPortfolio = () => {
   // Detect the section crossing the middle of the viewport without a
   // layout-reading scroll handler on every frame.
   useEffect(() => {
-    const sectionIds = ['about', 'projects', 'skills', 'work-experience', 'education', 'achievements', 'seminars', 'certificates', 'contact'];
+    const sectionIds = ['about', 'projects', 'skills', 'work-experience', 'education', 'seminars', 'certificates', 'contact'];
     const observer = new IntersectionObserver((entries) => {
       if (navScrollActiveRef.current) return;
       const activeEntry = entries.find((entry) => entry.isIntersecting);
@@ -1219,7 +1209,7 @@ const ModernPortfolio = () => {
   // Blocks rubber-banding / chain-scrolling behind the open dialog so a drag
   // that hits the top or bottom edge never yanks the page underneath.
   useEffect(() => {
-    const modalOpen = Boolean(selectedProject || selectedAchievement || selectedCertificate);
+    const modalOpen = Boolean(selectedProject || selectedCertificate);
     setLinkCopied(false);
 
     if (modalOpen) {
@@ -1244,20 +1234,18 @@ const ModernPortfolio = () => {
       document.body.style.overscrollBehavior = '';
       lenisRef.current?.start();
     };
-  }, [selectedProject, selectedAchievement, selectedCertificate]);
+  }, [selectedProject, selectedCertificate]);
 
   useEffect(() => {
     const modal = selectedProject
       ? projectModalRef.current
-      : selectedAchievement
-        ? achievementModalRef.current
         : selectedCertificate
           ? certificateModalRef.current
           : null;
     if (modal) {
       requestAnimationFrame(() => modal.focus());
     }
-  }, [selectedProject, selectedAchievement, selectedCertificate]);
+  }, [selectedProject, selectedCertificate]);
 
   useEffect(() => {
     if (!selectedCertificate) return undefined;
@@ -1270,16 +1258,6 @@ const ModernPortfolio = () => {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [selectedCertificate]);
 
-  useEffect(() => {
-    if (!selectedAchievement) return undefined;
-    const onKeyDown = (event) => {
-      if (event.key === 'Escape') setSelectedAchievement(null);
-      if (event.key === 'ArrowLeft') goAchievement(-1);
-      if (event.key === 'ArrowRight') goAchievement(1);
-    };
-    document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
-  }, [selectedAchievement]);
 
   // Record this visit once, then refresh the displayed total automatically.
   useEffect(() => {
@@ -1656,18 +1634,6 @@ const ModernPortfolio = () => {
     }
   ];
 
-  const achievements = [
-    { id: "ach-01", title: "Codefest 2024 — 3rd Runner Up", school: "STI College Santa Rosa", year: "2024", image: "/Achievements/Codefest.jpg" },
-    { id: "ach-02", title: "Senior High School — With Honors", school: "Lumil Integrated National High School", year: "Grade 12 · 2022", image: "/Achievements/Senior High.jpg" },
-    { id: "ach-03", title: "Grade 10 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2020", image: "/Achievements/Grade10.jpg" },
-    { id: "ach-04", title: "Grade 9 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2019", image: "/Achievements/Grade9.jpg" },
-    { id: "ach-05", title: "Grade 8 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2018", image: "/Achievements/Grade8.jpg" },
-    { id: "ach-06", title: "Grade 8 — Participant, Mathematical Investigatory Project (Regional in Benguet)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/MIP.jpg" },
-    { id: "ach-07", title: "Grade 8 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2017", image: "/Achievements/achievement-placeholder.svg" },
-    { id: "ach-08", title: "Grade 7 — With Honors", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/Grade7.jpg" },
-    { id: "ach-09", title: "Grade 7 — Participant, Mathematical Investigatory Project (Regional in Abra)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" },
-    { id: "ach-10", title: "Grade 7 — 1st Place, Mathematical Investigatory Project (Division)", school: "San Francisco National Agricultural and Trade High School", year: "2016", image: "/Achievements/achievement-placeholder.svg" }
-  ];
 
   // Category color map for project types.
   // `text` is used on light surfaces, `textDark` on dark surfaces — the light-mode
@@ -2202,7 +2168,7 @@ const ModernPortfolio = () => {
         : selectedCertificate.credentialUrl
     : '';
 
-  const navItems = ['About', 'Projects', 'Skills', 'Experience', 'Certificates', 'Achievements', 'Education', 'Seminars', 'Contact'];
+  const navItems = ['About', 'Projects', 'Skills', 'Experience', 'Certificates', 'Education', 'Seminars', 'Contact'];
   const navItemId = (item) => (item === 'Experience' ? 'work-experience' : item.toLowerCase());
 
   return (
@@ -2642,7 +2608,7 @@ const ModernPortfolio = () => {
 
       {/* A single-cell GPU translation keeps the ambient grid moving without
           animating an oversized background layer or triggering layout work. */}
-      {!(selectedProject || selectedAchievement || fullscreenMode) && (
+      {!(selectedProject || fullscreenMode) && (
       <div className="ambient-grid-bg fixed z-0 pointer-events-none opacity-[0.4]"
            style={{
              backgroundImage: 'linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)',
@@ -2737,7 +2703,7 @@ const ModernPortfolio = () => {
       <main className="relative z-10 max-w-6xl mx-auto px-3 sm:px-6 lg:px-12 pb-16 lg:pb-20">
         
         {/* 1. ABOUT SECTION (Hero) */}
-        <section id="about" className="hero-section min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+        <section id="about" className="hero-section flex items-center pt-28 pb-8 sm:pt-32 sm:pb-10 lg:pt-36 lg:pb-12 scroll-mt-20">
           <div className="w-full animate-fade-in-up">
             
             <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-start justify-between">
@@ -2774,7 +2740,7 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 2. PROJECTS SECTION */}
-        <section id="projects" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0 delay-100 animate-fade-in-up opacity-0">
+        <section id="projects" className="flex items-center py-8 sm:py-10 lg:py-12 scroll-mt-20 delay-100 animate-fade-in-up opacity-0">
           <div className="w-full">
             <div className="sm:contents">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4 md:gap-6">
@@ -3182,7 +3148,7 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 3. SKILLS SECTION */}
-        <section id="skills" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0 delay-200 animate-fade-in-up opacity-0">
+        <section id="skills" className="flex items-center py-8 sm:py-10 lg:py-12 scroll-mt-20 delay-200 animate-fade-in-up opacity-0">
           <div className="w-full">
             <div className="flex items-center justify-center md:justify-between mb-8 md:mb-12">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
@@ -3224,7 +3190,7 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 4. WORK EXPERIENCE SECTION */}
-        <section id="work-experience" className="min-h-screen flex items-center py-14 sm:py-20 lg:py-32 scroll-mt-0">
+        <section id="work-experience" className="flex items-center py-8 sm:py-10 lg:py-12 scroll-mt-20">
           <div className="w-full">
             <div className="flex items-center justify-between mb-6 sm:mb-8 md:mb-12 gap-3">
               <div className="min-w-0">
@@ -3266,7 +3232,7 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 5. CERTIFICATES SECTION */}
-        <section id="certificates" className="min-h-screen flex items-center py-14 sm:py-20 lg:py-32 scroll-mt-0">
+        <section id="certificates" className="flex items-center py-8 sm:py-10 lg:py-12 scroll-mt-20">
           <div className="w-full">
             <div className="flex items-center justify-between mb-6 sm:mb-8 md:mb-12 gap-3">
               <div className="min-w-0">
@@ -3335,49 +3301,8 @@ const ModernPortfolio = () => {
           </div>
         </section>
 
-        {/* 5. ACHIEVEMENTS SECTION */}
-        <section id="achievements" className="min-h-screen flex items-center py-14 sm:py-20 lg:py-32 scroll-mt-0">
-          <div className="w-full">
-            <div className="flex items-center justify-between mb-6 sm:mb-8 md:mb-12 gap-3">
-              <div className="min-w-0">
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
-                  <Award size={20} className="theme-icon md:w-8 md:h-8 flex-shrink-0" />
-                  Achievements
-                </h2>
-                <p className="text-xs sm:text-sm md:text-base text-gray-500 mt-1 sm:mt-2">Academic honors, competitions, and research milestones.</p>
-              </div>
-              <span className="text-xs md:text-sm font-normal text-gray-400 bg-gray-100 px-2 md:px-3 py-1 rounded-full flex-shrink-0">{achievements.length}</span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 md:gap-4">
-              {achievements.map((achievement, index) => (
-                <div
-                  key={index}
-                  onClick={() => setSelectedAchievement(achievement)}
-                  className="group overflow-hidden bg-white border border-gray-100 rounded-xl sm:rounded-2xl hover:border-gray-300 hover:shadow-lg transition-all duration-300 cursor-pointer"
-                >
-                  {achievement.image ? (
-                    <div className="aspect-[16/10] bg-gray-100 overflow-hidden">
-                      <img src={achievement.image} alt={achievement.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    </div>
-                  ) : (
-                    <div className="h-2 brand-gradient"></div>
-                  )}
-                  <div className="p-2.5 sm:p-3 md:p-4">
-                    <div className="flex items-start justify-between gap-1.5 sm:gap-2 mb-1">
-                      <h3 className="text-[11px] sm:text-xs md:text-sm font-bold text-[#111] leading-snug line-clamp-2">{achievement.title}</h3>
-                      <span className="text-[9px] sm:text-[10px] font-semibold text-gray-400 whitespace-nowrap mt-0.5">{achievement.year}</span>
-                    </div>
-                    <p className="text-[10px] sm:text-[11px] text-gray-500 leading-relaxed line-clamp-2">{achievement.school}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* 6. EDUCATION SECTION */}
-        <section id="education" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+        <section id="education" className="flex items-center py-8 sm:py-10 lg:py-12 scroll-mt-20">
           <div className="w-full">
             <div className="flex items-center mb-6 sm:mb-8 md:mb-12">
               <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-[#111] flex items-center gap-2 md:gap-3">
@@ -3424,7 +3349,7 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 7. SEMINARS SECTION */}
-        <section id="seminars" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+        <section id="seminars" className="flex items-center py-8 sm:py-10 lg:py-12 scroll-mt-20">
           <div className="w-full">
             <div className="flex items-center mb-6 sm:mb-8 md:mb-12">
               <div>
@@ -3455,7 +3380,7 @@ const ModernPortfolio = () => {
         </section>
 
         {/* 8. CONTACT SECTION (Form) */}
-        <footer id="contact" className="min-h-screen flex items-center py-20 lg:py-32 scroll-mt-0">
+        <footer id="contact" className="flex items-center py-8 sm:py-10 lg:py-12 scroll-mt-20">
           <div className="w-full">
            <div className="max-w-2xl mx-auto px-4 md:px-0">
              <div className="text-center mb-8 md:mb-12">
@@ -4194,75 +4119,6 @@ const ModernPortfolio = () => {
               </div>
             </div>
           </Motion.div>
-        </div>
-      )}
-
-      {selectedAchievement && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-3 sm:p-6">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setSelectedAchievement(null)}
-          ></div>
-          <div
-            ref={achievementModalRef}
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="achievement-modal-title"
-            onWheel={(event) => event.stopPropagation()}
-            onTouchMove={(event) => event.stopPropagation()}
-            className="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto overscroll-contain bg-white rounded-2xl md:rounded-[32px] shadow-2xl animate-scale-in outline-none"
-          >
-            <div className="sticky top-4 z-10 flex justify-end mr-4 md:mr-6 float-right">
-              <button
-                onClick={() => setSelectedAchievement(null)}
-                className="w-10 h-10 rounded-full bg-white/95 text-black flex items-center justify-center hover:bg-black hover:text-white transition-all shadow-lg"
-                aria-label="Close achievement preview"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <div className="p-3 sm:p-6 md:p-10 pt-16 md:pt-10">
-              <div
-                className="relative bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden"
-                onTouchStart={(e) => { achievementSwipeX.current = e.touches[0].clientX; }}
-                onTouchEnd={(e) => {
-                  const dx = e.changedTouches[0].clientX - achievementSwipeX.current;
-                  if (Math.abs(dx) > 50) goAchievement(dx < 0 ? 1 : -1);
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); goAchievement(-1); }}
-                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-all shadow-lg flex-shrink-0"
-                  aria-label="Previous achievement"
-                >
-                  <ChevronLeft size={20} />
-                </button>
-                <div className="flex items-center justify-center px-12 sm:px-16 py-4">
-                  <img
-                    src={selectedAchievement.image}
-                    alt={selectedAchievement.title}
-                    loading="lazy"
-                    className="max-h-[60vh] max-w-full object-contain"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={(e) => { e.stopPropagation(); goAchievement(1); }}
-                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-gray-200 transition-all shadow-lg flex-shrink-0"
-                  aria-label="Next achievement"
-                >
-                  <ChevronRight size={20} />
-                </button>
-              </div>
-              <div className="pt-5 md:pt-7">
-                <p className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400 mb-2">{selectedAchievement.year}</p>
-                <h2 id="achievement-modal-title" className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#111] leading-tight">{selectedAchievement.title}</h2>
-                <p className="text-sm md:text-base text-gray-500 mt-3">{selectedAchievement.school}</p>
-              </div>
-            </div>
-          </div>
         </div>
       )}
 
